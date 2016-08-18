@@ -7,6 +7,9 @@
   </VirtualDirectory>
   <VirtualDirectory Name="inc">
     <File Name="inc/main.h"/>
+    <VirtualDirectory Name="log">
+      <File Name="inc/log/snkLog.h"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -22,11 +25,13 @@
       <Compiler Options="-Wfatal-errors;-pg;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
+        <IncludePath Value="./inc/log/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="-pg;-static" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
@@ -62,11 +67,13 @@
       <Compiler Options="-O2;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
+        <IncludePath Value="./inc/log/"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="-static" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="no" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
@@ -98,15 +105,17 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="winDebug" CompilerType="MinGW-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
+    <Configuration Name="winDebug" CompilerType="" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
       <Compiler Options="-Wfatal-errors;-pg;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
+        <IncludePath Value="./inc/log/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="-pg;-static" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
@@ -138,15 +147,17 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="winRelease" CompilerType="MinGW-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
+    <Configuration Name="winRelease" CompilerType="" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
       <Compiler Options="-O2;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
+        <IncludePath Value="./inc/log/"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="-static" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="no" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>

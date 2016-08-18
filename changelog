@@ -1,1 +1,1 @@
-File for detailed description of current changes. Don't forget about self-documentation!
+Cross-platform logging macros was added. It turned off in Release mode

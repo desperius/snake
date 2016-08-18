@@ -2,6 +2,6 @@
 
 int main()
 {
-    std::cout << "Wake up, Neo!" << std::endl;
+    LOG("Wake up, Neo!");
     return 0;
 }

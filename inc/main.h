@@ -1,6 +1,6 @@
-#ifndef _MAIN_H_
-#define _MAIN_H_
+#ifndef _SNK_MAIN_H_
+#define _SNK_MAIN_H_
 
-#include <iostream>
+#include "snkLog.h"
 
-#endif // _MAIN_H_
+#endif // _SNK_MAIN_H_
