@@ -7,11 +7,19 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="src/main.cpp"/>
+    <VirtualDirectory Name="console">
+      <File Name="src/console/snkConsole.cpp"/>
+      <File Name="src/console/snkWinConsole.cpp"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inc">
     <File Name="inc/main.h"/>
     <VirtualDirectory Name="log">
       <File Name="inc/log/snkLog.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="console">
+      <File Name="inc/console/snkConsole.h"/>
+      <File Name="inc/console/snkWinConsole.h"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <Settings Type="Executable">
@@ -29,6 +37,7 @@
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
         <IncludePath Value="./inc/log/"/>
+        <IncludePath Value="./inc/console/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="-pg;-static" Required="yes"/>
@@ -71,6 +80,7 @@
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
         <IncludePath Value="./inc/log/"/>
+        <IncludePath Value="./inc/console/"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="-static" Required="yes"/>
@@ -113,6 +123,7 @@
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
         <IncludePath Value="./inc/log/"/>
+        <IncludePath Value="./inc/console/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="-pg;-static" Required="yes"/>
@@ -155,6 +166,7 @@
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
         <IncludePath Value="./inc/log/"/>
+        <IncludePath Value="./inc/console/"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="-static" Required="yes"/>

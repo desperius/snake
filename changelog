@@ -1,1 +1,1 @@
-Cross-platform logging macros was added. It turned off in Release mode
+Class for console window for Windows OS was added. Implemented check for single instance of application running at same time. Also implemented basic API and functions as changing window title.
