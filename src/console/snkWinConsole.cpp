@@ -7,9 +7,9 @@
  *   @copyright GNU Public License
  */
 
-#include "snkWinConsole.h"
-
 #ifdef __WIN32__
+
+#include "snkWinConsole.h"
 
 snkWinConsole::snkWinConsole()
 {

@@ -10,6 +10,7 @@
     <VirtualDirectory Name="console">
       <File Name="src/console/snkConsole.cpp"/>
       <File Name="src/console/snkWinConsole.cpp"/>
+      <File Name="src/console/snkLinConsole.cpp"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inc">
@@ -20,6 +21,7 @@
     <VirtualDirectory Name="console">
       <File Name="inc/console/snkConsole.h"/>
       <File Name="inc/console/snkWinConsole.h"/>
+      <File Name="inc/console/snkLinConsole.h"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <Settings Type="Executable">

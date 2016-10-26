@@ -12,4 +12,16 @@
 
 #include "snkLog.h"
 
+#ifdef __WIN32__
+
+#include "snkWinConsole.h"
+
+#endif /* __WIN32__ */
+
+#ifdef __linux__
+
+#include "snkLinConsole.h"
+
+#endif /* __linux__ */
+
 #endif // _SNK_MAIN_H_
