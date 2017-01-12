@@ -12,20 +12,38 @@
 
 #ifdef __WIN32__
 
-#include <windows.h>
 #include "snkConsole.h"
+#include "snkMenu.h"
+#include "snkGame.h"
+#include <windows.h>
 
 class snkWinConsole : public snkConsole
 {
 public:
-   snkWinConsole();
-   ~snkWinConsole();
+   snkWinConsole() = default;
+   virtual ~snkWinConsole() = default;
 
    bool Init() override;
    void Close() override;
 
+   void Event() override;
+   bool Loop() override;
+   void Render() override;
+
+private:
+   WINDOW* CreateWin(int h, int w, int y, int x);
+   void DeleteWin(WINDOW* wnd);
+
 private:
    HANDLE mMutex {nullptr};
+   WINDOW* mWin;
+   WINDOW* mBar;
+
+   snkField mBuf;
+   int  mKey {0};
+
+   snkMenu mMenu;
+   snkGame mGame;
 };
 
 #endif /* __WIN32__ */

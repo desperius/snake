@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="snake" InternalType="Console">
   <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0008winDebug0000000000000001N0010winRelease000000000000]]>
+    </Plugin>
     <Plugin Name="CppCheck"/>
   </Plugins>
   <Description/>
@@ -12,6 +15,15 @@
       <File Name="src/console/snkWinConsole.cpp"/>
       <File Name="src/console/snkLinConsole.cpp"/>
     </VirtualDirectory>
+    <VirtualDirectory Name="app">
+      <File Name="src/app/snkApp.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="game">
+      <File Name="src/game/snkSnake.cpp"/>
+      <File Name="src/game/snkState.cpp"/>
+      <File Name="src/game/snkMenu.cpp"/>
+      <File Name="src/game/snkGame.cpp"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inc">
     <File Name="inc/main.h"/>
@@ -22,6 +34,15 @@
       <File Name="inc/console/snkConsole.h"/>
       <File Name="inc/console/snkWinConsole.h"/>
       <File Name="inc/console/snkLinConsole.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="app">
+      <File Name="inc/app/snkApp.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="game">
+      <File Name="inc/game/snkSnake.h"/>
+      <File Name="inc/game/snkState.h"/>
+      <File Name="inc/game/snkMenu.h"/>
+      <File Name="inc/game/snkGame.h"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <Settings Type="Executable">
@@ -120,15 +141,22 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="winDebug" CompilerType="" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
+    <Configuration Name="winDebug" CompilerType="mingw-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
       <Compiler Options="-Wfatal-errors;-pg;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
+        <IncludePath Value="./inc/app/"/>
         <IncludePath Value="./inc/log/"/>
         <IncludePath Value="./inc/console/"/>
+        <IncludePath Value="./inc/game/"/>
+        <IncludePath Value="./inc/pdcurses/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
-      <Linker Options="-pg;-static" Required="yes"/>
+      <Linker Options="-pg" Required="yes">
+        <LibraryPath Value="./lib/"/>
+        <LibraryPath Value="./lib/pdcurses/"/>
+        <Library Value="pdcurses"/>
+      </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
@@ -141,7 +169,9 @@
         <StartupCommands/>
       </Debugger>
       <PreBuild/>
-      <PostBuild/>
+      <PostBuild>
+        <Command Enabled="yes">.\script\copy.cmd</Command>
+      </PostBuild>
       <CustomBuild Enabled="no">
         <RebuildCommand/>
         <CleanCommand/>
@@ -163,15 +193,21 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="winRelease" CompilerType="" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
+    <Configuration Name="winRelease" CompilerType="mingw-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
       <Compiler Options="-O2;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
+        <IncludePath Value="./inc/app/"/>
         <IncludePath Value="./inc/log/"/>
         <IncludePath Value="./inc/console/"/>
+        <IncludePath Value="./inc/pdcurses/"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
-      <Linker Options="-static" Required="yes"/>
+      <Linker Options="" Required="yes">
+        <LibraryPath Value="./lib/"/>
+        <LibraryPath Value="./lib/pdcurses/"/>
+        <Library Value="pdcurses"/>
+      </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="no" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
@@ -184,7 +220,9 @@
         <StartupCommands/>
       </Debugger>
       <PreBuild/>
-      <PostBuild/>
+      <PostBuild>
+        <Command Enabled="yes">.\script\copy.cmd</Command>
+      </PostBuild>
       <CustomBuild Enabled="no">
         <RebuildCommand/>
         <CleanCommand/>

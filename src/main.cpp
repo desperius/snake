@@ -1,7 +1,19 @@
 #include "main.h"
 
+#include <string>
+
 int main()
 {
-    LOG("Wake up, Neo!");
-    return 0;
+   std::unique_ptr<snkApp> app;
+
+   try
+   {
+      app = std::unique_ptr<snkApp>(new snkApp());
+   }
+   catch (...)
+   {
+      exit(EXIT_FAILURE);
+   }
+
+   return app->Run();
 }

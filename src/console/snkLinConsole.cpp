@@ -6,7 +6,7 @@
  *   @date      26.10.2016
  *   @copyright GNU Public License
  */
- 
+
 #ifdef __linux__
 
 #include <netinet/in.h>
@@ -20,7 +20,6 @@ snkLinConsole::snkLinConsole()
 
 snkLinConsole::~snkLinConsole()
 {
-   Close();
 }
 
 bool snkLinConsole::Init()
@@ -37,7 +36,7 @@ bool snkLinConsole::Init()
       name.sin_addr.s_addr = htonl(INADDR_ANY);
       mRC = bind(mSocket, reinterpret_cast<struct sockaddr*>(&name), sizeof(name));
    }
-   
+
    return (mSocket != -1 && mRC == 0);
 }
 

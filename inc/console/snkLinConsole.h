@@ -6,10 +6,10 @@
  *   @date      26.10.2016
  *   @copyright GNU Public License
  */
- 
- #ifndef _SNK_LIN_CONSOLE_H_
- #define _SNK_LIN_CONSOLE_H_
- 
+
+#ifndef _SNK_LIN_CONSOLE_H_
+#define _SNK_LIN_CONSOLE_H_
+
 #ifdef __linux__
 
 #include "snkConsole.h"
@@ -18,16 +18,16 @@ class snkLinConsole : public snkConsole
 {
 public:
    snkLinConsole();
-   ~snkLinConsole();
-   
+   virtual ~snkLinConsole();
+
    bool Init() override;
    void Close() override;
-   
+
 private:
-   int mSocket {-1};
+   int mSocket { -1};
    int mRC {1};
 };
 
 #endif /* __linux__ */
- 
+
 #endif /* _SNK_LIN_CONSOLE_H_ */

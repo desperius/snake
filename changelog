@@ -1,1 +1,5 @@
-Class for console window for Linux OS was added. Implemented check for single instance of application running at same time. Solution works because a bind function return -1 when socket already was binded.
+The snake consists of points. Every point has coordinates and a vector of movement. If some body's point is in turn point it changes its vector of movement. Keypress changes a vector of movement of head point and creates a point of turn for other points.
+
+Now we need snkSnake class, which will contain all the information about a character, will change it by keypress and will be used to modify game field.
+
+Menu architecture was finaly implemented. Snake object have to be moved into Game state object.

@@ -10,11 +10,3 @@
 #include "snkConsole.h"
 
 const std::string snkConsole::appName = "Snake";
-
-snkConsole::snkConsole()
-{
-}
-
-snkConsole::~snkConsole()
-{
-}
