@@ -73,15 +73,24 @@ State snkGame::Update(int key)
 
 void snkGame::Refresh()
 {
-   ClearBuf();
-
-   std::list<snkPoint> body = mSnake.GetBody();
-
-   for (auto point : body)
+   if (mSnake.IsGameOver())
    {
-      int x = point.mX;
-      int y = point.mY;
+      std::string text = "GAME OVER";
+      CreateItem(text.c_str(), text.length(), mH / 2 - 1);
+      text = "Press Enter to exit!";
+      CreateItem(text.c_str(), text.length(), mH / 2 + 1);
+   }
+   else
+   {
+      ClearBuf();
+      std::list<snkPoint> body = mSnake.GetBody();
 
-      (*mBuf)[y][x] = '*';
+      for (auto point : body)
+      {
+         int x = point.mX;
+         int y = point.mY;
+
+         (*mBuf)[y][x] = '*';
+      }
    }
 }

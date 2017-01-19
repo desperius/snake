@@ -83,13 +83,3 @@ void snkMenu::Refresh()
    text = "version 1.0";
    CreateItem(text.c_str(), text.length(), mH - 1);
 }
-
-void snkMenu::CreateItem(const char* text, int size, int row)
-{
-   int pos = (mW - size) / 2;
-
-   for (int i = 0; i < size; ++i)
-   {
-      (*mBuf)[row][pos + i] = text[i];
-   }
-}

@@ -43,10 +43,18 @@ public:
       return mBody;
    }
 
+   bool IsGameOver()
+   {
+      return mGameOver;
+   }
+
 private:
    std::list<snkPoint> mBody;
+   int mW;
+   int mH;
    Dir mDir {Dir::UP};
-   int mSpeed {1000};
+   int mSpeed {500};
+   bool mGameOver {false};
 };
 
 #endif /* _SNK_SNAKE_H_ */

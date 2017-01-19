@@ -14,7 +14,6 @@ public:
 
 private:
    void Refresh() override;
-   void CreateItem(const char* text, int size, int row);
 
 private:
    State mActive {State::START};

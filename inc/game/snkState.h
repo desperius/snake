@@ -29,6 +29,7 @@ public:
 protected:
    void Init(snkField& buf, int w, int h);
    virtual void Refresh() = 0;
+   void CreateItem(const char* text, int size, int row);
 
 protected:
    snkField* mBuf;
