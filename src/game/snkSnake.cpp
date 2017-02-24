@@ -6,17 +6,7 @@ void snkSnake::Init(int w, int h)
    mW = w;
    mH = h;
 
-   int cx = mW / 2;
-   int cy = mH / 2;
-
-   mBody.push_back(snkPoint(cx, cy, Dir::UP));
-   mBody.push_back(snkPoint(cx, cy + 1, Dir::UP));
-   mBody.push_back(snkPoint(cx, cy + 2, Dir::UP));
-
-   // TODO: Only for check
-   mBody.push_back(snkPoint(cx, cy + 3, Dir::UP));
-   mBody.push_back(snkPoint(cx, cy + 4, Dir::UP));
-   mBody.push_back(snkPoint(cx, cy + 5, Dir::UP));
+   Reset();
 }
 
 void snkSnake::Move()
@@ -96,7 +86,20 @@ void snkSnake::SetDir(Dir dir)
    mDir = dir;
 }
 
-int snkSnake::GetSpeed()
+void snkSnake::Reset()
 {
-   return mSpeed;
+   int cx = mW / 2;
+   int cy = mH / 2;
+
+   mBody.clear();
+   mBody.push_back(snkPoint(cx, cy, Dir::UP));
+   mBody.push_back(snkPoint(cx, cy + 1, Dir::UP));
+   mBody.push_back(snkPoint(cx, cy + 2, Dir::UP));
+
+   mGameOver = false;
+
+   // TODO: Only for check
+   mBody.push_back(snkPoint(cx, cy + 3, Dir::UP));
+   mBody.push_back(snkPoint(cx, cy + 4, Dir::UP));
+   mBody.push_back(snkPoint(cx, cy + 5, Dir::UP));
 }

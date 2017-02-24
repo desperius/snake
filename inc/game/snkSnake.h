@@ -36,7 +36,10 @@ public:
    void Move();
    void SetDir(Dir dir);
 
-   int GetSpeed();
+   int GetSpeed()
+   {
+      return mSpeed;
+   }
 
    std::list<snkPoint> GetBody()
    {
@@ -47,6 +50,8 @@ public:
    {
       return mGameOver;
    }
+
+   void Reset();
 
 private:
    std::list<snkPoint> mBody;

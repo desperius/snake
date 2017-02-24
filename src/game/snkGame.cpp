@@ -50,6 +50,8 @@ State snkGame::Update(int key)
       case '\r':
       case '\n':
       {
+         /* Reset snake states before exit to Main menu */
+         mSnake.Reset();
          ret = State::MENU;
          break;
       }
@@ -60,19 +62,20 @@ State snkGame::Update(int key)
       }
    }
 
-   if (delta.count() > mSnake.GetSpeed())
+   if (!mSnake.IsGameOver() && delta.count() > mSnake.GetSpeed())
    {
       mTime = curr;
       mSnake.Move();
+      Refresh();
    }
-
-   Refresh();
 
    return ret;
 }
 
 void snkGame::Refresh()
 {
+   ClearBuf();
+
    if (mSnake.IsGameOver())
    {
       std::string text = "GAME OVER";
@@ -82,7 +85,6 @@ void snkGame::Refresh()
    }
    else
    {
-      ClearBuf();
       std::list<snkPoint> body = mSnake.GetBody();
 
       for (auto point : body)
