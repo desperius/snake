@@ -17,20 +17,20 @@
 
 bool snkWinConsole::Init()
 {
-   // Try to open the mutex
+   /* Try to open the mutex */
    mMutex = OpenMutex(MUTEX_ALL_ACCESS, FALSE, appName.c_str());
 
    if (!mMutex)
    {
-      // The mutex does not exist. This is the first instance so create the mutex
+      /* The mutex does not exist. This is the first instance so create the mutex */
       mMutex = CreateMutex(NULL, FALSE, appName.c_str());
    }
    else
    {
-      // Bring existing window to the front
+      /* Bring existing window to the front */
       SetForegroundWindow(FindWindow(0, appName.c_str()));
 
-      // The mutex exist so return
+      /* The mutex exist so return */
       return false;
    }
 
@@ -55,14 +55,10 @@ bool snkWinConsole::Init()
    cbreak();
    keypad(mWin, TRUE);
    noecho();
-
-   mBuf = std::vector<std::vector<char>>(SCR_H + 1, std::vector<char>(SCR_W + 1));
-
-   /* Initialize object for menu state */
-   mMenu.Init(mBuf, SCR_W, SCR_H);
-
-   /* Initialize object for game state */
-   mGame.Init(mBuf, SCR_W, SCR_H);
+   
+   /* Create pointer for game state */
+   mGameState = std::make_shared<snkMenu>();
+   mGameState->Init(SCR_W, SCR_H);
 
    return true;
 }
@@ -94,32 +90,61 @@ void snkWinConsole::Event()
 bool snkWinConsole::Loop()
 {
    bool ret = true;
+   
+   State prevState = mState;
+   mState = mGameState->Update(mKey);
+   
+   if (mState != prevState)
+   {
+       /* Refresh game state */
+       if (State::MENU == mState)
+       {
+           mGameState = std::make_shared<snkMenu>();
+           mGameState->Init(SCR_W, SCR_H);
+       }
+       else if (State::START == mState)
+       {
+           mGameState = std::make_shared<snkGame>();
+           mGameState->Init(SCR_W, SCR_H);
+       }
+       else if (State::ABOUT == mState)
+       {
+           ret = true;
+       }
+       else
+       {
+           ret = false;
+       }
+   }
 
-   if (State::MENU == mState)
-   {
-      mState = mMenu.Update(mKey);
-   }
-   else if (State::START == mState)
-   {
-      mState = mGame.Update(mKey);
-   }
-   else if (State::ABOUT == mState)
-   {
-      ret = true;
-   }
-   else
-   {
-      ret = false;
-   }
+//   if (State::MENU == mState)
+//   {
+//      mState = mMenu.Update(mKey);
+//   }
+//   else if (State::START == mState)
+//   {
+//      mState = mGame.Update(mKey);
+//   }
+//   else if (State::ABOUT == mState)
+//   {
+//      ret = true;
+//   }
+//   else
+//   {
+//      ret = false;
+//   }
 
    return ret;
 }
 
 void snkWinConsole::Render()
 {
+   const snkField& buf = mGameState->GetGameField();
+   
    for (int i = 0; i < SCR_H; ++i)
    {
-      mvwprintw(mWin, i + 1, 1, "%s", mBuf[i].data());
+      //mvwprintw(mWin, i + 1, 1, "%s", mBuf[i].data());
+      mvwprintw(mWin, i + 1, 1, "%s", buf[i].data());
    }
 
    wrefresh(mWin);

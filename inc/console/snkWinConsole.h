@@ -39,11 +39,9 @@ private:
    WINDOW* mWin;
    WINDOW* mBar;
 
-   snkField mBuf;
    int  mKey {0};
 
-   snkMenu mMenu;
-   snkGame mGame;
+   std::shared_ptr<snkState> mGameState;
 };
 
 #endif /* __WIN32__ */

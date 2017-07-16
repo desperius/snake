@@ -1,1 +1,1 @@
-After Game Over Snake state is reset. Now you can press Play and start a game from the begining.
+Game field buffer was moved to game state class.

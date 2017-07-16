@@ -2,9 +2,9 @@
 
 using namespace std::chrono;
 
-void snkGame::Init(snkField& buf, int w, int h)
+void snkGame::Init(int w, int h)
 {
-   snkState::Init(buf, w, h);
+   snkState::Construct(w, h);
 
    /* Initialize time */
    mTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
@@ -62,7 +62,7 @@ State snkGame::Update(int key)
       }
    }
 
-   if (!mSnake.IsGameOver() && delta.count() > mSnake.GetSpeed())
+   if ( !mSnake.IsGameOver() && (delta.count() > mSnake.GetSpeed()) )
    {
       mTime = curr;
       mSnake.Move();
@@ -87,12 +87,12 @@ void snkGame::Refresh()
    {
       std::list<snkPoint> body = mSnake.GetBody();
 
-      for (auto point : body)
+      for (const auto& point : body)
       {
          int x = point.mX;
          int y = point.mY;
 
-         (*mBuf)[y][x] = '*';
+         mBuf[y][x] = '*';
       }
    }
 }

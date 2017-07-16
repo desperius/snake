@@ -9,7 +9,7 @@ public:
    snkMenu() = default;
    virtual ~snkMenu() = default;
 
-   void Init(snkField& buf, int w, int h);
+   void Init(int w, int h) override;
    State Update(int key) override;
 
 private:

@@ -24,15 +24,19 @@ public:
 
    void ClearBuf();
 
+   virtual void Init(int w, int h) = 0;
    virtual State Update(int key) = 0;
-
+   
+   const snkField& GetGameField(); 
+   
 protected:
-   void Init(snkField& buf, int w, int h);
+   void Construct(int w, int h);
    virtual void Refresh() = 0;
    void CreateItem(const char* text, int size, int row);
 
 protected:
-   snkField* mBuf;
+   snkField mBuf;
+   
    int mW {0};
    int mH {0};
 };

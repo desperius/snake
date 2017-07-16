@@ -64,9 +64,9 @@ void snkSnake::Move()
       mGameOver = true;
    }
 
-   auto comparator = [&head] (const snkPoint & point)
+   auto comparator = [&head] (const snkPoint& point)
    {
-      return point.mX == head.mX && point.mY == head.mY;
+      return (point.mX == head.mX) && (point.mY == head.mY);
    };
 
    auto it = std::find_if(mBody.begin(), mBody.end(), comparator);

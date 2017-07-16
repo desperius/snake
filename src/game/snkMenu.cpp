@@ -1,8 +1,8 @@
 #include "snkMenu.h"
 
-void snkMenu::Init(snkField& buf, int w, int h)
+void snkMenu::Init(int w, int h)
 {
-   snkState::Init(buf, w, h);
+   snkState::Construct(w, h);
 }
 
 State snkMenu::Update(int key)
