@@ -5,61 +5,61 @@
 
 enum class Dir : short
 {
-   UP,
-   DN,
-   RT,
-   LF
+    UP = 1,
+    LF = 2,
+    DN = 3,
+    RT = 4
 };
 
 struct snkPoint
 {
-   snkPoint(int x = 0, int y = 0, Dir vec = Dir::UP) :
-      mX(x),
-      mY(y),
-      mVec(vec)
-   {}
+    snkPoint(int x = 0, int y = 0, Dir vec = Dir::UP) :
+        mX(x),
+        mY(y),
+        mVec(vec)
+    {}
 
-   ~snkPoint() = default;
+    ~snkPoint() = default;
 
-   int mX;
-   int mY;
-   Dir mVec;
+    int mX;
+    int mY;
+    Dir mVec;
 };
 
 class snkSnake
 {
 public:
-   snkSnake()  = default;
-   ~snkSnake() = default;
+    snkSnake()  = default;
+    ~snkSnake() = default;
 
-   void Init(int w, int h);
-   void Move();
-   void SetDir(Dir dir);
+    void Init(int w, int h);
+    void Move();
+    void SetDir(Dir dir);
 
-   int GetSpeed()
-   {
-      return mSpeed;
-   }
+    int GetSpeed()
+    {
+        return mSpeed;
+    }
 
-   std::list<snkPoint> GetBody()
-   {
-      return mBody;
-   }
+    std::list<snkPoint> GetBody()
+    {
+        return mBody;
+    }
 
-   bool IsGameOver()
-   {
-      return mGameOver;
-   }
+    bool IsGameOver()
+    {
+        return mGameOver;
+    }
 
-   void Reset();
+    void Reset();
 
 private:
-   std::list<snkPoint> mBody;
-   int mW;
-   int mH;
-   Dir mDir {Dir::UP};
-   int mSpeed {500};
-   bool mGameOver {false};
+    std::list<snkPoint> mBody;
+    int mW;
+    int mH;
+    Dir mDir {Dir::UP};
+    int mSpeed {500};
+    bool mGameOver {false};
 };
 
 #endif /* _SNK_SNAKE_H_ */

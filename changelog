@@ -1,1 +1,1 @@
-Game field buffer was moved to game state class.
+Bug with moving in opposite direction was fixed. If press same direction key, snake will move in reverse direction and bite itself in same exact moment.
