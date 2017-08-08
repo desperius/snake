@@ -17,153 +17,152 @@
 
 bool snkWinConsole::Init()
 {
-   /* Try to open the mutex */
-   mMutex = OpenMutex(MUTEX_ALL_ACCESS, FALSE, appName.c_str());
+    /* Try to open the mutex */
+    mMutex = OpenMutex(MUTEX_ALL_ACCESS, FALSE, appName.c_str());
 
-   if (!mMutex)
-   {
-      /* The mutex does not exist. This is the first instance so create the mutex */
-      mMutex = CreateMutex(NULL, FALSE, appName.c_str());
-   }
-   else
-   {
-      /* Bring existing window to the front */
-      SetForegroundWindow(FindWindow(0, appName.c_str()));
+    if (!mMutex)
+    {
+        /* The mutex does not exist. This is the first instance so create the mutex */
+        mMutex = CreateMutex(NULL, FALSE, appName.c_str());
+    }
+    else
+    {
+        /* Bring existing window to the front */
+        SetForegroundWindow(FindWindow(0, appName.c_str()));
 
-      /* The mutex exist so return */
-      return false;
-   }
+        /* The mutex exist so return */
+        return false;
+    }
 
-   SetConsoleTitle(appName.c_str());
+    SetConsoleTitle(appName.c_str());
 
-   /* Initialize the terminal in pdcurses mode */
-   if (nullptr == initscr())
-   {
-      return false;
-   }
+    /* Initialize the terminal in pdcurses mode */
+    if (initscr() == nullptr)
+    {
+        return false;
+    }
 
-   /* Create game field */
-   mWin = CreateWin(WIN_H, WIN_W, 0, 0);
+    if (has_colors() == false)
+    {
+        return false;
+    }
 
-   /* Create bar for score and level mark */
-   mBar = CreateWin(3, WIN_W, WIN_H, 0);
+    /* Init color mode and make color pairs */
+    start_color();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
 
-   /* Make cursor invisible */
-   curs_set(0);
+    /* Create game field */
+    mWin = CreateWin(WIN_H, WIN_W, 0, 0);
 
-   /* Curses preparations */
-   cbreak();
-   keypad(mWin, TRUE);
-   noecho();
-   
-   /* Create pointer for game state */
-   mGameState = std::make_shared<snkMenu>();
-   mGameState->Init(SCR_W, SCR_H);
+    /* Create bar for score and level mark */
+    mBar = CreateWin(3, WIN_W, WIN_H, 0);
 
-   return true;
+    /* Make cursor invisible */
+    curs_set(0);
+
+    /* Curses preparations */
+    cbreak();
+    keypad(mWin, TRUE);
+    noecho();
+
+    /* Create pointer for game state */
+    mGameState = std::make_shared<snkMenu>();
+    mGameState->Init(SCR_W, SCR_H);
+
+    return true;
 }
 
 void snkWinConsole::Close()
 {
-   /* Make cursor visible */
-   curs_set(1);
+    /* Make cursor visible */
+    curs_set(1);
 
-   /* Delete all windows */
-   DeleteWin(mBar);
-   DeleteWin(mWin);
+    /* Delete all windows */
+    DeleteWin(mBar);
+    DeleteWin(mWin);
 
-   /* End pdcurses mode */
-   endwin();
+    /* End pdcurses mode */
+    endwin();
 
-   /* Close Windows mutex */
-   ReleaseMutex(mMutex);
+    /* Close Windows mutex */
+    ReleaseMutex(mMutex);
 }
 
 void snkWinConsole::Event()
 {
-   /* Do not wait for input */
-   wtimeout(mWin, 0);
+    /* Do not wait for input */
+    wtimeout(mWin, 0);
 
-   mKey = wgetch(mWin);
+    mKey = wgetch(mWin);
 }
 
 bool snkWinConsole::Loop()
 {
-   bool ret = true;
-   
-   State prevState = mState;
-   mState = mGameState->Update(mKey);
-   
-   if (mState != prevState)
-   {
-       /* Refresh game state */
-       if (State::MENU == mState)
-       {
-           mGameState = std::make_shared<snkMenu>();
-           mGameState->Init(SCR_W, SCR_H);
-       }
-       else if (State::START == mState)
-       {
-           mGameState = std::make_shared<snkGame>();
-           mGameState->Init(SCR_W, SCR_H);
-       }
-       else if (State::ABOUT == mState)
-       {
-           ret = true;
-       }
-       else
-       {
-           ret = false;
-       }
-   }
+    bool ret = true;
 
-//   if (State::MENU == mState)
-//   {
-//      mState = mMenu.Update(mKey);
-//   }
-//   else if (State::START == mState)
-//   {
-//      mState = mGame.Update(mKey);
-//   }
-//   else if (State::ABOUT == mState)
-//   {
-//      ret = true;
-//   }
-//   else
-//   {
-//      ret = false;
-//   }
+    State prevState = mState;
+    mState = mGameState->Update(mKey);
 
-   return ret;
+    if (mState != prevState)
+    {
+        /* Refresh game state */
+        if (State::MENU == mState)
+        {
+            mGameState = std::make_shared<snkMenu>();
+            mGameState->Init(SCR_W, SCR_H);
+        }
+        else if (State::START == mState)
+        {
+            mGameState = std::make_shared<snkGame>();
+            mGameState->Init(SCR_W, SCR_H);
+        }
+        else if (State::ABOUT == mState)
+        {
+            ret = true;
+        }
+        else
+        {
+            ret = false;
+        }
+    }
+
+    return ret;
 }
 
 void snkWinConsole::Render()
 {
-   const snkField& buf = mGameState->GetGameField();
-   
-   for (int i = 0; i < SCR_H; ++i)
-   {
-      //mvwprintw(mWin, i + 1, 1, "%s", mBuf[i].data());
-      mvwprintw(mWin, i + 1, 1, "%s", buf[i].data());
-   }
+    const snkField& buf = mGameState->GetGameField();
 
-   wrefresh(mWin);
+    wattron(mWin, COLOR_PAIR(1));
+
+    for (int i = 0; i < SCR_H; ++i)
+    {
+        for (int j = 0; j < SCR_W; ++j)
+
+        {
+            mvwaddch(mWin, i + 1, j + 1, buf[i][j]);
+        }
+    }
+
+    wattroff(mWin, COLOR_PAIR(1));
+
+    wrefresh(mWin);
 }
 
 WINDOW* snkWinConsole::CreateWin(int h, int w, int y, int x)
 {
-   WINDOW* wnd = newwin(h, w, y, x);
-   box(wnd, 0, 0);
-   wrefresh(wnd);
+    WINDOW* wnd = newwin(h, w, y, x);
+    box(wnd, 0, 0);
+    wrefresh(wnd);
 
-   return wnd;
+    return wnd;
 }
 
 void snkWinConsole::DeleteWin(WINDOW* wnd)
 {
-   wborder(wnd, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-   wrefresh(wnd);
-   delwin(wnd);
+    wborder(wnd, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+    wrefresh(wnd);
+    delwin(wnd);
 }
 
 #endif /* __WIN32__ */

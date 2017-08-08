@@ -1,1 +1,1 @@
-Bug with moving in opposite direction was fixed. If press same direction key, snake will move in reverse direction and bite itself in same exact moment.
+Coloring feature is in progress. Need to change point properties.
