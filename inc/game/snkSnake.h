@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include "snkState.h"
+
 enum class Dir : short
 {
     UP = 1,
@@ -11,28 +13,13 @@ enum class Dir : short
     RT = 4
 };
 
-struct snkPoint
-{
-    snkPoint(int x = 0, int y = 0, Dir vec = Dir::UP) :
-        mX(x),
-        mY(y),
-        mVec(vec)
-    {}
-
-    ~snkPoint() = default;
-
-    int mX;
-    int mY;
-    Dir mVec;
-};
-
 class snkSnake
 {
 public:
     snkSnake()  = default;
     ~snkSnake() = default;
 
-    void Init(int w, int h);
+    void Init(int w, int h, chtype sym);
     void Move();
     void SetDir(Dir dir);
 
@@ -55,8 +42,9 @@ public:
 
 private:
     std::list<snkPoint> mBody;
-    int mW;
-    int mH;
+    int mW {0};
+    int mH {0};
+    chtype mSym {'#'};
     Dir mDir {Dir::UP};
     int mSpeed {500};
     bool mGameOver {false};

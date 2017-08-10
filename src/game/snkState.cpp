@@ -7,7 +7,7 @@ const snkField& snkState::GetGameField()
 
 void snkState::Construct(int w, int h)
 {
-    mBuf = std::vector<std::vector<chtype>>(h + 1, std::vector<chtype>(w + 1));
+    mBuf = std::vector<std::vector<snkPoint>>(h + 1, std::vector<snkPoint>(w + 1));
     mW = w;
     mH = h;
     ClearBuf();
@@ -19,10 +19,10 @@ void snkState::ClearBuf()
     {
         for (int j = 0; j < mW; ++j)
         {
-            mBuf[i][j] = ' ';
+            mBuf[i][j].mSym = ' ';
         }
 
-        mBuf[i][mW] = '\0';
+        mBuf[i][mW].mSym = '\0';
     }
 }
 
@@ -44,6 +44,6 @@ void snkState::CreateItem(const chtype* text, int size, int row)
 
     for (int i = 0; i < size; ++i)
     {
-        mBuf[row][pos + i] = text[i];
+        mBuf[row][pos + i].mSym = text[i];
     }
 }

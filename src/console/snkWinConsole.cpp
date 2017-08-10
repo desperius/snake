@@ -49,7 +49,9 @@ bool snkWinConsole::Init()
 
     /* Init color mode and make color pairs */
     start_color();
-    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(WHT_BLACK, COLOR_WHITE, COLOR_BLACK);
+    init_pair(RED_BLACK, COLOR_RED, COLOR_BLACK);
+    init_pair(GRN_BLACK, COLOR_GREEN, COLOR_BLACK);
 
     /* Create game field */
     mWin = CreateWin(WIN_H, WIN_W, 0, 0);
@@ -133,18 +135,15 @@ void snkWinConsole::Render()
 {
     const snkField& buf = mGameState->GetGameField();
 
-    wattron(mWin, COLOR_PAIR(1));
-
     for (int i = 0; i < SCR_H; ++i)
     {
         for (int j = 0; j < SCR_W; ++j)
-
         {
-            mvwaddch(mWin, i + 1, j + 1, buf[i][j]);
+            wattron(mWin, COLOR_PAIR(buf[i][j].mCol));
+            mvwaddch(mWin, i + 1, j + 1, buf[i][j].mSym);
+            wattroff(mWin, COLOR_PAIR(buf[i][j].mCol));
         }
     }
-
-    wattroff(mWin, COLOR_PAIR(1));
 
     wrefresh(mWin);
 }

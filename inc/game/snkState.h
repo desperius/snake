@@ -6,8 +6,6 @@
 #include <string>
 #include <vector>
 
-typedef std::vector<std::vector<chtype>> snkField;
-
 enum class State : int
 {
     MENU  = 1,
@@ -15,6 +13,32 @@ enum class State : int
     ABOUT = START + 2,
     EXIT  = ABOUT + 2
 };
+
+enum Color
+{
+    WHT_BLACK = 1,
+    RED_BLACK = 2,
+    GRN_BLACK = 3
+};
+
+struct snkPoint
+{
+    explicit snkPoint(int x = 0, int y = 0, chtype sym = ' ', Color col = WHT_BLACK)
+        : mX(x)
+        , mY(y)
+        , mSym(sym)
+        , mCol(col)
+    {}
+
+    ~snkPoint() = default;
+
+    int mX;
+    int mY;
+    chtype mSym;
+    Color  mCol;
+};
+
+typedef std::vector<std::vector<snkPoint>> snkField;
 
 class snkState
 {

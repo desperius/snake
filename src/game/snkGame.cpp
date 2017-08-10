@@ -10,7 +10,7 @@ void snkGame::Init(int w, int h)
     mTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
     /* Initialize character state */
-    mSnake.Init(w, h);
+    mSnake.Init(w, h, '*');
 }
 
 State snkGame::Update(int key)
@@ -93,7 +93,7 @@ void snkGame::Refresh()
             int x = point.mX;
             int y = point.mY;
 
-            mBuf[y][x] = '*';
+            mBuf[y][x] = point;
         }
     }
 }

@@ -1,10 +1,11 @@
 #include "snkSnake.h"
 #include <algorithm>
 
-void snkSnake::Init(int w, int h)
+void snkSnake::Init(int w, int h, chtype sym)
 {
     mW = w;
     mH = h;
+    mSym = sym;
 
     Reset();
 }
@@ -18,7 +19,7 @@ void snkSnake::Move()
 
     int x = mBody.front().mX;
     int y = mBody.front().mY;
-    snkPoint head(x, y);
+    snkPoint head(x, y, mSym, RED_BLACK);
 
     switch (mDir)
     {
@@ -77,6 +78,7 @@ void snkSnake::Move()
         mGameOver = true;
     }
 
+    mBody.front().mCol = mBody.back().mCol;
     mBody.pop_back();
     mBody.push_front(head);
 }
@@ -94,6 +96,7 @@ void snkSnake::SetDir(Dir dir)
         /* If snake at the moment moves exactly opposite direction to previous one */
         if (is_reversed % 2 == 0)
         {
+            mBody.front().mCol = mBody.back().mCol;
             mBody.reverse();
         }
     }
@@ -105,14 +108,14 @@ void snkSnake::Reset()
     int cy = mH / 2;
 
     mBody.clear();
-    mBody.push_back(snkPoint(cx, cy, Dir::UP));
-    mBody.push_back(snkPoint(cx, cy + 1, Dir::UP));
-    mBody.push_back(snkPoint(cx, cy + 2, Dir::UP));
+    mBody.push_back(snkPoint(cx, cy + 0, mSym));
+    mBody.push_back(snkPoint(cx, cy + 1, mSym));
+    mBody.push_back(snkPoint(cx, cy + 2, mSym));
 
     mGameOver = false;
 
     // TODO: Only for check
-    mBody.push_back(snkPoint(cx, cy + 3, Dir::UP));
-    mBody.push_back(snkPoint(cx, cy + 4, Dir::UP));
-    mBody.push_back(snkPoint(cx, cy + 5, Dir::UP));
+    mBody.push_back(snkPoint(cx, cy + 3, mSym));
+    mBody.push_back(snkPoint(cx, cy + 4, mSym));
+    mBody.push_back(snkPoint(cx, cy + 5, mSym));
 }

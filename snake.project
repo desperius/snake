@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="snake" InternalType="Console">
+<CodeLite_Project Name="snake" InternalType="Console" Version="10.0.0">
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00020001N0008winDebug0000000000000001N0010winRelease000000000000]]>
@@ -142,7 +142,7 @@
       </Completion>
     </Configuration>
     <Configuration Name="winDebug" CompilerType="mingw-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
-      <Compiler Options="-Wfatal-errors;-pg;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-Wfatal-errors;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
         <IncludePath Value="./inc/app/"/>
@@ -152,7 +152,7 @@
         <IncludePath Value="./inc/pdcurses/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
-      <Linker Options="-pg" Required="yes">
+      <Linker Options="" Required="yes">
         <LibraryPath Value="./lib/"/>
         <LibraryPath Value="./lib/pdcurses/"/>
         <Library Value="pdcurses"/>
