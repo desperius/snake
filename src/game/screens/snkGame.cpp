@@ -11,11 +11,13 @@ void snkGame::Init(int w, int h)
 
     /* Initialize character state */
     mSnake.Init(w, h, '*');
+
+    mScore = 0;
 }
 
 State snkGame::Update(int key)
 {
-    State ret = State::START;
+    State ret = State::GAME;
 
     milliseconds curr = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     milliseconds delta = curr - mTime;
@@ -78,17 +80,17 @@ void snkGame::Refresh()
 
     if (mSnake.IsGameOver())
     {
-        std::string text = "GAME OVER";
-        CreateItem(text.data(), text.size(), mH / 2 - 1);
+        std::string str = "GAME OVER";
+        AddStr(str, mH / 2 - 1);
 
-        text = "Press Enter to exit!";
-        CreateItem(text.c_str(), text.length(), mH / 2 + 1);
+        str = "Press Enter to exit!";
+        AddStr(str, mH / 2 + 1);
     }
     else
     {
         std::list<snkPoint> body = mSnake.GetBody();
 
-        for (const auto & point : body)
+        for (const auto& point : body)
         {
             int x = point.mX;
             int y = point.mY;
@@ -96,4 +98,9 @@ void snkGame::Refresh()
             mBuf[y][x] = point;
         }
     }
+
+    std::string score(mNickname);
+    score += std::string(": ");
+    score += std::to_string(mScore);
+    AddStrToBar(score, 0);
 }

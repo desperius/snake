@@ -1,17 +1,18 @@
 #ifndef _SNK_STATE_H_
 #define _SNK_STATE_H_
 
-#include "curses.h"
+#include "pdcurses.h"
 
 #include <string>
 #include <vector>
 
 enum class State : int
 {
-    MENU  = 1,
-    START = MENU  + 2,
-    ABOUT = START + 2,
-    EXIT  = ABOUT + 2
+    MENU = 1,
+    GAME = MENU + 2,
+    RECS = GAME + 2,
+    EXIT = RECS + 2,
+    NICK = EXIT + 2
 };
 
 enum Color
@@ -52,18 +53,28 @@ public:
     virtual State Update(int key) = 0;
 
     const snkField& GetGameField();
+    const snkField& GetScoreField();
+
+    std::string GetNickname();
+    void SetNickname(const std::string& nickname);
 
 protected:
     void Construct(int w, int h);
     virtual void Refresh() = 0;
-    void CreateItem(const char* text, int size, int row);
-    void CreateItem(const chtype* text, int size, int row);
+    void AddStr(const std::string& text, int row, int col = 0);
+    void AddTxt(const chtype* text, int size, int row, int col = 0);
+
+    void AddStrToBar(const std::string& text, int row, int col = 0);
+    void AddTxtToBar(const chtype* text, int size, int row, int col = 0);
 
 protected:
     snkField mBuf;
+    snkField mBar;
 
-    int mW {0};
-    int mH {0};
+    int mW = {0};
+    int mH = {0};
+
+    std::string mNickname;
 };
 
 #endif /* _SNK_STATE_H_ */

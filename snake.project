@@ -20,9 +20,12 @@
     </VirtualDirectory>
     <VirtualDirectory Name="game">
       <File Name="src/game/snkSnake.cpp"/>
-      <File Name="src/game/snkState.cpp"/>
-      <File Name="src/game/snkMenu.cpp"/>
-      <File Name="src/game/snkGame.cpp"/>
+      <VirtualDirectory Name="screens">
+        <File Name="src/game/screens/snkGame.cpp"/>
+        <File Name="src/game/screens/snkMenu.cpp"/>
+        <File Name="src/game/screens/snkState.cpp"/>
+        <File Name="src/game/screens/snkNick.cpp"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inc">
@@ -40,9 +43,12 @@
     </VirtualDirectory>
     <VirtualDirectory Name="game">
       <File Name="inc/game/snkSnake.h"/>
-      <File Name="inc/game/snkState.h"/>
-      <File Name="inc/game/snkMenu.h"/>
-      <File Name="inc/game/snkGame.h"/>
+      <VirtualDirectory Name="screens">
+        <File Name="inc/game/screens/snkGame.h"/>
+        <File Name="inc/game/screens/snkMenu.h"/>
+        <File Name="inc/game/screens/snkState.h"/>
+        <File Name="inc/game/screens/snkNick.h"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <Settings Type="Executable">
@@ -55,7 +61,7 @@
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
-    <Configuration Name="tuxDebug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="overwrite">
+    <Configuration Name="tuxDebug" CompilerType="mingw-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="overwrite">
       <Compiler Options="-Wfatal-errors;-pg;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
@@ -149,6 +155,7 @@
         <IncludePath Value="./inc/log/"/>
         <IncludePath Value="./inc/console/"/>
         <IncludePath Value="./inc/game/"/>
+        <IncludePath Value="./inc/game/screens/"/>
         <IncludePath Value="./inc/pdcurses/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
@@ -200,6 +207,8 @@
         <IncludePath Value="./inc/app/"/>
         <IncludePath Value="./inc/log/"/>
         <IncludePath Value="./inc/console/"/>
+        <IncludePath Value="./inc/game/"/>
+        <IncludePath Value="./inc/game/screens/"/>
         <IncludePath Value="./inc/pdcurses/"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>

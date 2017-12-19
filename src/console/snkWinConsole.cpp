@@ -12,6 +12,7 @@
 #include "snkWinConsole.h"
 #include "snkMenu.h"
 #include "snkGame.h"
+#include "snkNick.h"
 
 #define STR(str) #str
 
@@ -113,12 +114,19 @@ bool snkWinConsole::Loop()
             mGameState = std::make_shared<snkMenu>();
             mGameState->Init(SCR_W, SCR_H);
         }
-        else if (State::START == mState)
+        else if (State::NICK == mState)
         {
-            mGameState = std::make_shared<snkGame>();
+            mGameState = std::make_shared<snkNick>();
             mGameState->Init(SCR_W, SCR_H);
         }
-        else if (State::ABOUT == mState)
+        else if (State::GAME == mState)
+        {
+            std::string nickname = mGameState->GetNickname();
+            mGameState = std::make_shared<snkGame>();
+            mGameState->Init(SCR_W, SCR_H);
+            mGameState->SetNickname(nickname);
+        }
+        else if (State::RECS == mState)
         {
             ret = true;
         }
@@ -133,6 +141,7 @@ bool snkWinConsole::Loop()
 
 void snkWinConsole::Render()
 {
+    /* Update game screen */
     const snkField& buf = mGameState->GetGameField();
 
     for (int i = 0; i < SCR_H; ++i)
@@ -146,6 +155,18 @@ void snkWinConsole::Render()
     }
 
     wrefresh(mWin);
+
+    /* Update score screen */
+    const snkField& bar = mGameState->GetScoreField();
+
+    for (int j = 0; j < SCR_W; ++j)
+    {
+        wattron(mBar, COLOR_PAIR(bar[0][j].mCol));
+        mvwaddch(mBar, 1, j + 1, bar[0][j].mSym);
+        wattroff(mBar, COLOR_PAIR(bar[0][j].mCol));
+    }
+
+    wrefresh(mBar);
 }
 
 WINDOW* snkWinConsole::CreateWin(int h, int w, int y, int x)
