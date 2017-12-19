@@ -1,1 +1,1 @@
-Screen for player's nickname was added. Restriction in length is ten characters. 
+Backspace issue fixed. The cause is that Windows has own Virtual-Key codes.

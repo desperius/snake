@@ -1,6 +1,10 @@
 #include "snkNick.h"
 #include <ctype.h>
 
+#ifndef VK_BACK
+#define VK_BACK 0x8
+#endif
+
 void snkNick::Init(int w, int h)
 {
     snkState::Construct(w, h);
@@ -19,7 +23,7 @@ State snkNick::Update(int key)
     switch (key)
     {
         case KEY_BACKSPACE:
-        case 0x8: /* For Windows Terminal */
+        case VK_BACK: /* Windows Virtual-Key code */
         {
             if (mNickname.length() > 0)
             {

@@ -49,8 +49,7 @@ State snkGame::Update(int key)
             break;
         }
 
-        case '\r':
-        case '\n':
+        case KEY_END:
         {
             /* Reset snake states before exit to Main menu */
             mSnake.Reset();
