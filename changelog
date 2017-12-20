@@ -1,1 +1,1 @@
-Backspace issue fixed. The cause is that Windows has own Virtual-Key codes.
+Log system now write debugging output in file. Use strings concatenation for complex output.

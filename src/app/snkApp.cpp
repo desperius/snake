@@ -1,66 +1,67 @@
 #include "snkApp.h"
+#include "snkLog.h"
 
 snkApp::snkApp()
 {
 
 #ifdef __WIN32__
-   mConsole = std::unique_ptr<snkConsole>(new snkWinConsole());
+    mConsole = std::unique_ptr<snkConsole>(new snkWinConsole());
 #elif  __linux__
-   mConsole = std::unique_ptr<snkConsole>(new snkLinConsole());
+    mConsole = std::unique_ptr<snkConsole>(new snkLinConsole());
 #endif
 
-   /* If we didn't create a console window at all */
-   if (nullptr == mConsole)
-   {
-      throw;
-   }
+    /* If we didn't create a console window at all */
+    if (nullptr == mConsole)
+    {
+        throw;
+    }
 }
 
 bool snkApp::Init()
 {
-   if (false == mConsole->Init())
-   {
-      return false;
-   }
+    if (false == mConsole->Init())
+    {
+        return false;
+    }
 
-   return true;
+    return true;
 }
 
 int snkApp::Run()
 {
-   if (false == Init())
-   {
-      return -1;
-   }
+    if (false == Init())
+    {
+        return -1;
+    }
 
-   while (mRunning)
-   {
-      Event();
-      Loop();
-      Render();
-   }
+    while (mRunning)
+    {
+        Event();
+        Loop();
+        Render();
+    }
 
-   Close();
+    Close();
 
-   return 0;
+    return 0;
 }
 
 void snkApp::Event()
 {
-   mConsole->Event();
+    mConsole->Event();
 }
 
 void snkApp::Loop()
 {
-   mRunning = mConsole->Loop();
+    mRunning = mConsole->Loop();
 }
 
 void snkApp::Render()
 {
-   mConsole->Render();
+    mConsole->Render();
 }
 
 void snkApp::Close()
 {
-   mConsole->Close();
+    mConsole->Close();
 }

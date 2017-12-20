@@ -27,6 +27,9 @@
         <File Name="src/game/screens/snkNick.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
+    <VirtualDirectory Name="log">
+      <File Name="src/log/snkLog.cpp"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="inc">
     <File Name="inc/main.h"/>
