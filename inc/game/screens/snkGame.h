@@ -3,6 +3,7 @@
 
 #include "snkState.h"
 #include "snkSnake.h"
+#include "snkLevel.h"
 #include <chrono>
 
 class snkGame : public snkState
@@ -20,6 +21,8 @@ private:
 private:
     std::chrono::milliseconds mTime;
     snkSnake mSnake;
+    snkPoint mFood;
+    snkLevel mLevel;
     int mScore;
 };
 

@@ -1,1 +1,1 @@
-Log system now write debugging output in file. Use strings concatenation for complex output.
+Random food generation was implemented. Need to add walls generation.

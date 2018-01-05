@@ -10,7 +10,7 @@ void snkSnake::Init(int w, int h, chtype sym)
     Reset();
 }
 
-void snkSnake::Move()
+void snkSnake::Move(const snkPoint& food)
 {
     if (mGameOver)
     {
@@ -19,7 +19,7 @@ void snkSnake::Move()
 
     int x = mBody.front().mX;
     int y = mBody.front().mY;
-    snkPoint head(x, y, mSym, RED_BLACK);
+    snkPoint head(x, y, mSym, BLU_BLACK);
 
     switch (mDir)
     {
@@ -72,15 +72,26 @@ void snkSnake::Move()
 
     auto it = std::find_if(mBody.begin(), mBody.end(), comparator);
 
-    /* Snake bites itself :) */
+    /* Snake bites itself */
     if (it != mBody.end())
     {
         mGameOver = true;
     }
 
-    mBody.front().mCol = mBody.back().mCol;
-    mBody.pop_back();
-    mBody.push_front(head);
+    /* Snake bites the food */
+    if (comparator(food))
+    {
+        mBody.front().mCol = mBody.back().mCol;
+        mBody.push_front(head);
+        mFed = true;
+    }
+    else
+    {
+        mBody.front().mCol = mBody.back().mCol;
+        mBody.pop_back();
+        mBody.push_front(head);
+        mFed = false;
+    }
 }
 
 void snkSnake::SetDir(Dir dir)
@@ -108,7 +119,7 @@ void snkSnake::Reset()
     int cy = mH / 2;
 
     mBody.clear();
-    mBody.push_back(snkPoint(cx, cy + 0, mSym));
+    mBody.push_back(snkPoint(cx, cy + 0, mSym, BLU_BLACK));
     mBody.push_back(snkPoint(cx, cy + 1, mSym));
     mBody.push_back(snkPoint(cx, cy + 2, mSym));
 

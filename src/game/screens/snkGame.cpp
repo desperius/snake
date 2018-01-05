@@ -10,7 +10,12 @@ void snkGame::Init(int w, int h)
     mTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
     /* Initialize character state */
-    mSnake.Init(w, h, '*');
+    mSnake.Init(w, h, ACS_BULLET);
+
+    mLevel.Init(w, h, '+', '#');
+
+    /* Generate initial food position */
+    mFood = mLevel.GenFood(mSnake.GetBody());
 
     mScore = 0;
 }
@@ -66,9 +71,11 @@ State snkGame::Update(int key)
     if ( !mSnake.IsGameOver() && (delta.count() > mSnake.GetSpeed()) )
     {
         mTime = curr;
-        mSnake.Move();
-        Refresh();
+
+        mSnake.Move(mFood);
     }
+
+    Refresh();
 
     return ret;
 }
@@ -82,17 +89,31 @@ void snkGame::Refresh()
         std::string str = "GAME OVER";
         AddStr(str, mH / 2 - 1);
 
-        str = "Press Enter to exit!";
+        str = "Press END key to exit!";
         AddStr(str, mH / 2 + 1);
     }
     else
     {
+        /* Generate new food position */
+        if (mSnake.IsFed())
+        {
+            mFood = mLevel.GenFood(mSnake.GetBody());
+        }
+
         std::list<snkPoint> body = mSnake.GetBody();
+
+        int x = 0;
+        int y = 0;
+
+        x = mFood.mX;
+        y = mFood.mY;
+
+        mBuf[y][x] = mFood;
 
         for (const auto& point : body)
         {
-            int x = point.mX;
-            int y = point.mY;
+            x = point.mX;
+            y = point.mY;
 
             mBuf[y][x] = point;
         }

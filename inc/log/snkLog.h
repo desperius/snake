@@ -10,7 +10,6 @@
 #ifndef _SNK_LOG_H_
 #define _SNK_LOG_H_
 
-//#include <iostream>
 #include <fstream>
 #include <string>
 

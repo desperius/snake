@@ -19,7 +19,8 @@ enum Color
 {
     WHT_BLACK = 1,
     RED_BLACK = 2,
-    GRN_BLACK = 3
+    GRN_BLACK = 3,
+    BLU_BLACK = 4
 };
 
 struct snkPoint
