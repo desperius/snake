@@ -1,1 +1,1 @@
-Random food generation was implemented. Need to add walls generation.
+During food generation occured bug with multiple positions before snake next move. Bug was fixed.

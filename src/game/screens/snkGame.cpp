@@ -95,9 +95,10 @@ void snkGame::Refresh()
     else
     {
         /* Generate new food position */
-        if (mSnake.IsFed())
+        if (mSnake.GetIsFed())
         {
             mFood = mLevel.GenFood(mSnake.GetBody());
+            mSnake.SetIsFed(false);
         }
 
         std::list<snkPoint> body = mSnake.GetBody();

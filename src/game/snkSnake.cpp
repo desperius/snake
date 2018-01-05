@@ -83,14 +83,14 @@ void snkSnake::Move(const snkPoint& food)
     {
         mBody.front().mCol = mBody.back().mCol;
         mBody.push_front(head);
-        mFed = true;
+        mIsFed = true;
     }
     else
     {
         mBody.front().mCol = mBody.back().mCol;
         mBody.pop_back();
         mBody.push_front(head);
-        mFed = false;
+        mIsFed = false;
     }
 }
 

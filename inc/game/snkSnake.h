@@ -38,9 +38,14 @@ public:
         return mGameOver;
     }
 
-    bool IsFed()
+    bool GetIsFed()
     {
-        return mFed;
+        return mIsFed;
+    }
+
+    void SetIsFed(bool isFed)
+    {
+        mIsFed = isFed;
     }
 
     void Reset();
@@ -53,7 +58,7 @@ private:
     Dir mDir = {Dir::UP};
     int mSpeed = {500};
     bool mGameOver = {false};
-    bool mFed = {false};
+    bool mIsFed = {false};
 };
 
 #endif /* _SNK_SNAKE_H_ */
