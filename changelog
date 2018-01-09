@@ -1,1 +1,1 @@
-During food generation occured bug with multiple positions before snake next move. Bug was fixed.
+Wall generation and detection draft implementation was added. Walls will be predefined for every level. Random generation of walls is not needed.

@@ -14,7 +14,8 @@ public:
     ~snkLevel() = default;
 
     void Init(int w, int h, chtype food_sym, chtype wall_sym);
-    snkPoint GenFood(const std::list<snkPoint>& body);
+    std::list<snkPoint> GenWall(const std::list<snkPoint>& body);
+    snkPoint GenFood(const std::list<snkPoint>& body, const std::list<snkPoint>& wall);
 
 private:
     int mW = {0};

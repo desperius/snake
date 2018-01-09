@@ -10,7 +10,18 @@ void snkLevel::Init(int w, int h, chtype food_sym, chtype wall_sym)
     mWallSym = wall_sym;
 }
 
-snkPoint snkLevel::GenFood(const std::list<snkPoint>& body)
+std::list<snkPoint> snkLevel::GenWall(const std::list<snkPoint>& body)
+{
+    // TODO: Temporary solution. Should be changed!
+    std::list<snkPoint> wall;
+    wall.emplace_back(snkPoint(5, 5, mWallSym, RED_BLACK));
+    wall.emplace_back(snkPoint(5, 6, mWallSym, RED_BLACK));
+    wall.emplace_back(snkPoint(5, 7, mWallSym, RED_BLACK));
+
+    return wall;
+}
+
+snkPoint snkLevel::GenFood(const std::list<snkPoint>& body, const std::list<snkPoint>& wall)
 {
     snkPoint food;
     food.mCol = GRN_BLACK;

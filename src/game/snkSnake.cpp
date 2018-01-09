@@ -10,7 +10,7 @@ void snkSnake::Init(int w, int h, chtype sym)
     Reset();
 }
 
-void snkSnake::Move(const snkPoint& food)
+void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall)
 {
     if (mGameOver)
     {
@@ -70,10 +70,11 @@ void snkSnake::Move(const snkPoint& food)
         return (point.mX == head.mX) && (point.mY == head.mY);
     };
 
-    auto it = std::find_if(mBody.begin(), mBody.end(), comparator);
+    auto biteBody = std::find_if(mBody.begin(), mBody.end(), comparator);
+    auto biteWall = std::find_if(wall.begin(), wall.end(), comparator);
 
-    /* Snake bites itself */
-    if (it != mBody.end())
+    /* Snake bites itself or bites a wall */
+    if ((biteBody != mBody.end()) || (biteWall != wall.end()))
     {
         mGameOver = true;
     }

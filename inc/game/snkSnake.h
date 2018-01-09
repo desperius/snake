@@ -20,7 +20,7 @@ public:
     ~snkSnake() = default;
 
     void Init(int w, int h, chtype sym);
-    void Move(const snkPoint& food);
+    void Move(const snkPoint& food, const std::list<snkPoint>& wall);
     void SetDir(Dir dir);
 
     int GetSpeed()
@@ -56,7 +56,7 @@ private:
     int mH = {0};
     chtype mSym = {'@'};
     Dir mDir = {Dir::UP};
-    int mSpeed = {500};
+    int mSpeed = {500}; /* [500; 50] */
     bool mGameOver = {false};
     bool mIsFed = {false};
 };

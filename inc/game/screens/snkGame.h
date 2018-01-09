@@ -22,6 +22,7 @@ private:
     std::chrono::milliseconds mTime;
     snkSnake mSnake;
     snkPoint mFood;
+    std::list<snkPoint> mWall;
     snkLevel mLevel;
     int mScore;
 };

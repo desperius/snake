@@ -14,8 +14,11 @@ void snkGame::Init(int w, int h)
 
     mLevel.Init(w, h, '+', '#');
 
+    /* Generate wall positions */
+    mWall = mLevel.GenWall(mSnake.GetBody());
+
     /* Generate initial food position */
-    mFood = mLevel.GenFood(mSnake.GetBody());
+    mFood = mLevel.GenFood(mSnake.GetBody(), mWall);
 
     mScore = 0;
 }
@@ -68,11 +71,11 @@ State snkGame::Update(int key)
         }
     }
 
-    if ( !mSnake.IsGameOver() && (delta.count() > mSnake.GetSpeed()) )
+    if (!mSnake.IsGameOver() && (delta.count() > mSnake.GetSpeed()))
     {
         mTime = curr;
 
-        mSnake.Move(mFood);
+        mSnake.Move(mFood, mWall);
     }
 
     Refresh();
@@ -97,20 +100,28 @@ void snkGame::Refresh()
         /* Generate new food position */
         if (mSnake.GetIsFed())
         {
-            mFood = mLevel.GenFood(mSnake.GetBody());
+            mFood = mLevel.GenFood(mSnake.GetBody(), mWall);
             mSnake.SetIsFed(false);
         }
 
         std::list<snkPoint> body = mSnake.GetBody();
 
-        int x = 0;
-        int y = 0;
+        int x = mFood.mX;
+        int y = mFood.mY;
 
-        x = mFood.mX;
-        y = mFood.mY;
-
+        /* Draw food position */
         mBuf[y][x] = mFood;
 
+        /* Draw wall position */
+        for (const auto& point : mWall)
+        {
+            x = point.mX;
+            y = point.mY;
+
+            mBuf[y][x] = point;
+        }
+
+        /* Draw snake position */
         for (const auto& point : body)
         {
             x = point.mX;
