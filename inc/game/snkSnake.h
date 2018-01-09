@@ -28,6 +28,11 @@ public:
         return mSpeed;
     }
 
+    void SetSpeed(int speed)
+    {
+        mSpeed = speed;
+    }
+
     std::list<snkPoint> GetBody()
     {
         return mBody;

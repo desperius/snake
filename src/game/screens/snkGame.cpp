@@ -30,6 +30,21 @@ State snkGame::Update(int key)
     milliseconds curr = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     milliseconds delta = curr - mTime;
 
+    if (mIsLvlStart)
+    {
+        AddStr("LEVEL " + std::to_string(mLevelNum), mH / 2 - 1);
+        AddStr("Press Enter to start", mH / 2 + 1);
+
+        if ('\n' == key || '\r' == key)
+        {
+            mIsLvlStart = false;
+        }
+        else
+        {
+            return ret;
+        }
+    }
+
     /* Change data according to pressed key */
     switch (key)
     {
@@ -97,11 +112,23 @@ void snkGame::Refresh()
     }
     else
     {
+        if (0 == mFoodNum)
+        {
+            mIsLvlStart = true;
+            mSnake.Reset();
+            mSnake.SetSpeed(mSnake.GetSpeed() - 50);
+            mFoodNum = 3;
+            ++mLevelNum;
+            return;
+        }
+
         /* Generate new food position */
         if (mSnake.GetIsFed())
         {
             mFood = mLevel.GenFood(mSnake.GetBody(), mWall);
             mSnake.SetIsFed(false);
+            --mFoodNum;
+            ++mScore;
         }
 
         std::list<snkPoint> body = mSnake.GetBody();

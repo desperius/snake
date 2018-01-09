@@ -25,6 +25,9 @@ private:
     std::list<snkPoint> mWall;
     snkLevel mLevel;
     int mScore;
+    int mLevelNum = {1};
+    int mFoodNum  = {3};
+    bool mIsLvlStart = {true};
 };
 
 #endif /* _SNK_GAME_H_ */

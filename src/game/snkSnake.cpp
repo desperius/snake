@@ -124,10 +124,12 @@ void snkSnake::Reset()
     mBody.push_back(snkPoint(cx, cy + 1, mSym));
     mBody.push_back(snkPoint(cx, cy + 2, mSym));
 
+    mDir = {Dir::UP};
     mGameOver = false;
+    mIsFed = false;
 
     // TODO: Only for check
-    mBody.push_back(snkPoint(cx, cy + 3, mSym));
-    mBody.push_back(snkPoint(cx, cy + 4, mSym));
-    mBody.push_back(snkPoint(cx, cy + 5, mSym));
+    //mBody.push_back(snkPoint(cx, cy + 3, mSym));
+    //mBody.push_back(snkPoint(cx, cy + 4, mSym));
+    //mBody.push_back(snkPoint(cx, cy + 5, mSym));
 }
