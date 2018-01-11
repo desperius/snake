@@ -55,13 +55,19 @@ public:
 
     void Reset();
 
+    void ResetSpeed()
+    {
+        mSpeed = INIT_SPEED;
+    }
+
 private:
+    static const int INIT_SPEED = 500;
     std::list<snkPoint> mBody;
     int mW = {0};
     int mH = {0};
     chtype mSym = {'@'};
     Dir mDir = {Dir::UP};
-    int mSpeed = {500}; /* [500; 50] */
+    int mSpeed = {INIT_SPEED}; /* [500; 50] */
     bool mGameOver = {false};
     bool mIsFed = {false};
 };

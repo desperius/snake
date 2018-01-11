@@ -116,8 +116,8 @@ void snkSnake::SetDir(Dir dir)
 
 void snkSnake::Reset()
 {
-    int cx = mW / 2;
-    int cy = mH / 2;
+    int cx = mW / 2 + 6;
+    int cy = mH / 2 + 6;
 
     mBody.clear();
     mBody.push_back(snkPoint(cx, cy + 0, mSym, BLU_BLACK));
@@ -127,9 +127,4 @@ void snkSnake::Reset()
     mDir = {Dir::UP};
     mGameOver = false;
     mIsFed = false;
-
-    // TODO: Only for check
-    //mBody.push_back(snkPoint(cx, cy + 3, mSym));
-    //mBody.push_back(snkPoint(cx, cy + 4, mSym));
-    //mBody.push_back(snkPoint(cx, cy + 5, mSym));
 }

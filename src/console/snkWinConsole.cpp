@@ -14,8 +14,6 @@
 #include "snkGame.h"
 #include "snkNick.h"
 
-#define STR(str) #str
-
 bool snkWinConsole::Init()
 {
     /* Try to open the mutex */
@@ -53,7 +51,7 @@ bool snkWinConsole::Init()
     init_pair(WHT_BLACK, COLOR_WHITE, COLOR_BLACK);
     init_pair(RED_BLACK, COLOR_RED, COLOR_BLACK);
     init_pair(GRN_BLACK, COLOR_GREEN, COLOR_BLACK);
-    init_pair(BLU_BLACK, COLOR_BLUE, COLOR_BLACK);
+    init_pair(BLU_BLACK, COLOR_CYAN, COLOR_BLACK);
 
     /* Create game field */
     mWin = CreateWin(WIN_H, WIN_W, 0, 0);

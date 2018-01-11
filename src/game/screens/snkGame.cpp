@@ -15,7 +15,7 @@ void snkGame::Init(int w, int h)
     mLevel.Init(w, h, '+', '#');
 
     /* Generate wall positions */
-    mWall = mLevel.GenWall(mSnake.GetBody());
+    mWall = mLevel.GenWall(mLevelNum);
 
     /* Generate initial food position */
     mFood = mLevel.GenFood(mSnake.GetBody(), mWall);
@@ -100,7 +100,7 @@ State snkGame::Update(int key)
 
 void snkGame::Refresh()
 {
-    ClearBuf();
+    //ClearBuf();
 
     if (mSnake.IsGameOver())
     {
@@ -112,13 +112,25 @@ void snkGame::Refresh()
     }
     else
     {
+        ClearBuf();
+
         if (0 == mFoodNum)
         {
             mIsLvlStart = true;
             mSnake.Reset();
-            mSnake.SetSpeed(mSnake.GetSpeed() - 50);
-            mFoodNum = 3;
             ++mLevelNum;
+            mFoodNum = 3;
+
+            if (mLevelNum % 10 == 0)
+            {
+                mSnake.ResetSpeed();
+            }
+            else
+            {
+                mSnake.SetSpeed(mSnake.GetSpeed() - 50);
+            }
+
+            mWall = mLevel.GenWall(mLevelNum);
             return;
         }
 
@@ -158,8 +170,10 @@ void snkGame::Refresh()
         }
     }
 
-    std::string score(mNickname);
-    score += std::string(": ");
-    score += std::to_string(mScore);
-    AddStrToBar(score, 0);
+    std::string bar(mNickname);
+    bar += std::string(": ");
+    bar += std::to_string(mScore);
+    bar += std::string("   Level: ");
+    bar += std::to_string(mLevelNum);
+    AddStrToBar(bar, 0);
 }
