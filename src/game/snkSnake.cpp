@@ -57,34 +57,31 @@ void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall)
     if (head.mX >= mW || head.mX < 0)
     {
         mGameOver = true;
+        return;
     }
 
     /* Reached bottom or top border */
     if (head.mY >= mH || head.mY < 0)
     {
         mGameOver = true;
+        return;
     }
 
-    snkPoint left = wall.front();
-    snkPoint right = wall.back();
-
-    auto leftHitComparator = [&left] (const snkPoint & point)
-    {
-        return (point.mX == left.mX) && (point.mY == left.mY);
-    };
-
-    auto rightHitComparator = [&right] (const snkPoint & point)
-    {
-        return (point.mX == right.mX) && (point.mY == right.mY);
-    };
-
-    auto hitBodyL = std::find_if(mBody.begin(), mBody.end(), leftHitComparator);
-    auto hitBodyR = std::find_if(mBody.begin(), mBody.end(), rightHitComparator);
-
     /* Moving wall hit the snake's body */
-    if ((hitBodyL != mBody.end()) || (hitBodyR != mBody.end()))
+    for (auto& brick : wall)
     {
-        mGameOver = true;
+        auto comparator = [&brick] (const snkPoint & point)
+        {
+            return (point.mX == brick.mX) && (point.mY == brick.mY);
+        };
+
+        auto hit = std::find_if(mBody.begin(), mBody.end(), comparator);
+
+        if (hit != mBody.end())
+        {
+            mGameOver = true;
+            return;
+        }
     }
 
     auto comparator = [&head] (const snkPoint & point)
@@ -99,6 +96,7 @@ void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall)
     if ((biteBody != mBody.end()) || (biteWall != wall.end()))
     {
         mGameOver = true;
+        return;
     }
 
     /* Snake bites the food */

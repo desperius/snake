@@ -1,1 +1,1 @@
-All levels were added. Detected a bug with vertical wall hit detection in last level with two moving walls. This bug appears because I check only front and back of the list containing the wall positions.
+A bug with vertical wall hit detection in last level with two moving walls was fixed. Now all points check for intersection of snake body.
