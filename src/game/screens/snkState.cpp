@@ -36,6 +36,7 @@ void snkState::ClearBuf()
         for (int j = 0; j < mW; ++j)
         {
             mBuf[i][j].mSym = ' ';
+            mBuf[i][j].mCol = WHT_BLACK;
         }
 
         mBuf[i][mW].mSym = '\0';

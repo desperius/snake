@@ -19,14 +19,16 @@ private:
     void Refresh() override;
 
 private:
+    static const int FOOD_MAX = 10;
     std::chrono::milliseconds mTime;
+    std::chrono::milliseconds mWallTime;
     snkSnake mSnake;
     snkPoint mFood;
     std::list<snkPoint> mWall;
     snkLevel mLevel;
     int mScore = {0};
     int mLevelNum = {1};
-    int mFoodNum  = {3};
+    int mFoodNum  = {FOOD_MAX};
     bool mIsLvlStart = {true};
 };
 

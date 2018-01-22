@@ -1,1 +1,1 @@
-More levels were generated. Have to think about moving walls!
+All levels were added. Detected a bug with vertical wall hit detection in last level with two moving walls. This bug appears because I check only front and back of the list containing the wall positions.

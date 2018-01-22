@@ -8,6 +8,7 @@ void snkGame::Init(int w, int h)
 
     /* Initialize time */
     mTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    mWallTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
     /* Initialize character state */
     mSnake.Init(w, h, ACS_BULLET);
@@ -15,7 +16,7 @@ void snkGame::Init(int w, int h)
     mLevel.Init(w, h, '+', '#');
 
     /* Generate wall positions */
-    mWall = mLevel.GenWall(mLevelNum);
+    mWall = mLevel.GenWall();
 
     /* Generate initial food position */
     mFood = mLevel.GenFood(mSnake.GetBody(), mWall);
@@ -29,6 +30,21 @@ State snkGame::Update(int key)
 
     milliseconds curr = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     milliseconds delta = curr - mTime;
+    milliseconds deltaWall = curr - mWallTime;
+
+    if (mLevel.IsWin())
+    {
+        AddStr("You are WIN!", mH / 2);
+
+        if ('\n' == key || '\r' == key)
+        {
+            return State::MENU;
+        }
+        else
+        {
+            return ret;
+        }
+    }
 
     if (mIsLvlStart)
     {
@@ -89,8 +105,13 @@ State snkGame::Update(int key)
     if (!mSnake.IsGameOver() && (delta.count() > mSnake.GetSpeed()))
     {
         mTime = curr;
-
         mSnake.Move(mFood, mWall);
+    }
+
+    if ((deltaWall.count() > mLevel.GetWallSpeed()))
+    {
+        mWallTime = curr;
+        mLevel.Move(mWall);
     }
 
     Refresh();
@@ -100,8 +121,6 @@ State snkGame::Update(int key)
 
 void snkGame::Refresh()
 {
-    //ClearBuf();
-
     if (mSnake.IsGameOver())
     {
         std::string str = "GAME OVER";
@@ -119,18 +138,17 @@ void snkGame::Refresh()
             mIsLvlStart = true;
             mSnake.Reset();
             ++mLevelNum;
-            mFoodNum = 3;
+            mFoodNum = FOOD_MAX;
 
-            if (mLevelNum % 10 == 0)
+            mSnake.SetSpeed(mSnake.GetSpeed() - 50);
+
+            if (mSnake.GetSpeed() <= 0)
             {
+                mLevel.LevelUp();
+                mWall = mLevel.GenWall();
                 mSnake.ResetSpeed();
             }
-            else
-            {
-                mSnake.SetSpeed(mSnake.GetSpeed() - 50);
-            }
 
-            mWall = mLevel.GenWall(mLevelNum);
             return;
         }
 
@@ -151,8 +169,8 @@ void snkGame::Refresh()
         /* Draw food position */
         mBuf[y][x] = mFood;
 
-        /* Draw wall position */
-        for (const auto& point : mWall)
+        /* Draw snake position */
+        for (const auto& point : body)
         {
             x = point.mX;
             y = point.mY;
@@ -160,8 +178,8 @@ void snkGame::Refresh()
             mBuf[y][x] = point;
         }
 
-        /* Draw snake position */
-        for (const auto& point : body)
+        /* Draw wall position */
+        for (const auto& point : mWall)
         {
             x = point.mX;
             y = point.mY;
