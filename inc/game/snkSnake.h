@@ -20,7 +20,7 @@ public:
     ~snkSnake() = default;
 
     void Init(int w, int h, chtype sym);
-    void Move(const snkPoint& food, const std::list<snkPoint>& wall);
+    void Move(const snkPoint& food, const std::list<snkPoint>& wall, std::chrono::milliseconds currTime);
     void SetDir(Dir dir);
 
     int GetSpeed()
@@ -62,6 +62,7 @@ public:
 
 private:
     static const int INIT_SPEED = 500;
+    std::chrono::milliseconds mPrevTime;
     std::list<snkPoint> mBody;
     int mW = {0};
     int mH = {0};

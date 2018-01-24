@@ -6,10 +6,6 @@ void snkGame::Init(int w, int h)
 {
     snkState::Construct(w, h);
 
-    /* Initialize time */
-    mTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-    mWallTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-
     /* Initialize character state */
     mSnake.Init(w, h, ACS_BULLET);
 
@@ -28,13 +24,15 @@ State snkGame::Update(int key)
 {
     State ret = State::GAME;
 
-    milliseconds curr = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-    milliseconds delta = curr - mTime;
-    milliseconds deltaWall = curr - mWallTime;
+    milliseconds currTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
     if (mLevel.IsWin())
     {
-        AddStr("You are WIN!", mH / 2);
+        AddStr("+     +   +   +     +", mH / 2 - 2);
+        AddStr("+     +   +   + +   +", mH / 2 - 1);
+        AddStr("+  +  +   +   +  +  +", mH / 2);
+        AddStr("+  +  +   +   +   + +", mH / 2 + 1);
+        AddStr(" +   +    +   +     +", mH / 2 + 2);
 
         if ('\n' == key || '\r' == key)
         {
@@ -46,14 +44,14 @@ State snkGame::Update(int key)
         }
     }
 
-    if (mIsLvlStart)
+    if (mIsStart)
     {
-        AddStr("LEVEL " + std::to_string(mLevelNum), mH / 2 - 1);
+        AddStr("LEVEL " + std::to_string(mLevel.GetLevel()), mH / 2 - 1);
         AddStr("Press Enter to start", mH / 2 + 1);
 
         if ('\n' == key || '\r' == key)
         {
-            mIsLvlStart = false;
+            mIsStart = false;
         }
         else
         {
@@ -102,17 +100,12 @@ State snkGame::Update(int key)
         }
     }
 
-    if (!mSnake.IsGameOver() && (delta.count() > mSnake.GetSpeed()))
+    if (!mSnake.IsGameOver())
     {
-        mTime = curr;
-        mSnake.Move(mFood, mWall);
+        mSnake.Move(mFood, mWall, currTime);
     }
 
-    if ((deltaWall.count() > mLevel.GetWallSpeed()))
-    {
-        mWallTime = curr;
-        mLevel.Move(mWall);
-    }
+    mLevel.Move(mWall, currTime);
 
     Refresh();
 
@@ -133,21 +126,22 @@ void snkGame::Refresh()
     {
         ClearBuf();
 
+        /* All food at this level were eaten */
         if (0 == mFoodNum)
         {
-            mIsLvlStart = true;
-            mSnake.Reset();
-            ++mLevelNum;
-            mFoodNum = FOOD_MAX;
-
+            mLevel.SubLeveUp();
             mSnake.SetSpeed(mSnake.GetSpeed() - 50);
 
             if (mSnake.GetSpeed() <= 0)
             {
                 mLevel.LevelUp();
-                mWall = mLevel.GenWall();
                 mSnake.ResetSpeed();
             }
+
+            mIsStart = true;
+            mSnake.Reset();
+            mWall = mLevel.GenWall();
+            mFoodNum = FOOD_MAX;
 
             return;
         }
@@ -192,6 +186,6 @@ void snkGame::Refresh()
     bar += std::string(": ");
     bar += std::to_string(mScore);
     bar += std::string("   Level: ");
-    bar += std::to_string(mLevelNum);
+    bar += std::to_string(mLevel.GetLevel());
     AddStrToBar(bar, 0);
 }

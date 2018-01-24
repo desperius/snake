@@ -1,21 +1,34 @@
 #include "snkSnake.h"
 #include <algorithm>
 
+using namespace std::chrono;
+
 void snkSnake::Init(int w, int h, chtype sym)
 {
     mW = w;
     mH = h;
     mSym = sym;
 
+    mPrevTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+
     Reset();
 }
 
-void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall)
+void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall, milliseconds currTime)
 {
     if (mGameOver)
     {
         return;
     }
+
+    milliseconds delta = currTime - mPrevTime;
+
+    if (delta.count() < mSpeed)
+    {
+        return;
+    }
+
+    mPrevTime = currTime;
 
     int x = mBody.front().mX;
     int y = mBody.front().mY;

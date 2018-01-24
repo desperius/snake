@@ -2,12 +2,16 @@
 #include <algorithm>
 #include <cstdlib>
 
+using namespace std::chrono;
+
 void snkLevel::Init(int w, int h, chtype food_sym, chtype wall_sym)
 {
     mW = w;
     mH = h;
     mFoodSym = food_sym;
     mWallSym = wall_sym;
+
+    mPrevTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 }
 
 std::list<snkPoint> snkLevel::GenWall()
@@ -86,6 +90,9 @@ std::list<snkPoint> snkLevel::GenWall()
         }
     }
 
+    mIsMoveLeft = false;
+    mIsMoveDown = false;
+
     return wall;
 }
 
@@ -115,8 +122,17 @@ snkPoint snkLevel::GenFood(const std::list<snkPoint>& body, const std::list<snkP
     return food;
 }
 
-void snkLevel::Move(std::list<snkPoint>& wall)
+void snkLevel::Move(std::list<snkPoint>& wall, milliseconds currTime)
 {
+    milliseconds delta = currTime - mPrevTime;
+
+    if (delta.count() < WALL_SPEED)
+    {
+        return;
+    }
+
+    mPrevTime = currTime;
+
     if (7 == mLevelNum)
     {
         MoveH();
@@ -142,9 +158,14 @@ int snkLevel::GetWallSpeed()
     return WALL_SPEED;
 }
 
-inline int snkLevel::GetLevel()
+int snkLevel::GetLevel()
 {
-    return mLevelNum;
+    return mSubLevel + mLevelNum * 10;
+}
+
+int snkLevel::GetSubLevel()
+{
+    return mSubLevel;
 }
 
 void snkLevel::LevelUp()
@@ -155,6 +176,21 @@ void snkLevel::LevelUp()
     {
         mIsWin = true;
     }
+}
+
+void snkLevel::SubLeveUp()
+{
+    ++mSubLevel;
+
+    if (mSubLevel > 9)
+    {
+        mSubLevel = 0;
+    }
+}
+
+bool snkLevel::IsWin()
+{
+    return mIsWin;
 }
 
 void snkLevel::hLine(std::list<snkPoint>& wall)
@@ -287,21 +323,6 @@ void snkLevel::MoveV()
 
     if (mIsMoveDown)
     {
-        head = wall.front();
-        head.mY -= 1;
-
-        if (head.mY < 0)
-        {
-            mIsMoveDown = false;
-        }
-        else
-        {
-            wall.pop_back();
-            wall.push_front(head);
-        }
-    }
-    else
-    {
         head = wall.back();
         head.mY += 1;
 
@@ -313,6 +334,21 @@ void snkLevel::MoveV()
         {
             wall.pop_front();
             wall.push_back(head);
+        }
+    }
+    else
+    {
+        head = wall.front();
+        head.mY -= 1;
+
+        if (head.mY < 0)
+        {
+            mIsMoveDown = false;
+        }
+        else
+        {
+            wall.pop_back();
+            wall.push_front(head);
         }
     }
 }

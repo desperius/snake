@@ -16,17 +16,13 @@ public:
     void Init(int w, int h, chtype food_sym, chtype wall_sym);
     std::list<snkPoint> GenWall();
     snkPoint GenFood(const std::list<snkPoint>& body, const std::list<snkPoint>& wall);
-
-    void Move(std::list<snkPoint>& wall);
-
+    void Move(std::list<snkPoint>& wall, std::chrono::milliseconds currTime);
     int GetWallSpeed();
     int GetLevel();
+    int GetSubLevel();
     void LevelUp();
-
-    bool IsWin()
-    {
-        return mIsWin;
-    }
+    void SubLeveUp();
+    bool IsWin();
 
 private:
     void hLine(std::list<snkPoint>& wall);
@@ -42,17 +38,20 @@ private:
 
 private:
     static const int WALL_SPEED = 800;
+    std::chrono::milliseconds mPrevTime;
     std::list<snkPoint> mWallMoveH;
     std::list<snkPoint> mWallMoveV;
     int mW = {0};
     int mH = {0};
     int mFoodCount;
-    int mLevelNum = {9};
+    int mLevelNum = {0};
+    int mSubLevel = {0};
     chtype mFoodSym;
     chtype mWallSym;
     bool mIsMoveLeft = {false};
     bool mIsMoveDown = {false};
     bool mIsWin = {false};
+    bool mIsStart = {true};
 };
 
 #endif /* _SNK_LEVEL_H_ */
