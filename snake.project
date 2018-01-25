@@ -25,6 +25,7 @@
         <File Name="src/game/screens/snkMenu.cpp"/>
         <File Name="src/game/screens/snkState.cpp"/>
         <File Name="src/game/screens/snkNick.cpp"/>
+        <File Name="src/game/screens/snkRecs.cpp"/>
       </VirtualDirectory>
       <File Name="src/game/snkLevel.cpp"/>
     </VirtualDirectory>
@@ -52,6 +53,7 @@
         <File Name="inc/game/screens/snkMenu.h"/>
         <File Name="inc/game/screens/snkState.h"/>
         <File Name="inc/game/screens/snkNick.h"/>
+        <File Name="inc/game/screens/snkRecs.h"/>
       </VirtualDirectory>
       <File Name="inc/game/snkLevel.h"/>
     </VirtualDirectory>
@@ -162,12 +164,15 @@
         <IncludePath Value="./inc/game/"/>
         <IncludePath Value="./inc/game/screens/"/>
         <IncludePath Value="./inc/pdcurses/"/>
+        <IncludePath Value="./inc/sqlite/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
         <LibraryPath Value="./lib/"/>
         <LibraryPath Value="./lib/pdcurses/"/>
+        <LibraryPath Value="./lib/sqlite/"/>
         <Library Value="pdcurses"/>
+        <Library Value="sqlite3"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
@@ -215,12 +220,15 @@
         <IncludePath Value="./inc/game/"/>
         <IncludePath Value="./inc/game/screens/"/>
         <IncludePath Value="./inc/pdcurses/"/>
+        <IncludePath Value="./inc/sqlite/"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
         <LibraryPath Value="./lib/"/>
         <LibraryPath Value="./lib/pdcurses/"/>
+        <LibraryPath Value="./lib/sqlite/"/>
         <Library Value="pdcurses"/>
+        <Library Value="sqlite3"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="no" IsGUIProgram="no" IsEnabled="yes"/>

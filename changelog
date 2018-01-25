@@ -1,1 +1,1 @@
-Added win screen. All levels works properly now. Timing checks were moved to proper classes.
+SQLite library was added. Also dummy code for records table added.

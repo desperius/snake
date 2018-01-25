@@ -13,6 +13,7 @@
 #include "snkMenu.h"
 #include "snkGame.h"
 #include "snkNick.h"
+#include "snkRecs.h"
 
 bool snkWinConsole::Init()
 {
@@ -127,7 +128,8 @@ bool snkWinConsole::Loop()
         }
         else if (State::RECS == mState)
         {
-            ret = true;
+            mGameState = std::make_shared<snkRecs>();
+            mGameState->Init(SCR_W, SCR_H);
         }
         else
         {

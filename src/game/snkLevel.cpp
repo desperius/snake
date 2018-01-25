@@ -328,7 +328,7 @@ void snkLevel::MoveV()
 
         if (head.mY >= mH)
         {
-            mIsMoveDown = true;
+            mIsMoveDown = false;
         }
         else
         {
@@ -343,7 +343,7 @@ void snkLevel::MoveV()
 
         if (head.mY < 0)
         {
-            mIsMoveDown = false;
+            mIsMoveDown = true;
         }
         else
         {
