@@ -1,6 +1,8 @@
 #include "snkRecs.h"
-#include "snkLog.h"
+
 #include "sqlite3.h"
+
+#include "snkLog.h"
 
 void snkRecs::Init(int w, int h)
 {

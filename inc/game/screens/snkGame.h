@@ -4,6 +4,7 @@
 #include "snkState.h"
 #include "snkSnake.h"
 #include "snkLevel.h"
+#include "snkDatabase.h"
 #include <chrono>
 
 class snkGame : public snkState
@@ -22,6 +23,7 @@ private:
     static const int FOOD_MAX = 10;
     snkSnake mSnake;
     snkPoint mFood;
+    snkDatabase mRecs;
     std::list<snkPoint> mWall;
     snkLevel mLevel;
     int mScore = {0};

@@ -28,6 +28,7 @@
         <File Name="src/game/screens/snkRecs.cpp"/>
       </VirtualDirectory>
       <File Name="src/game/snkLevel.cpp"/>
+      <File Name="src/game/snkDatabase.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="log">
       <File Name="src/log/snkLog.cpp"/>
@@ -56,6 +57,7 @@
         <File Name="inc/game/screens/snkRecs.h"/>
       </VirtualDirectory>
       <File Name="inc/game/snkLevel.h"/>
+      <File Name="inc/game/snkDatabase.h"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <Settings Type="Executable">

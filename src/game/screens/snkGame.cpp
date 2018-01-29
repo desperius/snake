@@ -9,6 +9,7 @@ void snkGame::Init(int w, int h)
     /* Initialize character state */
     mSnake.Init(w, h, ACS_BULLET);
 
+    /* Initialize level */
     mLevel.Init(w, h, '+', '#');
 
     /* Generate wall positions */
@@ -16,6 +17,9 @@ void snkGame::Init(int w, int h)
 
     /* Generate initial food position */
     mFood = mLevel.GenFood(mSnake.GetBody(), mWall);
+
+    /* Open database */
+    mRecs.Connect();
 
     mScore = 0;
 }
@@ -90,6 +94,12 @@ State snkGame::Update(int key)
         {
             /* Reset snake states before exit to Main menu */
             mSnake.Reset();
+
+            /* Write score and nick in records table */
+            mRecs.Write(mNickname, mScore);
+            mRecs.Print();
+            mRecs.Close();
+
             ret = State::MENU;
             break;
         }

@@ -1,1 +1,1 @@
-SQLite library was added. Also dummy code for records table added.
+Database of records support was added. When player quits nickname and score adds to the database.
