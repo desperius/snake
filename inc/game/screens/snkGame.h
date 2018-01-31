@@ -1,11 +1,12 @@
 #ifndef _SNK_GAME_H_
 #define _SNK_GAME_H_
 
+#include <chrono>
+
 #include "snkState.h"
 #include "snkSnake.h"
 #include "snkLevel.h"
 #include "snkDatabase.h"
-#include <chrono>
 
 class snkGame : public snkState
 {

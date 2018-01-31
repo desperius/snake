@@ -12,6 +12,7 @@ void snkLevel::Init(int w, int h, chtype food_sym, chtype wall_sym)
     mWallSym = wall_sym;
 
     mPrevTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    srand(mPrevTime.count());
 }
 
 std::list<snkPoint> snkLevel::GenWall()

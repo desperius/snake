@@ -96,16 +96,18 @@ void snkMenu::Refresh()
     str = "EXIT!";
     AddStr(str, static_cast<int>(State::EXIT));
 
-    str = "version 1.0";
+    str = "version ";
+    str += std::to_string(MAJOR) + ".";
+    str += std::to_string(MINOR);
     AddStr(str, mH - 1);
 
     if (State::GAME == mActive)
     {
-        AddStrToBar(std::string("Start a new game"), 0);
+        AddStrToBar(std::string("Starts a new game"), 0);
     }
     else if (State::RECS == mActive)
     {
-        AddStrToBar(std::string("Show the records table"), 0);
+        AddStrToBar(std::string("Shows last 10 best scores"), 0);
     }
     else if (State::EXIT == mActive)
     {

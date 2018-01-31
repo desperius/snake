@@ -16,6 +16,8 @@ private:
     void Refresh() override;
 
 private:
+    static const int8_t MAJOR = 1;
+    static const int8_t MINOR = 0;
     State mActive {State::GAME};
 };
 

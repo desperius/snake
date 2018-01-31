@@ -2,6 +2,7 @@
 #define _SNK_RECS_H_
 
 #include "snkState.h"
+#include "snkDatabase.h"
 
 class snkRecs : public snkState
 {
@@ -14,6 +15,10 @@ public:
 
 private:
     void Refresh() override;
+
+private:
+    snkDatabase mDB;
+    std::vector<std::string> mRecs;
 };
 
 #endif /* _SNK_RECS_H_ */

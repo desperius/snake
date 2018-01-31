@@ -40,6 +40,10 @@ State snkGame::Update(int key)
 
         if ('\n' == key || '\r' == key)
         {
+            /* Write score and nick in records table */
+            mRecs.Write(mNickname, mScore);
+            mRecs.Close();
+
             return State::MENU;
         }
         else
@@ -97,7 +101,6 @@ State snkGame::Update(int key)
 
             /* Write score and nick in records table */
             mRecs.Write(mNickname, mScore);
-            mRecs.Print();
             mRecs.Close();
 
             ret = State::MENU;

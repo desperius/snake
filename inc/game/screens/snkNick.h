@@ -17,7 +17,7 @@ private:
     std::vector<chtype> GenLine(chtype l, chtype m, chtype r);
 
 private:
-    static const int MAX_NICK_SIZE = 11;
+    static const int MAX_NICK_SIZE = 10;
 };
 
 #endif /* _SNK_NICK_H_ */

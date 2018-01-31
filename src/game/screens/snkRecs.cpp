@@ -1,22 +1,13 @@
 #include "snkRecs.h"
 
-#include "sqlite3.h"
-
-#include "snkLog.h"
+#include <algorithm>
 
 void snkRecs::Init(int w, int h)
 {
     snkState::Construct(w, h);
 
-    sqlite3* db = nullptr;
-    int rc = sqlite3_open("recs.db", &db);
-
-    if (rc)
-    {
-        snkLog::Get().Log(std::string(sqlite3_errmsg(db)));
-    }
-
-    sqlite3_close(db);
+    mDB.Connect();
+    mRecs = mDB.GetTable();
 }
 
 State snkRecs::Update(int key)
@@ -27,6 +18,7 @@ State snkRecs::Update(int key)
     {
         case KEY_END:
         {
+            mDB.Close();
             ret = State::MENU;
             break;
         }
@@ -45,8 +37,32 @@ void snkRecs::Refresh()
 {
     ClearBuf();
 
-    std::string str = "Records Table";
+    std::string str = "RECORDS TABLE";
     AddStr(str, 0);
+    str = " #  Nickname      Score";
+    int length = str.length();
+    AddStr(str, 2);
+    std::vector<chtype> txt(length, ACS_HLINE);
+    AddTxt(txt.data(), txt.size(), 3);
+
+    for (std::size_t i = 0, j = 1; i < mRecs.size(); ++i, ++j)
+    {
+        if (j < 10)
+        {
+            str = " ";
+        }
+        else
+        {
+            str = "";
+        }
+
+        str += std::to_string(j) + ". ";
+        str += mRecs[i++];
+        int size = length - str.length() - mRecs[i].length();
+        str += std::string(size, ' ');
+        str += mRecs[i];
+        AddStr(str, 4 + (i / 2));
+    }
 
     str = "Press END key to exit";
     AddStrToBar(str, 0);
