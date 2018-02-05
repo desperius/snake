@@ -170,9 +170,9 @@
         <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
-        <LibraryPath Value="./lib/"/>
-        <LibraryPath Value="./lib/pdcurses/"/>
-        <LibraryPath Value="./lib/sqlite/"/>
+        <LibraryPath Value="./lib/win/"/>
+        <LibraryPath Value="./lib/win/pdcurses/"/>
+        <LibraryPath Value="./lib/win/sqlite/"/>
         <Library Value="pdcurses"/>
         <Library Value="sqlite3"/>
       </Linker>
@@ -226,9 +226,9 @@
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
-        <LibraryPath Value="./lib/"/>
-        <LibraryPath Value="./lib/pdcurses/"/>
-        <LibraryPath Value="./lib/sqlite/"/>
+        <LibraryPath Value="./lib/win/"/>
+        <LibraryPath Value="./lib/win/pdcurses/"/>
+        <LibraryPath Value="./lib/win/sqlite/"/>
         <Library Value="pdcurses"/>
         <Library Value="sqlite3"/>
       </Linker>
