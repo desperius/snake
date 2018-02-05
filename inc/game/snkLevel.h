@@ -17,9 +17,7 @@ public:
     std::list<snkPoint> GenWall();
     snkPoint GenFood(const std::list<snkPoint>& body, const std::list<snkPoint>& wall);
     void Move(std::list<snkPoint>& wall, std::chrono::milliseconds currTime);
-    int GetWallSpeed();
     int GetLevel();
-    int GetSubLevel();
     void LevelUp();
     void SubLeveUp();
     bool IsWin();

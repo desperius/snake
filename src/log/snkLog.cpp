@@ -6,7 +6,7 @@ snkLog& snkLog::Get()
     return log;
 }
 
-void snkLog::Log(std::string str)
+void snkLog::Log(std::string& str)
 {
     LOG(str);
 }

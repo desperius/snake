@@ -33,7 +33,7 @@ public:
     snkLog& operator=(const snkLog&& that) = delete;
 
     static snkLog& Get();
-    void Log(std::string str);
+    void Log(std::string& str);
 
 private:
     snkLog();

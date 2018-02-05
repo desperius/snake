@@ -36,7 +36,7 @@ void snkDatabase::Connect()
     }
 }
 
-void snkDatabase::Write(std::string nick, int score)
+void snkDatabase::Write(std::string& nick, int score)
 {
     mQuery = "select count(*) from players";
     sqlite3_exec(mDB, mQuery.c_str(), callback, &mCount, &mErrMsg);
@@ -51,7 +51,7 @@ void snkDatabase::Write(std::string nick, int score)
     }
 }
 
-void snkDatabase::Insert(int id, std::string nick, int score)
+void snkDatabase::Insert(int id, std::string& nick, int score)
 {
     /* Inserts record into database */
     mQuery = "insert into players (id, nick, score) values (";
@@ -62,7 +62,7 @@ void snkDatabase::Insert(int id, std::string nick, int score)
     sqlite3_exec(mDB, mQuery.c_str(), callback, nullptr, &mErrMsg);
 }
 
-void snkDatabase::Update(int id, std::string nick, int score)
+void snkDatabase::Update(int id, std::string& nick, int score)
 {
     mQuery = "select id,score from players where score<=";
     mQuery += std::to_string(score) + " order by score asc";

@@ -154,19 +154,9 @@ void snkLevel::Move(std::list<snkPoint>& wall, milliseconds currTime)
     }
 }
 
-int snkLevel::GetWallSpeed()
-{
-    return WALL_SPEED;
-}
-
 int snkLevel::GetLevel()
 {
     return mSubLevel + mLevelNum * 10;
-}
-
-int snkLevel::GetSubLevel()
-{
-    return mSubLevel;
 }
 
 void snkLevel::LevelUp()
