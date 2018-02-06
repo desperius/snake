@@ -25,11 +25,15 @@ public:
     snkConsole& operator= (const snkConsole& that) = delete;
     snkConsole& operator= (const snkConsole&& that) = delete;
 
-    virtual bool Init() = 0;
-    virtual void Close() = 0;
-    virtual void Event() = 0;
-    virtual bool Loop() = 0;
-    virtual void Render() = 0;
+    virtual bool Init();
+    virtual void Close();
+    virtual void Event();
+    virtual bool Loop();
+    virtual void Render();
+
+protected:
+    WINDOW* CreateWin(int h, int w, int y, int x);
+    void DeleteWin(WINDOW* wnd);
 
 protected:
     static const std::string appName;
@@ -38,6 +42,12 @@ protected:
     static const int SCR_W = {WIN_W - 2};
     static const int SCR_H = {WIN_H - 2};
     State mState {State::MENU};
+
+    WINDOW* mWin;
+    WINDOW* mBar;
+    int mKey = {0};
+    std::shared_ptr<snkState> mGameState;
+    bool mIsContinue = {true};
 };
 
 #endif /* _SNK_CONSOLE_H_ */
