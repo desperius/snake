@@ -1,7 +1,13 @@
 #ifndef _SNK_STATE_H_
 #define _SNK_STATE_H_
 
+#ifdef __WIN32__
 #include "pdcurses.h"
+#endif /* __WIN32__ */
+
+#ifdef __linux__
+#include "ncurses.h"
+#endif /* __linux__ */
 
 #include <string>
 #include <vector>

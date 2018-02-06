@@ -1,1 +1,3 @@
-CppCheck error were fixed.
+Linux build fixed. Need to find the way to use shared libraries with executable!
+
+Attention: Using og Windows sqlite header file should to be checked!

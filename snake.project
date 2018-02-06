@@ -71,14 +71,22 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="tuxDebug" CompilerType="mingw-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="overwrite">
-      <Compiler Options="-Wfatal-errors;-pg;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-Wfatal-errors;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
+        <IncludePath Value="./inc/app/"/>
         <IncludePath Value="./inc/log/"/>
         <IncludePath Value="./inc/console/"/>
+        <IncludePath Value="./inc/game/"/>
+        <IncludePath Value="./inc/game/screens/"/>
+        <IncludePath Value="./inc/ncurses/"/>
+        <IncludePath Value="./inc/sqlite/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
-      <Linker Options="-pg;-static" Required="yes"/>
+      <Linker Options="" Required="yes">
+        <Library Value="sqlite3"/>
+        <Library Value="ncurses"/>
+      </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
@@ -117,11 +125,19 @@
       <Compiler Options="-O2;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
+        <IncludePath Value="./inc/app/"/>
         <IncludePath Value="./inc/log/"/>
         <IncludePath Value="./inc/console/"/>
+        <IncludePath Value="./inc/game/"/>
+        <IncludePath Value="./inc/game/screens/"/>
+        <IncludePath Value="./inc/ncurses/"/>
+        <IncludePath Value="./inc/sqlite/"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
-      <Linker Options="-static" Required="yes"/>
+      <Linker Options="" Required="yes">
+        <Library Value="sqlite3"/>
+        <Library Value="ncurses"/>
+      </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./bin/$(ProjectName)" IntermediateDirectory="./build/Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin" PauseExecWhenProcTerminates="no" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
