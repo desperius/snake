@@ -18,6 +18,12 @@ const std::string snkConsole::appName = "Snake";
 
 bool snkConsole::Init()
 {
+    /* Stop if another instance of app is already opened */
+    if (!mIsContinue)
+    {
+        return false;
+    }
+
     /* Initialize the terminal in pdcurses mode */
     if (initscr() == nullptr)
     {

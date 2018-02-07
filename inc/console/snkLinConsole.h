@@ -21,7 +21,7 @@ public:
     virtual ~snkLinConsole();
 
 private:
-    int mSocket = { -1};
+    int mSocket = {-1};
     int mRC = {1};
 };
 
