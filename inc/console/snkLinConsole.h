@@ -17,15 +17,12 @@
 class snkLinConsole : public snkConsole
 {
 public:
-   snkLinConsole();
-   virtual ~snkLinConsole();
-
-   bool Init() override;
-   void Close() override;
+    snkLinConsole();
+    virtual ~snkLinConsole();
 
 private:
-   int mSocket { -1};
-   int mRC {1};
+    int mSocket = { -1};
+    int mRC = {1};
 };
 
 #endif /* __linux__ */

@@ -1,1 +1,1 @@
-CppCheck error were fixed.
+Cross-platform code refactoring was made. And copying script was changed to overwrite files.
