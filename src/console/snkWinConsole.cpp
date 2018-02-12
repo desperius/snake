@@ -32,7 +32,6 @@ snkWinConsole::snkWinConsole()
 
     SetConsoleTitle(appName.c_str());
 }
-
 snkWinConsole::~snkWinConsole()
 {
     /* Close Windows mutex */

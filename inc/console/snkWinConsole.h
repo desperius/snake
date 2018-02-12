@@ -22,7 +22,7 @@ public:
     virtual ~snkWinConsole();
 
 private:
-    HANDLE mMutex {nullptr};
+    HANDLE mMutex = {nullptr};
 };
 
 #endif /* __WIN32__ */

@@ -1,1 +1,1 @@
-Using of system libraries for build under Linux was implemented.
+Cross-platform code refactoring was made. And copying script was changed to overwrite files.
