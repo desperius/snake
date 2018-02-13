@@ -158,7 +158,6 @@
     </Configuration>
     <Configuration Name="winDebug" CompilerType="mingw-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
       <Compiler Options="-Wfatal-errors;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
-        <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
         <IncludePath Value="./inc/app/"/>
         <IncludePath Value="./inc/log/"/>
@@ -170,9 +169,9 @@
         <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
-        <LibraryPath Value="./lib/win/"/>
-        <LibraryPath Value="./lib/win/pdcurses/"/>
-        <LibraryPath Value="./lib/win/sqlite/"/>
+        <LibraryPath Value="./lib/"/>
+        <LibraryPath Value="./lib/pdcurses/"/>
+        <LibraryPath Value="./lib/sqlite/"/>
         <Library Value="pdcurses"/>
         <Library Value="sqlite3"/>
       </Linker>
@@ -226,9 +225,9 @@
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
-        <LibraryPath Value="./lib/win/"/>
-        <LibraryPath Value="./lib/win/pdcurses/"/>
-        <LibraryPath Value="./lib/win/sqlite/"/>
+        <LibraryPath Value="./lib/"/>
+        <LibraryPath Value="./lib/pdcurses/"/>
+        <LibraryPath Value="./lib/sqlite/"/>
         <Library Value="pdcurses"/>
         <Library Value="sqlite3"/>
       </Linker>

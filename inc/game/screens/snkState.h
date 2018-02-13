@@ -1,11 +1,17 @@
 #ifndef _SNK_STATE_H_
 #define _SNK_STATE_H_
 
-#include "pdcurses.h"
-
 #include <string>
 #include <vector>
 #include <chrono>
+
+#ifdef __WIN32__
+#include "pdcurses.h"
+#endif /* __WIN32__ */
+
+#ifdef __linux__
+#include <ncurses.h>
+#endif /* __linux__ */
 
 enum class State : int
 {

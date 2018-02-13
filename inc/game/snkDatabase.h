@@ -4,7 +4,13 @@
 #include <vector>
 #include <string>
 
+#ifdef __WIN32__
 #include "sqlite3.h"
+#endif /* __WIN32__ */
+
+#ifdef __linux__
+#include <sqlite3.h>
+#endif /* __linux__ */
 
 class snkDatabase
 {
