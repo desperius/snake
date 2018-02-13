@@ -79,8 +79,6 @@
         <IncludePath Value="./inc/console/"/>
         <IncludePath Value="./inc/game/"/>
         <IncludePath Value="./inc/game/screens/"/>
-        <IncludePath Value="./inc/ncurses/"/>
-        <IncludePath Value="./inc/sqlite/"/>
         <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
@@ -130,8 +128,6 @@
         <IncludePath Value="./inc/console/"/>
         <IncludePath Value="./inc/game/"/>
         <IncludePath Value="./inc/game/screens/"/>
-        <IncludePath Value="./inc/ncurses/"/>
-        <IncludePath Value="./inc/sqlite/"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
@@ -186,9 +182,9 @@
         <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
-        <LibraryPath Value="./lib/win/"/>
-        <LibraryPath Value="./lib/win/pdcurses/"/>
-        <LibraryPath Value="./lib/win/sqlite/"/>
+        <LibraryPath Value="./lib/"/>
+        <LibraryPath Value="./lib/pdcurses/"/>
+        <LibraryPath Value="./lib/sqlite/"/>
         <Library Value="pdcurses"/>
         <Library Value="sqlite3"/>
       </Linker>
@@ -242,9 +238,9 @@
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
-        <LibraryPath Value="./lib/win/"/>
-        <LibraryPath Value="./lib/win/pdcurses/"/>
-        <LibraryPath Value="./lib/win/sqlite/"/>
+        <LibraryPath Value="./lib/"/>
+        <LibraryPath Value="./lib/pdcurses/"/>
+        <LibraryPath Value="./lib/sqlite/"/>
         <Library Value="pdcurses"/>
         <Library Value="sqlite3"/>
       </Linker>
