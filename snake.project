@@ -170,7 +170,6 @@
     </Configuration>
     <Configuration Name="winDebug" CompilerType="mingw-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="append">
       <Compiler Options="-Wfatal-errors;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
-        <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
         <IncludePath Value="./inc/app/"/>
         <IncludePath Value="./inc/log/"/>
