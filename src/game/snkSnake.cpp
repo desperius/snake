@@ -1,3 +1,12 @@
+/**
+ * @file      snkState.cpp
+ * @brief     Contains implementation of class for snake management.
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      15/02/2018
+ * @copyright GNU Public License
+ */
+
 #include "snkSnake.h"
 #include <algorithm>
 
@@ -147,6 +156,36 @@ void snkSnake::SetDir(Dir dir)
     }
 }
 
+int snkSnake::GetSpeed()
+{
+    return mSpeed;
+}
+
+void snkSnake::SetSpeed(int speed)
+{
+    mSpeed = speed;
+}
+
+std::list<snkPoint> snkSnake::GetBody()
+{
+    return mBody;
+}
+
+bool snkSnake::IsGameOver()
+{
+    return mGameOver;
+}
+
+bool snkSnake::GetIsFed()
+{
+    return mIsFed;
+}
+
+void snkSnake::SetIsFed(bool isFed)
+{
+    mIsFed = isFed;
+}
+
 void snkSnake::Reset()
 {
     int cx = mW / 2 + 6;
@@ -160,4 +199,9 @@ void snkSnake::Reset()
     mDir = {Dir::UP};
     mGameOver = false;
     mIsFed = false;
+}
+
+void snkSnake::ResetSpeed()
+{
+    mSpeed = INIT_SPEED;
 }

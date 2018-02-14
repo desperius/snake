@@ -1,3 +1,12 @@
+/**
+ * @file      snkMenu.cpp
+ * @brief     Contains implementation of class for main menu.
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      16/02/2018
+ * @copyright GNU Public License
+ */
+
 #include "snkMenu.h"
 
 void snkMenu::Init(int w, int h)

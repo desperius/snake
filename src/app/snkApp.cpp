@@ -1,5 +1,13 @@
+/**
+ * @file      snkApp.cpp
+ * @brief     Contains implementation for main game class.
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      14.02.2018
+ * @copyright GNU Public License
+ */
+
 #include "snkApp.h"
-#include "snkLog.h"
 
 snkApp::snkApp()
 {
@@ -10,28 +18,18 @@ snkApp::snkApp()
     mConsole = std::unique_ptr<snkConsole>(new snkLinConsole());
 #endif
 
-    /* If we didn't create a console window at all */
+    /* We didn't create a console window at all */
     if (nullptr == mConsole)
     {
         throw;
     }
 }
 
-bool snkApp::Init()
-{
-    if (false == mConsole->Init())
-    {
-        return false;
-    }
-
-    return true;
-}
-
 int snkApp::Run()
 {
     if (false == Init())
     {
-        return -1;
+        return EXIT_FAILURE;
     }
 
     while (mRunning)
@@ -43,7 +41,12 @@ int snkApp::Run()
 
     Close();
 
-    return 0;
+    return EXIT_SUCCESS;
+}
+
+bool snkApp::Init()
+{
+    return mConsole->Init();
 }
 
 void snkApp::Event()

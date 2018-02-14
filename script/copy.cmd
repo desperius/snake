@@ -1,1 +1,1 @@
-xcopy .\dll\*.dll .\bin\ /d
+xcopy .\dll\*.dll .\bin\ /d /y

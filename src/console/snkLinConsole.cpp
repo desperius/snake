@@ -1,10 +1,10 @@
 /**
- *   @file      snkLinConsole.cpp
- *   @brief     Contains implementation of class for console window system for Linux OS
- *   @author    Alexander Orel (desperius@gmail.com)
- *   @version   1.0
- *   @date      26.10.2016
- *   @copyright GNU Public License
+ * @file      snkLinConsole.cpp
+ * @brief     Contains implementation of class for platform specific console window for Linux
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      15/02/2018
+ * @copyright GNU Public License
  */
 
 #ifdef __linux__

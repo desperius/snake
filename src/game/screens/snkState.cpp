@@ -1,3 +1,12 @@
+/**
+ * @file      snkState.cpp
+ * @brief     Contains implementation of base class for game state.
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      15/02/2018
+ * @copyright GNU Public License
+ */
+
 #include "snkState.h"
 
 const snkField& snkState::GetGameField()
@@ -31,6 +40,7 @@ void snkState::Construct(int w, int h)
 
 void snkState::ClearBuf()
 {
+    /* Clear game field */
     for (int i = 0; i < mH; ++i)
     {
         for (int j = 0; j < mW; ++j)
@@ -42,9 +52,11 @@ void snkState::ClearBuf()
         mBuf[i][mW].mSym = '\0';
     }
 
+    /* Clear status bar */
     for (int j = 0; j < mW; ++j)
     {
         mBar[0][j].mSym = ' ';
+        mBar[0][j].mCol = WHT_BLACK;
     }
 
     mBar[0][mW].mSym = '\0';

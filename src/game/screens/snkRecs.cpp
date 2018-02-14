@@ -1,3 +1,12 @@
+/**
+ * @file      snkRecs.h
+ * @brief     Contains implementation of class for display of records table.
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      16/02/2018
+ * @copyright GNU Public License
+ */
+
 #include "snkRecs.h"
 
 #include <algorithm>
@@ -47,19 +56,20 @@ void snkRecs::Refresh()
 
     for (std::size_t i = 0, j = 1; i < mRecs.size(); ++i, ++j)
     {
-        if (j < 10)
-        {
-            str = " ";
-        }
-        else
-        {
-            str = "";
-        }
+        /* Indent for numbers less then ten */
+        str = j < 10 ? " " : "";
 
+        /* Add point to number */
         str += std::to_string(j) + ". ";
+
+        /* Add player's nickname */
         str += mRecs[i++];
+
+        /* Align by nickname and fill with spaces */
         int size = length - str.length() - mRecs[i].length();
         str += std::string(size, ' ');
+
+        /* Add score */
         str += mRecs[i];
         AddStr(str, 4 + (i / 2));
     }
