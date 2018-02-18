@@ -1,3 +1,12 @@
+/**
+ * @file      snkNick.cpp
+ * @brief     Contains implementation of class for input nickname screen.
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      16/02/2018
+ * @copyright GNU Public License
+ */
+
 #include "snkNick.h"
 #include <ctype.h>
 

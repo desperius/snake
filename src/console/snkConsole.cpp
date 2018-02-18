@@ -1,10 +1,10 @@
 /**
- *   @file      snkConsole.cpp
- *   @brief     Contains implementation of base class for console window system
- *   @author    Alexander Orel (desperius@gmail.com)
- *   @version   1.0
- *   @date      08.09.2016
- *   @copyright GNU Public License
+ * @file      snkConsole.cpp
+ * @brief     Contains implementation of base class for console window system
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      15/02/2018
+ * @copyright GNU Public License
  */
 
 #include "snkConsole.h"
@@ -18,6 +18,7 @@ const std::string snkConsole::appName = "Snake";
 
 bool snkConsole::Init()
 {
+    /* Stop if another instance of app is already opened */
     if (!mIsContinue)
     {
         return false;
@@ -60,19 +61,6 @@ bool snkConsole::Init()
     mGameState->Init(SCR_W, SCR_H);
 
     return true;
-}
-
-void snkConsole::Close()
-{
-    /* Make cursor visible */
-    curs_set(1);
-
-    /* Delete all windows */
-    DeleteWin(mBar);
-    DeleteWin(mWin);
-
-    /* End pdcurses mode */
-    endwin();
 }
 
 void snkConsole::Event()
@@ -152,6 +140,19 @@ void snkConsole::Render()
     }
 
     wrefresh(mBar);
+}
+
+void snkConsole::Close()
+{
+    /* Make cursor visible */
+    curs_set(1);
+
+    /* Delete all windows */
+    DeleteWin(mBar);
+    DeleteWin(mWin);
+
+    /* End pdcurses mode */
+    endwin();
 }
 
 WINDOW* snkConsole::CreateWin(int h, int w, int y, int x)

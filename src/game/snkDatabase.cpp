@@ -1,3 +1,12 @@
+/**
+ * @file      snkDatabase.h
+ * @brief     Contains implementation of class for work with SQL database.
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      16/02/2018
+ * @copyright GNU Public License
+ */
+
 #include "snkDatabase.h"
 
 #include <stdlib.h>
@@ -49,6 +58,48 @@ void snkDatabase::Write(std::string& nick, int score)
     {
         Update(mCount, nick, score);
     }
+}
+
+void snkDatabase::Close()
+{
+    sqlite3_close(mDB);
+}
+
+std::vector<std::string> snkDatabase::GetTable()
+{
+    std::vector<std::string> recs;
+
+    mQuery = "select nick,score from players order by score desc";
+
+    sqlite3_stmt* statement = nullptr;
+    int rc = sqlite3_prepare(mDB, mQuery.c_str(), -1, &statement, 0);
+    std::string str_id;
+
+    if (rc == SQLITE_OK)
+    {
+        int total = sqlite3_column_count(statement);
+
+        while (true)
+        {
+            rc = sqlite3_step(statement);
+
+            if (rc == SQLITE_ROW)
+            {
+                for (int i = 0; i < total; ++i)
+                {
+                    std::string str = reinterpret_cast<const char*>(sqlite3_column_text(statement, i));
+                    recs.push_back(str);
+                }
+            }
+
+            if (rc == SQLITE_DONE || rc == SQLITE_ERROR)
+            {
+                break;
+            }
+        }
+    }
+
+    return recs;
 }
 
 void snkDatabase::Insert(int id, std::string& nick, int score)
@@ -106,46 +157,4 @@ void snkDatabase::Update(int id, std::string& nick, int score)
             sqlite3_finalize(statement);
         }
     }
-}
-
-void snkDatabase::Close()
-{
-    sqlite3_close(mDB);
-}
-
-std::vector<std::string> snkDatabase::GetTable()
-{
-    std::vector<std::string> recs;
-
-    mQuery = "select nick,score from players order by score desc";
-
-    sqlite3_stmt* statement = nullptr;
-    int rc = sqlite3_prepare(mDB, mQuery.c_str(), -1, &statement, 0);
-    std::string str_id;
-
-    if (rc == SQLITE_OK)
-    {
-        int total = sqlite3_column_count(statement);
-
-        while (true)
-        {
-            rc = sqlite3_step(statement);
-
-            if (rc == SQLITE_ROW)
-            {
-                for (int i = 0; i < total; ++i)
-                {
-                    std::string str = reinterpret_cast<const char*>(sqlite3_column_text(statement, i));
-                    recs.push_back(str);
-                }
-            }
-
-            if (rc == SQLITE_DONE || rc == SQLITE_ERROR)
-            {
-                break;
-            }
-        }
-    }
-
-    return recs;
 }

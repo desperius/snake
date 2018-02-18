@@ -1,9 +1,9 @@
 /**
  *   @file      snkLog.h
- *   @brief     File contains class and macros for debugging output
+ *   @brief     Contains class and macros for debugging output
  *   @author    Alexander Orel (desperius@gmail.com)
  *   @version   1.0
- *   @date      20.12.2017
+ *   @date      17/02/2018
  *   @copyright GNU Public License
  */
 
@@ -24,6 +24,10 @@
 #define LOG(x)
 #endif /* DEBUG */
 
+/**
+ * @class snkLog
+ * @brief Implements supporting functionality for log output.
+ */
 class snkLog
 {
 public:
@@ -32,7 +36,16 @@ public:
     snkLog& operator=(const snkLog& that) = delete;
     snkLog& operator=(const snkLog&& that) = delete;
 
+    /**
+     * @brief Gets instance of the class.
+     * @return Reference to object.
+     */
     static snkLog& Get();
+    
+    /**
+     * @brief Writes log string into output file.
+     * @param[in] str Text which should be logged.
+     */
     void Log(std::string& str);
 
 private:
@@ -40,7 +53,7 @@ private:
     ~snkLog();
 
 private:
-    std::ofstream mLog;
+    std::ofstream mLog; //! Handle of file for log output
 };
 
 #endif /* _SNK_LOG_H_ */

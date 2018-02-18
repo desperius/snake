@@ -1,10 +1,10 @@
 /**
- *   @file      snkWinConsole.cpp
- *   @brief     Contains implementation of class for console window system for Windows OS
- *   @author    Alexander Orel (desperius@gmail.com)
- *   @version   1.0
- *   @date      12.09.2016
- *   @copyright GNU Public License
+ * @file      snkWinConsole.cpp
+ * @brief     Contains implementation of class for platform specific console window for Windows
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      15/02/2018
+ * @copyright GNU Public License
  */
 
 #ifdef __WIN32__
@@ -31,9 +31,7 @@ snkWinConsole::snkWinConsole()
     }
 
     SetConsoleTitle(appName.c_str());
-
 }
-
 snkWinConsole::~snkWinConsole()
 {
     /* Close Windows mutex */
