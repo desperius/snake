@@ -3,7 +3,7 @@
  * @brief     Contains base class for console window.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      14/02/2018
+ * @date      21/12/2018
  * @copyright GNU Public License
  */
 
@@ -34,28 +34,28 @@ public:
      * @brief  Initializes needed resources.
      * @return True if an operation is success.
      */
-    virtual bool Init();
+    bool Init();
 
     /**
      * @brief Handles input events.
      */
-    virtual void Event();
+    void Event();
 
     /**
      * @brief  Handles all game's data updates.
      * @return False if game is finished.
      */
-    virtual bool Loop();
+    bool Loop();
 
     /**
      * @brief Handles the rendering processes.
      */
-    virtual void Render();
+    void Render();
 
     /**
      * @brief Clean ups and releases resources.
      */
-    virtual void Close();
+    void Close();
 
 protected:
     /**
