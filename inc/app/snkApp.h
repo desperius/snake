@@ -41,33 +41,6 @@ public:
     int  Run();
 
 private:
-    /**
-     * @brief  Initializes needed resources.
-     * @return True if an operation is succeess.
-     */
-    bool Init();
-
-    /**
-     * @brief Handles input events.
-     */
-    void Event();
-
-    /**
-     * @brief Handles all game's data updates.
-     */
-    void Loop();
-
-    /**
-     * @brief Handles the rendering processes.
-     */
-    void Render();
-
-    /**
-     * @brief Clean ups and releases recourses.
-     */
-    void Close();
-
-private:
     std::unique_ptr<snkConsole> mConsole;   //! Pointer to appropriate console window
     bool mRunning = {true};                 //! Signalizes is game still running
 };

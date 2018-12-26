@@ -24,31 +24,32 @@ bool snkConsole::Init()
         return false;
     }
 
-    /* Initialize the terminal in pdcurses mode */
+    /* Initializes the terminal in pdcurses mode */
     if (initscr() == nullptr)
     {
         return false;
     }
 
+    /* Checks multicolor mode support */
     if (has_colors() == false)
     {
         return false;
     }
 
-    /* Init color mode and make color pairs */
+    /* Initializes multicolor mode and creates color pairs */
     start_color();
     init_pair(WHT_BLACK, COLOR_WHITE, COLOR_BLACK);
     init_pair(RED_BLACK, COLOR_RED, COLOR_BLACK);
     init_pair(GRN_BLACK, COLOR_GREEN, COLOR_BLACK);
     init_pair(BLU_BLACK, COLOR_CYAN, COLOR_BLACK);
 
-    /* Create game field */
+    /* Creates game field */
     mWin = CreateWin(WIN_H, WIN_W, 0, 0);
 
-    /* Create bar for score and level mark */
+    /* Creates bar for score and level mark */
     mBar = CreateWin(3, WIN_W, WIN_H, 0);
 
-    /* Make cursor invisible */
+    /* Makes cursor invisible */
     curs_set(0);
 
     /* Curses preparations */
@@ -56,7 +57,7 @@ bool snkConsole::Init()
     keypad(mWin, TRUE);
     noecho();
 
-    /* Create pointer for game state */
+    /* Creates pointer for game state */
     mGameState = std::make_shared<snkMenu>();
     mGameState->Init(SCR_W, SCR_H);
 

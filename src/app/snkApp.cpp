@@ -3,7 +3,7 @@
  * @brief     Contains implementation for main game class.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      14.02.2018
+ * @date      26.12.2018
  * @copyright GNU Public License
  */
 
@@ -27,44 +27,20 @@ snkApp::snkApp()
 
 int snkApp::Run()
 {
-    if (false == Init())
+    if (false == mConsole->Init())
     {
         return EXIT_FAILURE;
     }
 
+    /* Starting game loop */
     while (mRunning)
     {
-        Event();
-        Loop();
-        Render();
+        mConsole->Event();
+        mRunning = mConsole->Loop();
+        mConsole->Render();
     }
 
-    Close();
+    mConsole->Close();
 
     return EXIT_SUCCESS;
-}
-
-bool snkApp::Init()
-{
-    return mConsole->Init();
-}
-
-void snkApp::Event()
-{
-    mConsole->Event();
-}
-
-void snkApp::Loop()
-{
-    mRunning = mConsole->Loop();
-}
-
-void snkApp::Render()
-{
-    mConsole->Render();
-}
-
-void snkApp::Close()
-{
-    mConsole->Close();
 }
