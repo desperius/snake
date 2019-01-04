@@ -9,17 +9,17 @@
 
 #include "snkState.h"
 
-const snkField& snkState::GetGameField()
+const snkField& snkState::GetGameField() const
 {
     return mBuf;
 }
 
-const snkField& snkState::GetScoreField()
+const snkField& snkState::GetScoreField() const
 {
     return mBar;
 }
 
-std::string snkState::GetNickname()
+std::string snkState::GetNickname() const
 {
     return mNickname;
 }

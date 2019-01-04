@@ -115,19 +115,19 @@ public:
      * @brief Returns array of game field points.
      * @return Reference to two dimensional vector.
      */
-    const snkField& GetGameField();
+    const snkField& GetGameField() const;
 
     /**
      * @brief Returns array of status bar points.
      * @return Reference to two dimensional vector.
      */
-    const snkField& GetScoreField();
+    const snkField& GetScoreField() const;
 
     /**
      * @brief Returns player's nickname.
      * @return String with a nickname.
      */
-    std::string GetNickname();
+    std::string GetNickname() const;
 
     /**
      * @brief Sets player's nickname.
