@@ -46,18 +46,20 @@ void snkRecs::Refresh()
 {
     ClearBuf();
 
-    std::string str = "RECORDS TABLE";
-    AddStr(str, 0);
-    str = " #  Nickname      Score";
-    int length = str.length();
-    AddStr(str, 2);
-    std::vector<chtype> txt(length, ACS_HLINE);
-    AddTxt(txt.data(), txt.size(), 3);
-
+    AddStrToBuf(to_snk_string("RECORDS TABLE"), 0);
+    
+    snkString txt = to_snk_string(" #  Nickname      Score");
+    AddStrToBuf(txt, 2);
+    
+    int length = txt.length();
+    
+    txt = snkString(length, ACS_HLINE);
+    AddStrToBuf(txt, 3);
+    
     for (std::size_t i = 0, j = 1; i < mRecs.size(); ++i, ++j)
     {
         /* Indent for numbers less then ten */
-        str = j < 10 ? " " : "";
+        std::string str = j < 10 ? " " : "";
 
         /* Add point to number */
         str += std::to_string(j) + ". ";
@@ -71,9 +73,8 @@ void snkRecs::Refresh()
 
         /* Add score */
         str += mRecs[i];
-        AddStr(str, 4 + (i / 2));
+        AddStrToBuf(to_snk_string(str), 4 + (i / 2));
     }
 
-    str = "Press END key to exit";
-    AddStrToBar(str, 0);
+    AddStrToBar(to_snk_string("Press END key to exit"), 0);
 }

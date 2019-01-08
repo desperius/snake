@@ -3,7 +3,7 @@
  * @brief     Contains class for input nickname screen.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      16/02/2018
+ * @date      08/01/2019
  * @copyright GNU Public License
  */
 
@@ -47,9 +47,9 @@ private:
      * @param[in] l Symbol for left side of frame.
      * @param[in] m Symbol for middle side of frame.
      * @param[in] r Symbol for right side of frame.
-     * @return Final vector of frame.
+     * @return Final snkString of frame.
      */
-    std::vector<chtype> GenLine(chtype l, chtype m, chtype r);
+    snkString GenLine(chtype l, chtype m, chtype r);
 
 private:
     static const int MAX_NICK_SIZE = 10; //! Maximal length of player's nickname

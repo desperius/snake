@@ -3,7 +3,7 @@
  * @brief     Contains base class for game state.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      15/02/2018
+ * @date      08/01/2019
  * @copyright GNU Public License
  */
 
@@ -75,6 +75,9 @@ struct snkPoint
 };
 
 typedef std::vector<std::vector<snkPoint>> snkField;
+typedef std::basic_string<chtype> snkString;
+
+snkString to_snk_string(std::string txt);
 
 /**
  * @class snkState
@@ -154,16 +157,7 @@ protected:
      * @param[in] row Row position where text need to be placed.
      * @param[in] col Column position where text need to be placed.
      */
-    void AddStr(const std::string& text, int row, int col = 0);
-
-    /**
-     * @brief Adds null-terminated string to game field.
-     * @param[in] text Text which need to be printed.
-     * @param[in] size Length of the input string.
-     * @param[in] row Row position where text need to be placed.
-     * @param[in] col Column position where text need to be placed.
-     */
-    void AddTxt(const chtype* text, int size, int row, int col = 0);
+    void AddStrToBuf(const snkString& text, int row, int col = 0);
 
     /**
      * @brief Adds STL string to status bar.
@@ -171,16 +165,18 @@ protected:
      * @param[in] row Row position where text need to be placed.
      * @param[in] col Column position where text need to be placed.
      */
-    void AddStrToBar(const std::string& text, int row, int col = 0);
-
+    void AddStrToBar(const snkString& text, int row, int col = 0);
+    
+private:
     /**
-     * @brief Adds null-terminated string to status bar.
+     * @brief Adds null-terminated string to the field.
+     * @param[in] buf Buffer in which string should be added.
      * @param[in] text Text which need to be printed.
      * @param[in] size Length of the input string.
      * @param[in] row Row position where text need to be placed.
      * @param[in] col Column position where text need to be placed.
      */
-    void AddTxtToBar(const chtype* text, int size, int row, int col = 0);
+    void AddTxt(snkField& buf, const chtype* text, int size, int row, int col = 0);
 
 protected:
     snkField mBuf;         //! Two dimensional vector for game field points

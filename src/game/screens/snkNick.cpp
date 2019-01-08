@@ -3,7 +3,7 @@
  * @brief     Contains implementation of class for input nickname screen.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      16/02/2018
+ * @date      08/01/2019
  * @copyright GNU Public License
  */
 
@@ -73,8 +73,7 @@ void snkNick::Refresh()
 {
     ClearBuf();
 
-    std::string str = "Enter Your Nickname";
-    AddStr(str, 0);
+    AddStrToBuf(to_snk_string("Enter Your Nickname"), 0);
 
     /* Create frame for nickname input field */
     chtype ulc = ACS_ULCORNER;
@@ -84,30 +83,26 @@ void snkNick::Refresh()
     chtype llc = ACS_LLCORNER;
     chtype lrc = ACS_LRCORNER;
 
-    int fieldPos = 3;
-    std::vector<chtype> line;
+    const int fieldPos = 3;
 
     /* Top of nickname frame */
-    line = GenLine(ulc, hln, urc);
-    AddTxt(line.data(), line.size(), fieldPos - 1);
+    AddStrToBuf(GenLine(ulc, hln, urc), fieldPos - 1);
 
     /* Middle of nickname frame */
-    line = GenLine(vln, ' ', vln);
-    AddTxt(line.data(), line.size(), fieldPos);
+    AddStrToBuf(GenLine(vln, ' ', vln), fieldPos);
 
     /* Bottom of nickname frame */
-    line = GenLine(llc, hln, lrc);
-    AddTxt(line.data(), line.size(), fieldPos + 1);
+    AddStrToBuf(GenLine(llc, hln, lrc), fieldPos + 1);
+    
+    const int col = (mW / 2) - ((MAX_NICK_SIZE + 2) / 2) + 1;
+    AddStrToBuf(to_snk_string(mNickname), fieldPos, col);
 
-    AddStr(mNickname, fieldPos, (mW / 2) - (line.size() / 2) + 1);
-
-    str = "Press END key to exit";
-    AddStrToBar(str, 0);
+    AddStrToBar(to_snk_string("Press END key to exit"), 0);
 }
 
-std::vector<chtype> snkNick::GenLine(chtype l, chtype m, chtype r)
+snkString snkNick::GenLine(chtype l, chtype m, chtype r)
 {
-    std::vector<chtype> line(MAX_NICK_SIZE + 2);
+    snkString line(MAX_NICK_SIZE + 2, ' ');
 
     line[0] = l;
 

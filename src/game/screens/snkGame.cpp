@@ -3,7 +3,7 @@
  * @brief     Contains implementation of class for actual game logic.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      15/02/2018
+ * @date      08/01/2019
  * @copyright GNU Public License
  */
 
@@ -41,11 +41,11 @@ State snkGame::Update(int key)
 
     if (mLevel.IsWin())
     {
-        AddStr("+     +   +   +     +", mH / 2 - 2);
-        AddStr("+     +   +   + +   +", mH / 2 - 1);
-        AddStr("+  +  +   +   +  +  +", mH / 2);
-        AddStr("+  +  +   +   +   + +", mH / 2 + 1);
-        AddStr(" +   +    +   +     +", mH / 2 + 2);
+        AddStrToBuf(to_snk_string("+     +   +   +     +"), mH / 2 - 2);
+        AddStrToBuf(to_snk_string("+     +   +   + +   +"), mH / 2 - 1);
+        AddStrToBuf(to_snk_string("+  +  +   +   +  +  +"), mH / 2);
+        AddStrToBuf(to_snk_string("+  +  +   +   +   + +"), mH / 2 + 1);
+        AddStrToBuf(to_snk_string(" +   +    +   +     +"), mH / 2 + 2);
 
         if ('\n' == key || '\r' == key)
         {
@@ -63,8 +63,8 @@ State snkGame::Update(int key)
 
     if (mIsStart)
     {
-        AddStr("LEVEL " + std::to_string(mLevel.GetLevel()), mH / 2 - 1);
-        AddStr("Press Enter to start", mH / 2 + 1);
+        AddStrToBuf(to_snk_string("LEVEL " + std::to_string(mLevel.GetLevel())), mH / 2 - 1);
+        AddStrToBuf(to_snk_string("Press Enter to start"), mH / 2 + 1);
 
         if ('\n' == key || '\r' == key)
         {
@@ -138,11 +138,8 @@ void snkGame::Refresh()
 {
     if (mSnake.IsGameOver())
     {
-        std::string str = "GAME OVER";
-        AddStr(str, mH / 2 - 1);
-
-        str = "Press END key to exit!";
-        AddStr(str, mH / 2 + 1);
+        AddStrToBuf(to_snk_string("GAME OVER"), mH / 2 - 1);
+        AddStrToBuf(to_snk_string("Press END key to exit!"), mH / 2 + 1);
     }
     else
     {
@@ -209,5 +206,5 @@ void snkGame::Refresh()
     bar += std::to_string(mScore);
     bar += std::string("   Level: ");
     bar += std::to_string(mLevel.GetLevel());
-    AddStrToBar(bar, 0);
+    AddStrToBar(to_snk_string(bar), 0);
 }

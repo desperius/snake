@@ -3,11 +3,16 @@
  * @brief     Contains implementation of base class for game state.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      15/02/2018
+ * @date      08/01/2019
  * @copyright GNU Public License
  */
 
 #include "snkState.h"
+
+snkString to_snk_string(std::string txt)
+{
+    return {txt.begin(), txt.end()};
+}
 
 const snkField& snkState::GetGameField() const
 {
@@ -62,14 +67,17 @@ void snkState::ClearBuf()
     mBar[0][mW].mSym = '\0';
 }
 
-void snkState::AddStr(const std::string& text, int row, int col)
+void snkState::AddStrToBuf(const snkString& text, int row, int col)
 {
-    std::vector<chtype> data(text.begin(), text.end());
-
-    AddTxt(data.data(), data.size(), row, col);
+    AddTxt(mBuf, text.data(), text.size(), row, col);
 }
 
-void snkState::AddTxt(const chtype* text, int size, int row, int col)
+void snkState::AddStrToBar(const snkString& text, int row, int col)
+{
+    AddTxt(mBar, text.data(), text.size(), row, col);
+}
+
+void snkState::AddTxt(snkField& buf, const chtype* text, int size, int row, int col)
 {
     int pos = 0;
 
@@ -84,33 +92,7 @@ void snkState::AddTxt(const chtype* text, int size, int row, int col)
 
     for (int i = 0; i < size; ++i)
     {
-        mBuf[row][pos + i].mSym = text[i];
-        mBuf[row][pos + i].mCol = WHT_BLACK;
-    }
-}
-
-void snkState::AddStrToBar(const std::string& text, int row, int col)
-{
-    std::vector<chtype> data(text.begin(), text.end());
-
-    AddTxtToBar(data.data(), data.size(), row, col);
-}
-
-void snkState::AddTxtToBar(const chtype* text, int size, int row, int col)
-{
-    int pos = 0;
-
-    if (0 == col)
-    {
-        pos = (mW - size) / 2;
-    }
-    else
-    {
-        pos = col;
-    }
-
-    for (int i = 0; i < size; ++i)
-    {
-        mBar[row][pos + i].mSym = text[i];
+        buf[row][pos + i].mSym = text[i];
+        buf[row][pos + i].mCol = WHT_BLACK;
     }
 }

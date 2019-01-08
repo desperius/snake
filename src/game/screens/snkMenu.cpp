@@ -3,7 +3,7 @@
  * @brief     Contains implementation of class for main menu.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      16/02/2018
+ * @date      08/01/2019
  * @copyright GNU Public License
  */
 
@@ -75,8 +75,7 @@ void snkMenu::Refresh()
 {
     ClearBuf();
 
-    std::string str = "S N A K E";
-    AddStr(str, 0);
+    AddStrToBuf(to_snk_string("S N A K E"), 0);
 
     /* Create frame for menu item */
     chtype ulc = ACS_ULCORNER;
@@ -86,40 +85,35 @@ void snkMenu::Refresh()
     chtype llc = ACS_LLCORNER;
     chtype lrc = ACS_LRCORNER;
 
-    std::vector<chtype> txt = {ulc, hln, hln, hln, hln, hln, hln, hln, urc};
-    AddTxt(txt.data(), txt.size(), static_cast<int>(mActive) - 1);
+    snkString txt = {ulc, hln, hln, hln, hln, hln, hln, hln, urc};
+    AddStrToBuf(txt, static_cast<int>(mActive) - 1);
 
     txt = {vln, ' ', ' ', ' ', ' ', ' ', ' ', ' ', vln};
-    AddTxt(txt.data(), txt.size(), static_cast<int>(mActive));
+    AddStrToBuf(txt, static_cast<int>(mActive));
 
     txt = {llc, hln, hln, hln, hln, hln, hln, hln, lrc};
-    AddTxt(txt.data(), txt.size(), static_cast<int>(mActive) + 1);
+    AddStrToBuf(txt, static_cast<int>(mActive) + 1);
 
     /* Create menu items */
-    str = "START";
-    AddStr(str, static_cast<int>(State::GAME));
+    AddStrToBuf(to_snk_string("START"), static_cast<int>(State::GAME));
+    AddStrToBuf(to_snk_string("RECORDS"), static_cast<int>(State::RECS));
+    AddStrToBuf(to_snk_string("EXIT!"), static_cast<int>(State::EXIT));
 
-    str = "RECORDS";
-    AddStr(str, static_cast<int>(State::RECS));
-
-    str = "EXIT!";
-    AddStr(str, static_cast<int>(State::EXIT));
-
-    str = "version ";
-    str += std::to_string(MAJOR) + ".";
-    str += std::to_string(MINOR);
-    AddStr(str, mH - 1);
+    std::string ver = "version ";
+    ver += std::to_string(MAJOR) + ".";
+    ver += std::to_string(MINOR);
+    AddStrToBuf(to_snk_string(ver), mH - 1);
 
     if (State::GAME == mActive)
     {
-        AddStrToBar(std::string("Starts a new game"), 0);
+        AddStrToBar(to_snk_string("Starts a new game"), 0);
     }
     else if (State::RECS == mActive)
     {
-        AddStrToBar(std::string("Shows last 10 best scores"), 0);
+        AddStrToBar(to_snk_string("Shows last 10 best scores"), 0);
     }
     else if (State::EXIT == mActive)
     {
-        AddStrToBar(std::string("Stay, please! :)"), 0);
+        AddStrToBar(to_snk_string("Stay, please! :)"), 0);
     }
 }
