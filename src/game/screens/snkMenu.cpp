@@ -3,7 +3,7 @@
  * @brief     Contains implementation of class for main menu.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      08/01/2019
+ * @date      09/01/2019
  * @copyright GNU Public License
  */
 
@@ -77,22 +77,14 @@ void snkMenu::Refresh()
 
     AddStrToBuf(to_snk_string("S N A K E"), 0);
 
-    /* Create frame for menu item */
-    chtype ulc = ACS_ULCORNER;
-    chtype urc = ACS_URCORNER;
-    chtype hln = ACS_HLINE;
-    chtype vln = ACS_VLINE;
-    chtype llc = ACS_LLCORNER;
-    chtype lrc = ACS_LRCORNER;
-
-    snkString txt = {ulc, hln, hln, hln, hln, hln, hln, hln, urc};
-    AddStrToBuf(txt, static_cast<int>(mActive) - 1);
-
-    txt = {vln, ' ', ' ', ' ', ' ', ' ', ' ', ' ', vln};
-    AddStrToBuf(txt, static_cast<int>(mActive));
-
-    txt = {llc, hln, hln, hln, hln, hln, hln, hln, lrc};
-    AddStrToBuf(txt, static_cast<int>(mActive) + 1);
+    /* Top of menu item frame */
+    AddStrToBuf(GenFrameLine(MAX_FRAME_SIZE, ULC, HLN, URC), static_cast<int>(mActive) - 1);
+    
+    /* Middle of menu item frame */
+    AddStrToBuf(GenFrameLine(MAX_FRAME_SIZE, VLN, ' ', VLN), static_cast<int>(mActive));
+    
+    /* Bottom of menu item frame */
+    AddStrToBuf(GenFrameLine(MAX_FRAME_SIZE, LLC, HLN, LRC), static_cast<int>(mActive) + 1);
 
     /* Create menu items */
     AddStrToBuf(to_snk_string("START"), static_cast<int>(State::GAME));

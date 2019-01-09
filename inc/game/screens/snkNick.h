@@ -3,7 +3,7 @@
  * @brief     Contains class for input nickname screen.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      08/01/2019
+ * @date      09/01/2019
  * @copyright GNU Public License
  */
 
@@ -41,15 +41,6 @@ private:
      * @brief Refresh values of game field and status bar.
      */
     void Refresh() override;
-
-    /**
-     * @brief Creates border of frame for nickname input field.
-     * @param[in] l Symbol for left side of frame.
-     * @param[in] m Symbol for middle side of frame.
-     * @param[in] r Symbol for right side of frame.
-     * @return Final snkString of frame.
-     */
-    snkString GenLine(chtype l, chtype m, chtype r);
 
 private:
     static const int MAX_NICK_SIZE = 10; //! Maximal length of player's nickname

@@ -3,11 +3,18 @@
  * @brief     Contains implementation of base class for game state.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      08/01/2019
+ * @date      09/01/2019
  * @copyright GNU Public License
  */
 
 #include "snkState.h"
+
+chtype snkState::ULC = 0;
+chtype snkState::URC = 0;
+chtype snkState::HLN = 0;
+chtype snkState::VLN = 0;
+chtype snkState::LLC = 0;
+chtype snkState::LRC = 0;
 
 snkString to_snk_string(std::string txt)
 {
@@ -36,6 +43,13 @@ void snkState::SetNickname(const std::string& nickname)
 
 void snkState::Construct(int w, int h)
 {
+    ULC = ACS_ULCORNER;
+    URC = ACS_URCORNER;
+    HLN = ACS_HLINE;
+    VLN = ACS_VLINE;
+    LLC = ACS_LLCORNER;
+    LRC = ACS_LRCORNER;
+    
     mBuf = std::vector<std::vector<snkPoint>>(h + 1, std::vector<snkPoint>(w + 1));
     mBar = std::vector<std::vector<snkPoint>>(1, std::vector<snkPoint>(w + 1));
     mW = w;
@@ -75,6 +89,22 @@ void snkState::AddStrToBuf(const snkString& text, int row, int col)
 void snkState::AddStrToBar(const snkString& text, int row, int col)
 {
     AddTxt(mBar, text.data(), text.size(), row, col);
+}
+
+snkString snkState::GenFrameLine(int len, chtype l, chtype m, chtype r)
+{
+    snkString line(len, ' ');
+
+    line[0] = l;
+
+    for (int i = 1; i < len - 1; ++i)
+    {
+        line[i] = m;
+    }
+
+    line[len - 1] = r;
+
+    return line;
 }
 
 void snkState::AddTxt(snkField& buf, const chtype* text, int size, int row, int col)
