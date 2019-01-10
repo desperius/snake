@@ -3,7 +3,7 @@
  * @brief     Contains base class for game state.
  * @author    Alexander Orel (desperius@gmail.com)
  * @version   1.0
- * @date      09/01/2019
+ * @date      10/01/2019
  * @copyright GNU Public License
  */
 
@@ -175,7 +175,7 @@ protected:
      * @param[in] r Symbol for right side of frame.
      * @return Final snkString of frame.
      */
-    snkString GenFrameLine(int len, chtype l, chtype m, chtype r);
+    static snkString GenFrameLine(int len, chtype l, chtype m, chtype r);
     
 private:
     /**
@@ -189,14 +189,6 @@ private:
     void AddTxt(snkField& buf, const chtype* text, int size, int row, int col = 0);
 
 protected:
-    snkField mBuf;         //! Two dimensional vector for game field points
-    snkField mBar;         //! Two dimensional vector for status bar points
-
-    int mW = {0};          //! Width of game field
-    int mH = {0};          //! Height of game field
-
-    std::string mNickname; //! Player's nickname
-    
     /*
     * @brief Lines and corners to build a rectangle frame
     */
@@ -208,6 +200,15 @@ protected:
     static chtype LRC;
     
     static const int MAX_FRAME_SIZE = 9; //! Maximal wide of frame
+    
+    snkField mBuf;         //! Two dimensional vector for game field points
+    snkField mBar;         //! Two dimensional vector for status bar points
+
+    int mW = {0};          //! Width of game field
+    int mH = {0};          //! Height of game field
+
+    std::string mNickname; //! Player's nickname
+    
 };
 
 #endif /* _SNK_STATE_H_ */
