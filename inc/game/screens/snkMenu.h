@@ -45,7 +45,7 @@ private:
 private:
     static const int8_t MAJOR = 1; //! Major part of game version
     static const int8_t MINOR = 0; //! Minor part of game version
-    State mActive {State::GAME};   //! Active menu item at the current time
+    State mActive = {State::GAME}; //! Active menu item at the current time
 };
 
 #endif /* _SNK_MENU_H_ */

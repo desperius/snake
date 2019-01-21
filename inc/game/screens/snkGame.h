@@ -50,10 +50,10 @@ private:
 private:
     static const int FOOD_MAX = 10; //! Maximal number of food per level.
     snkSnake mSnake;                //! Snake body
+    snkLevel mLevel;                //! Represents level state
     snkPoint mFood;                 //! Food on game field
     snkDatabase mRecs;              //! Database to write a current score
     std::list<snkPoint> mWall;      //! Wall on game field
-    snkLevel mLevel;                //! Represents level state
     int mScore = {0};               //! Current score
     int mFoodNum  = {FOOD_MAX};     //! Number of food per current level
     bool mIsStart = {true};         //! Indicates level beginning
