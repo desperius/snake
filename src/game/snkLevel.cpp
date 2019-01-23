@@ -162,7 +162,7 @@ void snkLevel::Move(std::list<snkPoint>& wall, milliseconds currTime)
     }
 }
 
-int snkLevel::GetLevel()
+int snkLevel::GetLevel() const
 {
     return mSubLevel + mLevelNum * 10;
 }
@@ -187,7 +187,7 @@ void snkLevel::SubLeveUp()
     }
 }
 
-bool snkLevel::IsWin()
+bool snkLevel::IsWin() const
 {
     return mIsWin;
 }

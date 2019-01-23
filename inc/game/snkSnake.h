@@ -67,7 +67,7 @@ public:
      * @brief Gets current snake moving speed.
      * @return Value of snake speed.
      */
-    int GetSpeed();
+    int GetSpeed() const;
 
     /**
      * @brief Sets new speed for snake moving.
@@ -79,19 +79,19 @@ public:
      * @brief Gets list of points which represents snake body.
      * @return List of points with head at the front.
      */
-    std::list<snkPoint> GetBody();
+    std::list<snkPoint> GetBody() const;
 
     /**
      * @brief Checks game over condition.
      * @return True if it is game over (i.e. snake hited the wall).
      */
-    bool IsGameOver();
+    bool IsGameOver() const;
 
     /**
      * @brief Gets food eaten condition.
      * @return True if food was eaten.
      */
-    bool GetIsFed();
+    bool GetIsFed() const;
 
     /**
      * @brief Sets food eaten condition.
@@ -110,7 +110,7 @@ public:
     void ResetSpeed();
 
 private:
-    static const int INIT_SPEED = 500;   //! Snake starting speed.
+    static const int INIT_SPEED = 500;   //! Snake starting speed
     std::chrono::milliseconds mPrevTime; //! Previous time
     std::list<snkPoint> mBody;           //! Points which represents snake body
     int mW = {0};                        //! Width of game field

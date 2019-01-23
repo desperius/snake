@@ -166,7 +166,7 @@ protected:
      * @param[in] col Column position where text need to be placed.
      */
     void AddStrToBar(const snkString& text, int row, int col = 0);
-    
+
     /**
      * @brief Creates border of frame.
      * @param[in] len Frame length.
@@ -176,7 +176,7 @@ protected:
      * @return Final snkString of frame.
      */
     static snkString GenFrameLine(int len, chtype l, chtype m, chtype r);
-    
+
 private:
     /**
      * @brief Adds null-terminated string to the field.
@@ -198,9 +198,9 @@ protected:
     static chtype VLN;
     static chtype LLC;
     static chtype LRC;
-    
+
     static const int MAX_FRAME_SIZE = 9; //! Maximal wide of frame
-    
+
     snkField mBuf;         //! Two dimensional vector for game field points
     snkField mBar;         //! Two dimensional vector for status bar points
 
@@ -208,7 +208,7 @@ protected:
     int mH = {0};          //! Height of game field
 
     std::string mNickname; //! Player's nickname
-    
+
 };
 
 #endif /* _SNK_STATE_H_ */

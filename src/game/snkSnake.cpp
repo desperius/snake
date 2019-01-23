@@ -156,7 +156,7 @@ void snkSnake::SetDir(Dir dir)
     }
 }
 
-int snkSnake::GetSpeed()
+int snkSnake::GetSpeed() const
 {
     return mSpeed;
 }
@@ -166,17 +166,17 @@ void snkSnake::SetSpeed(int speed)
     mSpeed = speed;
 }
 
-std::list<snkPoint> snkSnake::GetBody()
+std::list<snkPoint> snkSnake::GetBody() const
 {
     return mBody;
 }
 
-bool snkSnake::IsGameOver()
+bool snkSnake::IsGameOver() const
 {
     return mGameOver;
 }
 
-bool snkSnake::GetIsFed()
+bool snkSnake::GetIsFed() const
 {
     return mIsFed;
 }

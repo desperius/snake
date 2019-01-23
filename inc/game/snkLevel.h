@@ -66,7 +66,7 @@ public:
      * @brief Returns number of current level.
      * @return Number of current level.
      */
-    int GetLevel();
+    int GetLevel() const;
 
     /**
      * @brief Increases the level number.
@@ -82,7 +82,7 @@ public:
      * @brief Returns state of win condition reached.
      * @return True if win condition reached.
      */
-    bool IsWin();
+    bool IsWin() const;
 
 private:
     /**
