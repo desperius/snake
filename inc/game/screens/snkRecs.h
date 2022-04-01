@@ -2,8 +2,8 @@
  * @file      snkRecs.h
  * @brief     Contains class for display of records table.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      16/02/2018
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -20,15 +20,8 @@
 class snkRecs : public snkState
 {
 public:
-    snkRecs() = default;
-    ~snkRecs() = default;
-
-    /**
-     * @brief Initializes resources for current game state.
-     * @param[in] w Width of game field.
-     * @param[in] h Height of game field.
-     */
-    void Init(int w, int h) override;
+    snkRecs(int w, int h);
+    virtual ~snkRecs() = default;
 
     /**
      * @brief Updates actual game data based on input.

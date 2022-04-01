@@ -2,8 +2,8 @@
  * @file      snkState.cpp
  * @brief     Contains implementation of base class for game state.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      09/01/2019
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -19,6 +19,22 @@ chtype snkState::LRC = 0;
 snkString to_snk_string(std::string txt)
 {
     return {txt.begin(), txt.end()};
+}
+
+snkState::snkState(int w, int h)
+    : mW(w)
+    , mH(h)
+{
+    ULC = ACS_ULCORNER;
+    URC = ACS_URCORNER;
+    HLN = ACS_HLINE;
+    VLN = ACS_VLINE;
+    LLC = ACS_LLCORNER;
+    LRC = ACS_LRCORNER;
+
+    mBuf = std::vector<std::vector<snkPoint>>(mH + 1, std::vector<snkPoint>(mW + 1));
+    mBar = std::vector<std::vector<snkPoint>>(1, std::vector<snkPoint>(mW + 1));
+    ClearBuf();
 }
 
 const snkField& snkState::GetGameField() const
@@ -39,22 +55,6 @@ std::string snkState::GetNickname() const
 void snkState::SetNickname(const std::string& nickname)
 {
     mNickname = nickname;
-}
-
-void snkState::Construct(int w, int h)
-{
-    ULC = ACS_ULCORNER;
-    URC = ACS_URCORNER;
-    HLN = ACS_HLINE;
-    VLN = ACS_VLINE;
-    LLC = ACS_LLCORNER;
-    LRC = ACS_LRCORNER;
-    
-    mBuf = std::vector<std::vector<snkPoint>>(h + 1, std::vector<snkPoint>(w + 1));
-    mBar = std::vector<std::vector<snkPoint>>(1, std::vector<snkPoint>(w + 1));
-    mW = w;
-    mH = h;
-    ClearBuf();
 }
 
 void snkState::ClearBuf()

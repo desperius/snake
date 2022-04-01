@@ -2,8 +2,8 @@
  * @file      snkGame.cpp
  * @brief     Contains implementation of class for actual game logic.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      08/01/2019
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -11,15 +11,13 @@
 
 using namespace std::chrono;
 
-void snkGame::Init(int w, int h)
+snkGame::snkGame(int w, int h) : snkState(w, h)
 {
-    snkState::Construct(w, h);
-
     /* Initialize character state */
-    mSnake.Init(w, h, ACS_BULLET);
+    mSnake.Init(mW, mH, ACS_BULLET);
 
     /* Initialize level */
-    mLevel.Init(w, h, '+', '#');
+    mLevel.Init(mW, mH, '+', '#');
 
     /* Generate wall positions */
     mWall = mLevel.GenWall();
@@ -29,8 +27,6 @@ void snkGame::Init(int w, int h)
 
     /* Open database */
     mRecs.Connect();
-
-    mScore = 0;
 }
 
 State snkGame::Update(int key)

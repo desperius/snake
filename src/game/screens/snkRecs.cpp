@@ -2,8 +2,8 @@
  * @file      snkRecs.h
  * @brief     Contains implementation of class for display of records table.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      16/02/2018
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -11,10 +11,8 @@
 
 #include <algorithm>
 
-void snkRecs::Init(int w, int h)
+snkRecs::snkRecs(int w, int h) : snkState(w, h)
 {
-    snkState::Construct(w, h);
-
     mDB.Connect();
     mRecs = mDB.GetTable();
 }
@@ -44,6 +42,8 @@ State snkRecs::Update(int key)
 
 void snkRecs::Refresh()
 {
+    mRecs = mDB.GetTable();
+
     ClearBuf();
 
     AddStrToBuf(to_snk_string("RECORDS TABLE"), 0);

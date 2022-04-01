@@ -2,8 +2,8 @@
  * @file      snkState.h
  * @brief     Contains base class for game state.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      10/01/2019
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -22,24 +22,17 @@
 #include <ncurses.h>
 #endif /* __linux__ */
 
-#ifdef __WIN32__
-#include "pdcurses.h"
-#endif /* __WIN32__ */
-
-#ifdef __linux__
-#include <ncurses.h>
-#endif /* __linux__ */
-
 /**
  * @brief The enumeration to represent game states.
  */
 enum class State : int
 {
-    MENU = 1,        //! Start menu
-    GAME = MENU + 2, //! Game itself
-    RECS = GAME + 2, //! Records table
-    EXIT = RECS + 2, //! Exit
-    NICK = EXIT + 2  //! Nick enter screen
+    MENU = 0, //! Start menu
+    GAME,     //! Game itself
+    RECS,     //! Records table
+    EXIT,     //! Exit
+    NICK,     //! Nick enter screen
+    MAXN      //! Maximal number
 };
 
 /**
@@ -66,8 +59,6 @@ struct snkPoint
         , mCol(col)
     {}
 
-    ~snkPoint() = default;
-
     int mX;      //! X-coordinate on the game field
     int mY;      //! Y-coordinate on the game field
     chtype mSym; //! Character in the point
@@ -86,7 +77,12 @@ snkString to_snk_string(std::string txt);
 class snkState
 {
 public:
-    snkState() = default;
+    /**
+     * @brief Class constructor.
+     * @param[in] w Width of game field.
+     * @param[in] h Height of game field.
+     */
+    snkState(int w, int h);
     virtual ~snkState() = default;
 
     snkState(const snkState&  that) = delete;
@@ -99,13 +95,6 @@ public:
      * @brief Clears character buffers of game field and status bar.
      */
     void ClearBuf();
-
-    /**
-     * @brief Initializes resources for current game state.
-     * @param[in] w Width of game field.
-     * @param[in] h Height of game field.
-     */
-    virtual void Init(int w, int h) = 0;
 
     /**
      * @brief Updates actual game data based on input.
@@ -139,13 +128,6 @@ public:
     void SetNickname(const std::string& nickname);
 
 protected:
-    /**
-     * @brief Creates common resources for all game states.
-     * @param[in] w Width of game field.
-     * @param[in] h Height of game field.
-     */
-    void Construct(int w, int h);
-
     /**
      * @brief Refresh values of game field and status bar.
      */
@@ -204,8 +186,8 @@ protected:
     snkField mBuf;         //! Two dimensional vector for game field points
     snkField mBar;         //! Two dimensional vector for status bar points
 
-    int mW = {0};          //! Width of game field
-    int mH = {0};          //! Height of game field
+    int mW = 0;            //! Width of game field
+    int mH = 0;            //! Height of game field
 
     std::string mNickname; //! Player's nickname
 

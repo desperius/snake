@@ -2,8 +2,8 @@
  * @file      snkGame.h
  * @brief     Contains class for actual game logic.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      15/02/2018
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -24,15 +24,8 @@
 class snkGame : public snkState
 {
 public:
-    snkGame() = default;
+    snkGame(int w, int h);
     virtual ~snkGame() = default;
-
-    /**
-     * @brief Initializes resources for current game state.
-     * @param[in] w Width of game field.
-     * @param[in] h Height of game field.
-     */
-    void Init(int w, int h) override;
 
     /**
      * @brief Updates actual game data based on input.

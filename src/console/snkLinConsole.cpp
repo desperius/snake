@@ -29,7 +29,7 @@ snkLinConsole::snkLinConsole()
         mRC = bind(mSocket, reinterpret_cast<struct sockaddr*>(&name), sizeof(name));
     }
 
-    mIsContinue = (mSocket != -1 && mRC == 0);
+    mIsContinue = (mSocket != -1) && (mRC == 0);
 }
 
 snkLinConsole::~snkLinConsole()

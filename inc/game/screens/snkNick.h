@@ -2,8 +2,8 @@
  * @file      snkNick.h
  * @brief     Contains class for input nickname screen.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      09/01/2019
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -19,15 +19,8 @@
 class snkNick : public snkState
 {
 public:
-    snkNick() = default;
+    using snkState::snkState;
     virtual ~snkNick() = default;
-
-    /**
-     * @brief Initializes resources for current game state.
-     * @param[in] w Width of game field.
-     * @param[in] h Height of game field.
-     */
-    void Init(int w, int h) override;
 
     /**
      * @brief Updates actual game data based on input.

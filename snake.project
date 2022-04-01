@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="snake" InternalType="Console" Version="10.0.0">
+<CodeLite_Project Name="snake" InternalType="Console" Version="11000">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00020001N0008winDebug0000000000000001N0010winRelease000000000000]]>
+      <![CDATA[00040001N0008tuxDebug0000000000000001N0010tuxRelease0000000000000001N0008winDebug0000000000000001N0010winRelease000000000000]]>
     </Plugin>
     <Plugin Name="CppCheck"/>
   </Plugins>
@@ -71,7 +71,7 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="tuxDebug" CompilerType="mingw-w64" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="overwrite">
-      <Compiler Options="-Wfatal-errors;-g;-O0;-pedantic;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-Wfatal-errors;-g;-O0;-pedantic;-std=c++14;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
         <IncludePath Value="./inc/app/"/>
@@ -119,8 +119,8 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="tuxRelease" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="overwrite">
-      <Compiler Options="-O2;-std=c++11;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+    <Configuration Name="tuxRelease" CompilerType="" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="overwrite" BuildLnkWithGlobalSettings="overwrite" BuildResWithGlobalSettings="overwrite">
+      <Compiler Options="-O2;-std=c++14;-Wall" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="./inc/"/>
         <IncludePath Value="./inc/app/"/>

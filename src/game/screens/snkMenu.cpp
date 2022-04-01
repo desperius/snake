@@ -2,16 +2,35 @@
  * @file      snkMenu.cpp
  * @brief     Contains implementation of class for main menu.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      09/01/2019
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
 #include "snkMenu.h"
 
-void snkMenu::Init(int w, int h)
+namespace
 {
-    snkState::Construct(w, h);
+
+int GetMenuItemPosition(State Item)
+{
+    return 2 * static_cast<int>(Item) + 1;
+}
+
+State& operator++(State& StateValue)
+{
+    const int NumValue = static_cast<int>(StateValue) + 1;
+    StateValue = static_cast<State>(NumValue % static_cast<int>(State::MAXN));
+    return StateValue;
+}
+
+State& operator--(State& StateValue)
+{
+    const int NumValue = static_cast<int>(StateValue) - 1;
+    StateValue = static_cast<State>(NumValue % static_cast<int>(State::MAXN));
+    return StateValue;
+}
+
 }
 
 State snkMenu::Update(int key)
@@ -25,8 +44,7 @@ State snkMenu::Update(int key)
         {
             if (mActive != State::GAME)
             {
-                int menu_item = static_cast<int>(mActive) - 2;
-                mActive = static_cast<State>(menu_item);
+                --mActive;
                 Refresh();
             }
 
@@ -37,8 +55,7 @@ State snkMenu::Update(int key)
         {
             if (mActive != State::EXIT)
             {
-                int menu_item = static_cast<int>(mActive) + 2;
-                mActive = static_cast<State>(menu_item);
+                ++mActive;
                 Refresh();
             }
 
@@ -77,19 +94,21 @@ void snkMenu::Refresh()
 
     AddStrToBuf(to_snk_string("S N A K E"), 0);
 
+    int Pos = GetMenuItemPosition(mActive);
+
     /* Top of menu item frame */
-    AddStrToBuf(GenFrameLine(MAX_FRAME_SIZE, ULC, HLN, URC), static_cast<int>(mActive) - 1);
+    AddStrToBuf(GenFrameLine(MAX_FRAME_SIZE, ULC, HLN, URC), Pos - 1);
     
     /* Middle of menu item frame */
-    AddStrToBuf(GenFrameLine(MAX_FRAME_SIZE, VLN, ' ', VLN), static_cast<int>(mActive));
+    AddStrToBuf(GenFrameLine(MAX_FRAME_SIZE, VLN, ' ', VLN), Pos);
     
     /* Bottom of menu item frame */
-    AddStrToBuf(GenFrameLine(MAX_FRAME_SIZE, LLC, HLN, LRC), static_cast<int>(mActive) + 1);
+    AddStrToBuf(GenFrameLine(MAX_FRAME_SIZE, LLC, HLN, LRC), Pos + 1);
 
     /* Create menu items */
-    AddStrToBuf(to_snk_string("START"), static_cast<int>(State::GAME));
-    AddStrToBuf(to_snk_string("RECORDS"), static_cast<int>(State::RECS));
-    AddStrToBuf(to_snk_string("EXIT!"), static_cast<int>(State::EXIT));
+    AddStrToBuf(to_snk_string("START"), GetMenuItemPosition(State::GAME));
+    AddStrToBuf(to_snk_string("RECORDS"), GetMenuItemPosition(State::RECS));
+    AddStrToBuf(to_snk_string("EXIT!"), GetMenuItemPosition(State::EXIT));
 
     std::string ver = "version ";
     ver += std::to_string(MAJOR) + ".";

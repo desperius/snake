@@ -2,8 +2,8 @@
  * @file      snkConsole.cpp
  * @brief     Contains implementation of base class for console window system
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      15/02/2018
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -15,6 +15,13 @@
 #include "snkRecs.h"
 
 const std::string snkConsole::appName = "Snake";
+
+const int snkConsole::WIN_W = 33;
+const int snkConsole::WIN_H = 17;
+const int snkConsole::SCR_W = WIN_W - 2;
+const int snkConsole::SCR_H = WIN_H - 2;
+
+snkConsole::~snkConsole() {}
 
 bool snkConsole::Init()
 {
@@ -39,9 +46,9 @@ bool snkConsole::Init()
     /* Initializes multicolor mode and creates color pairs */
     start_color();
     init_pair(WHT_BLACK, COLOR_WHITE, COLOR_BLACK);
-    init_pair(RED_BLACK, COLOR_RED, COLOR_BLACK);
+    init_pair(RED_BLACK, COLOR_RED,   COLOR_BLACK);
     init_pair(GRN_BLACK, COLOR_GREEN, COLOR_BLACK);
-    init_pair(BLU_BLACK, COLOR_CYAN, COLOR_BLACK);
+    init_pair(BLU_BLACK, COLOR_CYAN,  COLOR_BLACK);
 
     /* Creates game field */
     mWin = CreateWin(WIN_H, WIN_W, 0, 0);
@@ -57,9 +64,15 @@ bool snkConsole::Init()
     keypad(mWin, TRUE);
     noecho();
 
-    /* Creates pointer for game state */
-    mGameState = std::make_shared<snkMenu>();
-    mGameState->Init(SCR_W, SCR_H);
+    /* Creates game states */
+    mGameStates.resize(static_cast<int>(State::MAXN));
+    mGameStates[static_cast<int>(State::MENU)] = std::make_unique<snkMenu>(SCR_W, SCR_H);
+    mGameStates[static_cast<int>(State::GAME)] = std::make_unique<snkGame>(SCR_W, SCR_H);
+    mGameStates[static_cast<int>(State::RECS)] = std::make_unique<snkRecs>(SCR_W, SCR_H);
+    mGameStates[static_cast<int>(State::EXIT)] = nullptr;
+    mGameStates[static_cast<int>(State::NICK)] = std::make_unique<snkNick>(SCR_W, SCR_H);
+
+    mGameState = mGameStates[static_cast<int>(State::MENU)].get();
 
     return true;
 }
@@ -74,47 +87,31 @@ void snkConsole::Event()
 
 bool snkConsole::Loop()
 {
-    bool ret = true;
-
     State prevState = mState;
     mState = mGameState->Update(mKey);
 
     if (mState != prevState)
     {
         /* Refresh game state */
-        if (State::MENU == mState)
+        std::string Nickname = mGameState->GetNickname();
+
+        if ((mGameState = mGameStates[static_cast<int>(mState)].get()))
         {
-            mGameState = std::make_shared<snkMenu>();
-            mGameState->Init(SCR_W, SCR_H);
-        }
-        else if (State::NICK == mState)
-        {
-            mGameState = std::make_shared<snkNick>();
-            mGameState->Init(SCR_W, SCR_H);
-        }
-        else if (State::GAME == mState)
-        {
-            std::string nickname = mGameState->GetNickname();
-            mGameState = std::make_shared<snkGame>();
-            mGameState->Init(SCR_W, SCR_H);
-            mGameState->SetNickname(nickname);
-        }
-        else if (State::RECS == mState)
-        {
-            mGameState = std::make_shared<snkRecs>();
-            mGameState->Init(SCR_W, SCR_H);
-        }
-        else
-        {
-            ret = false;
+            mGameState->ClearBuf();
+            mGameState->SetNickname(Nickname);
         }
     }
 
-    return ret;
+    return mGameState != nullptr;
 }
 
 void snkConsole::Render()
 {
+    if (!mGameState)
+    {
+        return;
+    }
+
     /* Update game screen */
     const snkField& buf = mGameState->GetGameField();
 

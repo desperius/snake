@@ -2,8 +2,8 @@
  * @file      snkApp.h
  * @brief     Header file for main game class.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      14/02/2018
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -22,7 +22,7 @@
  * @class  snkApp
  * @brief  Implements draw loop and manages game window.
  */
-class snkApp
+class snkApp final
 {
 public:
     snkApp();
@@ -38,11 +38,11 @@ public:
      * @brief  Starts game loop.
      * @return EXIT_SUCCESS or EXIT_FAILURE
      */
-    int  Run();
+    int Run();
 
 private:
     std::unique_ptr<snkConsole> mConsole;   //! Pointer to appropriate console window
-    bool mRunning = {true};                 //! Signalizes is game still running
+    bool mIsRunning = true;                 //! Signalizes is game still running
 };
 
 #endif /* _SNK_APP_H_ */

@@ -2,8 +2,8 @@
  * @file      snkNick.cpp
  * @brief     Contains implementation of class for input nickname screen.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      09/01/2019
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -13,11 +13,6 @@
 #ifndef VK_BACK
 #define VK_BACK 0x8
 #endif
-
-void snkNick::Init(int w, int h)
-{
-    snkState::Construct(w, h);
-}
 
 State snkNick::Update(int key)
 {

@@ -2,8 +2,8 @@
  * @file      main.cpp
  * @brief     There is an entry point to start main application.
  * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      14/02/2018
+ * @version   1.1
+ * @date      01/04/2022
  * @copyright GNU Public License
  */
 
@@ -15,7 +15,7 @@ int main()
 
     try
     {
-        app = std::unique_ptr<snkApp>(new snkApp());
+        app = std::make_unique<snkApp>();
     }
     catch (...)
     {
