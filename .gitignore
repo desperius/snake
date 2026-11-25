@@ -26,9 +26,8 @@
 
 # Other files
 *.mk
-*.txt
 
 # Directories
-bin/
-build/
+cmake-build-debug/
+cmake-build-release/
 doc/html/

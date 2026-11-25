@@ -1,13 +1,8 @@
 /**
- * @file      snkState.cpp
- * @brief     Contains implementation of base class for game state.
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.1
- * @date      01/04/2022
- * @copyright GNU Public License
+ * @brief Contains implementation of base class for game state
  */
 
-#include "snkState.h"
+#include "snkState.hpp"
 
 chtype snkState::ULC = 0;
 chtype snkState::URC = 0;
@@ -18,10 +13,10 @@ chtype snkState::LRC = 0;
 
 snkString to_snk_string(std::string txt)
 {
-    return {txt.begin(), txt.end()};
+    return { txt.begin(), txt.end() };
 }
 
-snkState::snkState(int w, int h)
+snkState::snkState(const int w, const int h)
     : mW(w)
     , mH(h)
 {
@@ -59,39 +54,39 @@ void snkState::SetNickname(const std::string& nickname)
 
 void snkState::ClearBuf()
 {
-    /* Clear game field */
-    for (int i = 0; i < mH; ++i)
+    // Clear game field
+    for (int y = 0; y < mH; ++y)
     {
-        for (int j = 0; j < mW; ++j)
+        for (int x = 0; x < mW; ++x)
         {
-            mBuf[i][j].mSym = ' ';
-            mBuf[i][j].mCol = WHT_BLACK;
+            mBuf[y][x].mSym = ' ';
+            mBuf[y][x].mCol = WHT_BLACK;
         }
 
-        mBuf[i][mW].mSym = '\0';
+        mBuf[y][mW].mSym = '\0';
     }
 
-    /* Clear status bar */
-    for (int j = 0; j < mW; ++j)
+    // Clear status bar
+    for (int x = 0; x < mW; ++x)
     {
-        mBar[0][j].mSym = ' ';
-        mBar[0][j].mCol = WHT_BLACK;
+        mBar[0][x].mSym = ' ';
+        mBar[0][x].mCol = WHT_BLACK;
     }
 
     mBar[0][mW].mSym = '\0';
 }
 
-void snkState::AddStrToBuf(const snkString& text, int row, int col)
+void snkState::AddStrToBuf(const snkString& text, const int row, const int col)
 {
     AddTxt(mBuf, text.data(), text.size(), row, col);
 }
 
-void snkState::AddStrToBar(const snkString& text, int row, int col)
+void snkState::AddStrToBar(const snkString& text, const int row, const int col)
 {
     AddTxt(mBar, text.data(), text.size(), row, col);
 }
 
-snkString snkState::GenFrameLine(int len, chtype l, chtype m, chtype r)
+snkString snkState::GenFrameLine(const int len, const chtype l, const chtype m, const chtype r)
 {
     snkString line(len, ' ');
 
@@ -107,13 +102,13 @@ snkString snkState::GenFrameLine(int len, chtype l, chtype m, chtype r)
     return line;
 }
 
-void snkState::AddTxt(snkField& buf, const chtype* text, int size, int row, int col)
+void snkState::AddTxt(snkField &buf, const chtype *text, const size_t size, const int row, const int col) const
 {
-    int pos = 0;
+    int pos;
 
     if (0 == col)
     {
-        pos = (mW - size) / 2;
+        pos = (mW - static_cast<int>(size)) / 2;
     }
     else
     {

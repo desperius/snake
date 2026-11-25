@@ -1,35 +1,30 @@
 /**
- * @file      snkNick.cpp
- * @brief     Contains implementation of class for input nickname screen.
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.1
- * @date      01/04/2022
- * @copyright GNU Public License
+ * @brief Contains implementation of class for input nickname screen
  */
 
-#include "snkNick.h"
+#include "snkNick.hpp"
 #include <ctype.h>
 
 #ifndef VK_BACK
 #define VK_BACK 0x8
 #endif
 
-State snkNick::Update(int key)
+State snkNick::Update(const int key)
 {
-    State ret = State::NICK;
+    auto ret = State::NICK;
 
     if (isalpha(key) && (mNickname.size() < MAX_NICK_SIZE))
     {
         mNickname += static_cast<char>(key);
     }
 
-    /* Change data according to pressed key */
+    // Change data according to pressed key
     switch (key)
     {
         case KEY_BACKSPACE:
         case VK_BACK: /* Windows Virtual-Key code */
         {
-            if (mNickname.length() > 0)
+            if (!mNickname.empty())
             {
                 mNickname.pop_back();
             }
@@ -70,15 +65,15 @@ void snkNick::Refresh()
 
     AddStrToBuf(to_snk_string("Enter Your Nickname"), 0);
 
-    const int fieldPos = 3;
+    constexpr int fieldPos = 3;
 
-    /* Top of nickname frame */
+    // Top of nickname frame
     AddStrToBuf(GenFrameLine(MAX_NICK_SIZE + 2, ULC, HLN, URC), fieldPos - 1);
 
-    /* Middle of nickname frame */
+    // Middle of nickname frame
     AddStrToBuf(GenFrameLine(MAX_NICK_SIZE + 2, VLN, ' ', VLN), fieldPos);
 
-    /* Bottom of nickname frame */
+    // Bottom of nickname frame
     AddStrToBuf(GenFrameLine(MAX_NICK_SIZE + 2, LLC, HLN, LRC), fieldPos + 1);
     
     const int col = (mW / 2) - ((MAX_NICK_SIZE + 2) / 2) + 1;

@@ -1,39 +1,33 @@
 /**
- * @file      snkGame.cpp
- * @brief     Contains implementation of class for actual game logic.
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.1
- * @date      01/04/2022
- * @copyright GNU Public License
+ * @brief Contains implementation of class for actual game logic
  */
 
-#include "snkGame.h"
+#include "snkGame.hpp"
 
 using namespace std::chrono;
 
-snkGame::snkGame(int w, int h) : snkState(w, h)
+snkGame::snkGame(const int w, const int h) : snkState(w, h)
 {
-    /* Initialize character state */
+    // Initialize character state
     mSnake.Init(mW, mH, ACS_BULLET);
 
-    /* Initialize level */
+    // Initialize level
     mLevel.Init(mW, mH, '+', '#');
 
-    /* Generate wall positions */
+    // Generate wall positions
     mWall = mLevel.GenWall();
 
-    /* Generate initial food position */
+    // Generate initial food position
     mFood = mLevel.GenFood(mSnake.GetBody(), mWall);
 
-    /* Open database */
+    // Open database
     mRecs.Connect();
 }
 
-State snkGame::Update(int key)
+State snkGame::Update(const int key)
 {
-    State ret = State::GAME;
-
-    milliseconds currTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    auto ret = State::GAME;
+    const auto currTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
     if (mLevel.IsWin())
     {
@@ -45,8 +39,8 @@ State snkGame::Update(int key)
 
         if ('\n' == key || '\r' == key)
         {
-            /* Write score and nick in records table */
-            mRecs.Write(mNickname, mScore);
+            // Write score and nick in records table
+            std::ignore = mRecs.Write(mNickname, mScore);
             mRecs.Close();
 
             return State::MENU;
@@ -72,7 +66,7 @@ State snkGame::Update(int key)
         }
     }
 
-    /* Change data according to pressed key */
+    // Change data according to pressed key
     switch (key)
     {
         case KEY_UP:
@@ -101,11 +95,11 @@ State snkGame::Update(int key)
 
         case KEY_END:
         {
-            /* Reset snake states before exit to Main menu */
+            // Reset snake states before exit to Main menu
             mSnake.Reset();
 
-            /* Write score and nick in records table */
-            mRecs.Write(mNickname, mScore);
+            // Write score and nick in records table
+            std::ignore = mRecs.Write(mNickname, mScore);
             mRecs.Close();
 
             ret = State::MENU;
@@ -141,7 +135,7 @@ void snkGame::Refresh()
     {
         ClearBuf();
 
-        /* All food at this level were eaten */
+        // All food at this level were eaten
         if (0 == mFoodNum)
         {
             mLevel.SubLeveUp();
@@ -161,7 +155,7 @@ void snkGame::Refresh()
             return;
         }
 
-        /* Generate new food position */
+        // Generate new food position
         if (mSnake.GetIsFed())
         {
             mFood = mLevel.GenFood(mSnake.GetBody(), mWall);
@@ -170,15 +164,15 @@ void snkGame::Refresh()
             ++mScore;
         }
 
-        std::list<snkPoint> body = mSnake.GetBody();
+        const std::list<snkPoint> body = mSnake.GetBody();
 
         int x = mFood.mX;
         int y = mFood.mY;
 
-        /* Draw food position */
+        // Draw food position
         mBuf[y][x] = mFood;
 
-        /* Draw snake position */
+        // Draw snake position
         for (const auto& point : body)
         {
             x = point.mX;
@@ -187,7 +181,7 @@ void snkGame::Refresh()
             mBuf[y][x] = point;
         }
 
-        /* Draw wall position */
+        // Draw wall position
         for (const auto& point : mWall)
         {
             x = point.mX;

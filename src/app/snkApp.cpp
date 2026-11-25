@@ -1,29 +1,13 @@
 /**
- * @file      snkApp.cpp
- * @brief     Contains implementation for main game class.
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.1
- * @date      01/04/2022
- * @copyright GNU Public License
+ * @brief Contains implementation for main application class.
  */
 
-#include "snkApp.h"
+#include "snkApp.hpp"
 
-snkApp::snkApp()
-{
+#include <cstdlib>
 
-#ifdef __WIN32__
-    mConsole = std::make_unique<snkWinConsole>();
-#elif  __linux__
-    mConsole = std::make_unique<snkLinConsole>();
-#endif
-
-    /* We didn't create a console window at all */
-    if (!mConsole)
-    {
-        throw;
-    }
-}
+snkApp::snkApp() : mConsole(snkConsole::Create())
+{}
 
 int snkApp::Run()
 {
@@ -32,13 +16,14 @@ int snkApp::Run()
         return EXIT_FAILURE;
     }
 
-    /* Starting game loop */
-    while (mIsRunning)
+    // Starting game loop
+    do
     {
         mConsole->Event();
         mIsRunning = mConsole->Loop();
         mConsole->Render();
     }
+    while (mIsRunning);
 
     mConsole->Close();
 

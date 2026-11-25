@@ -1,160 +1,148 @@
 /**
- * @file      snkDatabase.h
- * @brief     Contains implementation of class for work with SQL database.
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      16/02/2018
- * @copyright GNU Public License
+ * @brief Contains implementation of class for work with SQL database
  */
 
-#include "snkDatabase.h"
+#include "snkDatabase.hpp"
 
-#include <stdlib.h>
-#include <string>
+using Statement = std::unique_ptr<sqlite3_stmt, decltype(&sqlite3_finalize)>;
 
-static int callback(void* data, int argc, char** argv, char** colName)
+bool snkDatabase::Connect()
 {
-    int* count = reinterpret_cast<int*>(data);
-
-    if (data != nullptr)
+    if (mDatabase)
     {
-        *count = std::atoi(argv[0]);
+        return true;
     }
 
-    for (int i = 0; i < argc; ++i)
+    constexpr char query[] = R"sql(
+        CREATE TABLE IF NOT EXISTS players (
+            id INT PRIMARY KEY NOT NULL,
+            nick TEXT NOT NULL,
+            score INT NOT NULL
+        )
+    )sql";
+
+    sqlite3* raw = nullptr;
+    const int rc = sqlite3_open("recs.db", &raw);
+    Connection connection(raw, &sqlite3_close_v2);
+
+    if (rc != SQLITE_OK)
     {
-        std::string(colName[i]) + " " + std::string(argv[i]);
+        return false;
     }
 
-    return 0;
+    if (sqlite3_exec(connection.get(), query, nullptr, nullptr, nullptr) != SQLITE_OK)
+    {
+        return false;
+    }
+
+    mDatabase.swap(connection);
+    return true;
 }
 
-void snkDatabase::Connect()
+bool snkDatabase::Write(const std::string &nick, const int score) const
 {
-    mError = sqlite3_open("recs.db", &mDB);
-
-    /* Database opened. Creates the table */
-    if (SQLITE_OK == mError)
+    if (!mDatabase)
     {
-        mQuery = "create table if not exists players (";
-        mQuery += "id int primary key not null, ";
-        mQuery += "nick text not null, ";
-        mQuery += "score int not null);";
-
-        sqlite3_exec(mDB, mQuery.c_str(), callback, nullptr, &mErrMsg);
+        return false;
     }
-}
 
-void snkDatabase::Write(std::string& nick, int score)
-{
-    mQuery = "select count(*) from players";
-    sqlite3_exec(mDB, mQuery.c_str(), callback, &mCount, &mErrMsg);
+    constexpr char query[] = R"sql(
+        INSERT INTO players (id, nick, score)
+        SELECT
+            CASE
+                WHEN COUNT(*) < ?3 THEN COALESCE(MAX(id), 0) + 1
+                ELSE (SELECT id FROM players ORDER BY score ASC, id ASC LIMIT 1)
+            END,
+            ?1,
+            ?2
+        FROM players
+        WHERE 1
+        ON CONFLICT(id) DO UPDATE SET
+            nick = excluded.nick,
+            score = excluded.score
+        WHERE excluded.score >= players.score
+    )sql";
 
-    if (mCount < MAX_RECORDS)
+    sqlite3_stmt* raw = nullptr;
+    int rc = sqlite3_prepare_v2(mDatabase.get(), query, -1, &raw, nullptr);
+    const Statement statement(raw, &sqlite3_finalize);
+
+    if (rc != SQLITE_OK)
     {
-        Insert(++mCount, nick, score);
+        return false;
     }
-    else
+
+    rc = sqlite3_bind_text(statement.get(), 1, nick.c_str(), -1, SQLITE_TRANSIENT);
+
+    if (rc != SQLITE_OK)
     {
-        Update(mCount, nick, score);
+        return false;
     }
+
+    rc = sqlite3_bind_int(statement.get(), 2, score);
+
+    if (rc != SQLITE_OK)
+    {
+        return false;
+    }
+
+    rc = sqlite3_bind_int(statement.get(), 3, MAX_RECORDS);
+
+    if (rc != SQLITE_OK)
+    {
+        return false;
+    }
+
+    return sqlite3_step(statement.get()) == SQLITE_DONE;
 }
 
 void snkDatabase::Close()
 {
-    sqlite3_close(mDB);
+    mDatabase.reset();
 }
 
-std::vector<std::string> snkDatabase::GetTable()
+bool snkDatabase::GetTable(std::vector<std::string>& records) const
 {
-    std::vector<std::string> recs;
-
-    mQuery = "select nick,score from players order by score desc";
-
-    sqlite3_stmt* statement = nullptr;
-    int rc = sqlite3_prepare(mDB, mQuery.c_str(), -1, &statement, 0);
-    std::string str_id;
-
-    if (rc == SQLITE_OK)
+    if (!mDatabase)
     {
-        int total = sqlite3_column_count(statement);
+        return false;
+    }
 
-        while (true)
+    constexpr char query[] = "SELECT nick, score FROM players ORDER BY score DESC";
+
+    sqlite3_stmt* raw = nullptr;
+    int rc = sqlite3_prepare_v2(mDatabase.get(), query, -1, &raw, nullptr);
+
+    const Statement statement(raw, &sqlite3_finalize);
+
+    if (rc != SQLITE_OK)
+    {
+        return false;
+    }
+
+    std::vector<std::string> results;
+    const int columnCount = sqlite3_column_count(statement.get());
+
+    while ((rc = sqlite3_step(statement.get())) == SQLITE_ROW)
+    {
+        for (int column = 0; column < columnCount; ++column)
         {
-            rc = sqlite3_step(statement);
+            const auto* value = sqlite3_column_text(statement.get(), column);
 
-            if (rc == SQLITE_ROW)
+            if (!value)
             {
-                for (int i = 0; i < total; ++i)
-                {
-                    std::string str = reinterpret_cast<const char*>(sqlite3_column_text(statement, i));
-                    recs.push_back(str);
-                }
+                return false;
             }
 
-            if (rc == SQLITE_DONE || rc == SQLITE_ERROR)
-            {
-                break;
-            }
+            results.emplace_back(reinterpret_cast<const char*>(value));
         }
     }
 
-    return recs;
-}
-
-void snkDatabase::Insert(int id, std::string& nick, int score)
-{
-    /* Inserts record into database */
-    mQuery = "insert into players (id, nick, score) values (";
-    mQuery += std::to_string(id) + ",";
-    mQuery += "'" + nick + "',";
-    mQuery += std::to_string(score) + ");";
-
-    sqlite3_exec(mDB, mQuery.c_str(), callback, nullptr, &mErrMsg);
-}
-
-void snkDatabase::Update(int id, std::string& nick, int score)
-{
-    mQuery = "select id,score from players where score<=";
-    mQuery += std::to_string(score) + " order by score asc";
-
-    sqlite3_stmt* statement = nullptr;
-
-    int rc = sqlite3_prepare_v2(mDB, mQuery.c_str(), -1, &statement, nullptr);
-    std::string str_id;
-
-    if (SQLITE_OK == rc)
+    if (rc != SQLITE_DONE)
     {
-        while (true)
-        {
-            rc = sqlite3_step(statement);
-
-            if (SQLITE_ROW == rc)
-            {
-                str_id = reinterpret_cast<const char*>(sqlite3_column_text(statement, 0));
-                break;
-            }
-
-            if (SQLITE_DONE == rc || SQLITE_ERROR == rc)
-            {
-                break;
-            }
-        }
+        return false;
     }
 
-    if (!str_id.empty())
-    {
-        mQuery = "update players set nick='";
-        mQuery += nick + "', score=";
-        mQuery += std::to_string(score) + " where id=";
-        mQuery += str_id;
-
-        rc = sqlite3_prepare_v2(mDB, mQuery.c_str(), -1, &statement, nullptr);
-
-        if (SQLITE_OK == rc)
-        {
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-        }
-    }
+    records.swap(results);
+    return true;
 }

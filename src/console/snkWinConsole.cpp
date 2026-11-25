@@ -1,41 +1,50 @@
 /**
- * @file      snkWinConsole.cpp
- * @brief     Contains implementation of class for platform specific console window for Windows
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      15/02/2018
- * @copyright GNU Public License
+ * @brief Contains implementation of class for platform specific console window for Windows
  */
 
-#ifdef __WIN32__
+#ifdef _WIN32
 
-#include "snkWinConsole.h"
+#include "snkWinConsole.hpp"
 
 snkWinConsole::snkWinConsole()
 {
-    /* Try to open the mutex */
-    mMutex = OpenMutex(MUTEX_ALL_ACCESS, FALSE, appName.c_str());
+    // Try to create the mutex or open the existed one
+    mMutex = CreateMutex(nullptr, FALSE, appName.c_str());
 
     if (!mMutex)
     {
-        /* The mutex does not exist. This is the first instance so create the mutex */
-        mMutex = CreateMutex(NULL, FALSE, appName.c_str());
-    }
-    else
-    {
-        /* Bring existing window to the front */
-        SetForegroundWindow(FindWindow(0, appName.c_str()));
+        // Creation or opening the mutex failed. Show the error message
+        const DWORD errorCode = GetLastError();
+        CHAR errorDescription[1024] = {};
+        constexpr DWORD flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
+        const DWORD messageLength = FormatMessage(flags, nullptr, errorCode, 0, errorDescription, std::size(errorDescription), nullptr);
 
-        /* The mutex exist so instance should not be created */
-        mIsContinue = false;
+        std::string message = "Windows could not create or open the mutex.\n\nWindows error " + std::to_string(errorCode) + ":\n";
+        message += messageLength ? errorDescription : "No error description is available.";
+        MessageBox(nullptr, message.c_str(), "Startup error", MB_OK | MB_ICONERROR);
+
+        mIsUnique = false;
+    }
+    else if (GetLastError() == ERROR_ALREADY_EXISTS)
+    {
+        // Bring existing window to the front
+        SetForegroundWindow(FindWindow(nullptr, appName.c_str()));
+
+        // The mutex exist so instance should not be created
+        mIsUnique = false;
     }
 
     SetConsoleTitle(appName.c_str());
 }
 snkWinConsole::~snkWinConsole()
 {
-    /* Close Windows mutex */
-    ReleaseMutex(mMutex);
+    // Close Windows mutex
+    CloseHandle(mMutex);
 }
 
-#endif /* __WIN32__ */
+bool snkWinConsole::InitScr()
+{
+    return initscr() != nullptr;
+}
+
+#endif /* _WIN32 */

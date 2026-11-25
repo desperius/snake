@@ -1,18 +1,14 @@
 /**
- * @file      snkConsole.cpp
- * @brief     Contains implementation of base class for console window system
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.1
- * @date      01/04/2022
- * @copyright GNU Public License
+ * @brief Contains implementation of base class for console window system
  */
 
-#include "snkConsole.h"
+#include "snkConsole.hpp"
 
-#include "snkMenu.h"
-#include "snkGame.h"
-#include "snkNick.h"
-#include "snkRecs.h"
+#include "snkWinConsole.hpp"
+#include "snkMenu.hpp"
+#include "snkGame.hpp"
+#include "snkNick.hpp"
+#include "snkRecs.hpp"
 
 const std::string snkConsole::appName = "Snake";
 
@@ -21,51 +17,71 @@ const int snkConsole::WIN_H = 17;
 const int snkConsole::SCR_W = WIN_W - 2;
 const int snkConsole::SCR_H = WIN_H - 2;
 
-snkConsole::~snkConsole() {}
+std::unique_ptr<snkConsole> snkConsole::Create()
+{
+#ifdef _WIN32
+    return std::make_unique<snkWinConsole>();
+#elif __linux__
+    return std::make_unique<snkLinConsole>();
+#endif
+}
 
 bool snkConsole::Init()
 {
-    /* Stop if another instance of app is already opened */
-    if (!mIsContinue)
+    // Stop if another instance of app is already opened
+    if (!mIsUnique)
     {
         return false;
     }
 
-    /* Initializes the terminal in pdcurses mode */
-    if (initscr() == nullptr)
+    // Platform specific initialization of the terminal in PDCurses mode
+    if (!InitScr())
     {
         return false;
     }
 
-    /* Checks multicolor mode support */
-    if (has_colors() == false)
+    // Checks multicolor mode support
+    if (!has_colors() || start_color() == ERR)
     {
+        Close();
         return false;
     }
 
-    /* Initializes multicolor mode and creates color pairs */
+    // Initializes multicolor mode and creates color pairs
     start_color();
     init_pair(WHT_BLACK, COLOR_WHITE, COLOR_BLACK);
     init_pair(RED_BLACK, COLOR_RED,   COLOR_BLACK);
     init_pair(GRN_BLACK, COLOR_GREEN, COLOR_BLACK);
     init_pair(BLU_BLACK, COLOR_CYAN,  COLOR_BLACK);
 
-    /* Creates game field */
+    // Creates game field
     mWin = CreateWin(WIN_H, WIN_W, 0, 0);
 
-    /* Creates bar for score and level mark */
+    if (!mWin)
+    {
+        Close();
+        return false;
+    }
+
+    // Creates bar for score and level mark
     mBar = CreateWin(3, WIN_W, WIN_H, 0);
 
-    /* Makes cursor invisible */
+    if (!mBar)
+    {
+        Close();
+        return false;
+    }
+
+    // Makes cursor invisible
     curs_set(0);
 
-    /* Curses preparations */
+    // Curses preparations
     cbreak();
     keypad(mWin, TRUE);
     noecho();
 
-    /* Creates game states */
-    mGameStates.resize(static_cast<int>(State::MAXN));
+    // Creates game states
+    mGameStates.resize(static_cast<int>(State::COUNT));
     mGameStates[static_cast<int>(State::MENU)] = std::make_unique<snkMenu>(SCR_W, SCR_H);
     mGameStates[static_cast<int>(State::GAME)] = std::make_unique<snkGame>(SCR_W, SCR_H);
     mGameStates[static_cast<int>(State::RECS)] = std::make_unique<snkRecs>(SCR_W, SCR_H);
@@ -87,13 +103,13 @@ void snkConsole::Event()
 
 bool snkConsole::Loop()
 {
-    State prevState = mState;
+    const State prevState = mState;
     mState = mGameState->Update(mKey);
 
     if (mState != prevState)
     {
-        /* Refresh game state */
-        std::string Nickname = mGameState->GetNickname();
+        // Refresh game state
+        const std::string Nickname = mGameState->GetNickname();
 
         if ((mGameState = mGameStates[static_cast<int>(mState)].get()))
         {
@@ -105,36 +121,36 @@ bool snkConsole::Loop()
     return mGameState != nullptr;
 }
 
-void snkConsole::Render()
+void snkConsole::Render() const
 {
     if (!mGameState)
     {
         return;
     }
 
-    /* Update game screen */
+    // Update game screen
     const snkField& buf = mGameState->GetGameField();
 
-    for (int i = 0; i < SCR_H; ++i)
+    for (int y = 0; y < SCR_H; ++y)
     {
-        for (int j = 0; j < SCR_W; ++j)
+        for (int x = 0; x < SCR_W; ++x)
         {
-            wattron(mWin, COLOR_PAIR(buf[i][j].mCol));
-            mvwaddch(mWin, i + 1, j + 1, buf[i][j].mSym);
-            wattroff(mWin, COLOR_PAIR(buf[i][j].mCol));
+            wattron(mWin, COLOR_PAIR(buf[y][x].mCol));
+            mvwaddch(mWin, y + 1, x + 1, buf[y][x].mSym);
+            wattroff(mWin, COLOR_PAIR(buf[y][x].mCol));
         }
     }
 
     wrefresh(mWin);
 
-    /* Update score screen */
+    // Update score screen
     const snkField& bar = mGameState->GetScoreField();
 
-    for (int j = 0; j < SCR_W; ++j)
+    for (int x = 0; x < SCR_W; ++x)
     {
-        wattron(mBar, COLOR_PAIR(bar[0][j].mCol));
-        mvwaddch(mBar, 1, j + 1, bar[0][j].mSym);
-        wattroff(mBar, COLOR_PAIR(bar[0][j].mCol));
+        wattron(mBar, COLOR_PAIR(bar[0][x].mCol));
+        mvwaddch(mBar, 1, x + 1, bar[0][x].mSym);
+        wattroff(mBar, COLOR_PAIR(bar[0][x].mCol));
     }
 
     wrefresh(mBar);
@@ -142,20 +158,25 @@ void snkConsole::Render()
 
 void snkConsole::Close()
 {
-    /* Make cursor visible */
-    curs_set(1);
-
-    /* Delete all windows */
+    // Delete all windows
     DeleteWin(mBar);
+    mBar = nullptr;
     DeleteWin(mWin);
+    mWin = nullptr;
 
-    /* End pdcurses mode */
+    // End pdcurses mode
     endwin();
 }
 
-WINDOW* snkConsole::CreateWin(int h, int w, int y, int x)
+WINDOW* snkConsole::CreateWin(const int h, const int w, const int y, const int x)
 {
     WINDOW* wnd = newwin(h, w, y, x);
+
+    if (!wnd)
+    {
+        return nullptr;
+    }
+
     box(wnd, 0, 0);
     wrefresh(wnd);
 
@@ -164,6 +185,11 @@ WINDOW* snkConsole::CreateWin(int h, int w, int y, int x)
 
 void snkConsole::DeleteWin(WINDOW* wnd)
 {
+    if (!wnd)
+    {
+        return;
+    }
+
     wborder(wnd, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
     wrefresh(wnd);
     delwin(wnd);

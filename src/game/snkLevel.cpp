@@ -1,18 +1,14 @@
 /**
- * @file      snkLevel.cpp
- * @brief     Contains implementation of class for levels generation and management.
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      16/02/2018
- * @copyright GNU Public License
+ * @brief Contains implementation of class for levels generation and management
  */
 
-#include "snkLevel.h"
+#include "snkLevel.hpp"
 #include <algorithm>
+#include <random>
 
 using namespace std::chrono;
 
-void snkLevel::Init(int w, int h, chtype food_sym, chtype wall_sym)
+void snkLevel::Init(const int w, const int h, const chtype food_sym, const chtype wall_sym)
 {
     mW = w;
     mH = h;
@@ -20,7 +16,6 @@ void snkLevel::Init(int w, int h, chtype food_sym, chtype wall_sym)
     mWallSym = wall_sym;
 
     mPrevTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-    srand(mPrevTime.count());
 }
 
 std::list<snkPoint> snkLevel::GenWall()
@@ -105,7 +100,7 @@ std::list<snkPoint> snkLevel::GenWall()
     return wall;
 }
 
-snkPoint snkLevel::GenFood(const std::list<snkPoint>& body, const std::list<snkPoint>& wall)
+snkPoint snkLevel::GenFood(const std::list<snkPoint>& body, const std::list<snkPoint>& wall) const
 {
     snkPoint food;
     food.mCol = GRN_BLACK;
@@ -116,13 +111,17 @@ snkPoint snkLevel::GenFood(const std::list<snkPoint>& body, const std::list<snkP
         return (point.mX == food.mX) && (point.mY == food.mY);
     };
 
-    bool isBody = false;
-    bool isWall = false;
+    thread_local std::mt19937 engine{std::random_device{}()};
+    std::uniform_int_distribution<int> randomX(1, mW - 1);
+    std::uniform_int_distribution<int> randomY(1, mH - 1);
+
+    bool isBody;
+    bool isWall;
 
     do
     {
-        food.mX = (std::rand() % (mW - 1)) + 1;
-        food.mY = (std::rand() % (mH - 1)) + 1;
+        food.mX = randomX(engine);
+        food.mY = randomY(engine);
         isBody = std::find_if(body.begin(), body.end(), comparator) != body.end();
         isWall = std::find_if(wall.begin(), wall.end(), comparator) != wall.end();
     }
@@ -131,9 +130,9 @@ snkPoint snkLevel::GenFood(const std::list<snkPoint>& body, const std::list<snkP
     return food;
 }
 
-void snkLevel::Move(std::list<snkPoint>& wall, milliseconds currTime)
+void snkLevel::Move(std::list<snkPoint>& wall, const milliseconds currTime)
 {
-    milliseconds delta = currTime - mPrevTime;
+    const milliseconds delta = currTime - mPrevTime;
 
     if (delta.count() < WALL_SPEED)
     {
@@ -192,89 +191,89 @@ bool snkLevel::IsWin() const
     return mIsWin;
 }
 
-void snkLevel::hLine(std::list<snkPoint>& wall)
+void snkLevel::hLine(std::list<snkPoint>& wall) const
 {
-    int y = mH / 2;
-    int x = (mW / 2 - 1) - mW / 4;
+    const int y = mH / 2;
+    const int x = (mW / 2 - 1) - mW / 4;
 
     for (int i = 0; i < (mW / 2) + 2; ++i)
     {
-        wall.emplace_back(snkPoint(x + i, y, mWallSym, RED_BLACK));
+        wall.emplace_back(x + i, y, mWallSym, RED_BLACK);
     }
 }
 
-void snkLevel::vLine(std::list<snkPoint>& wall)
+void snkLevel::vLine(std::list<snkPoint>& wall) const
 {
-    int y = (mH / 2 - 1) - mH / 4;
-    int x = mW / 2;
+    const int y = (mH / 2 - 1) - mH / 4;
+    const int x = mW / 2;
 
     for (int i = 0; i < (mH / 2) + 2; ++i)
     {
-        wall.emplace_back(snkPoint(x, y + i, mWallSym, RED_BLACK));
+        wall.emplace_back(x, y + i, mWallSym, RED_BLACK);
     }
 }
 
-void snkLevel::hDash(std::list<snkPoint>& wall)
+void snkLevel::hDash(std::list<snkPoint>& wall) const
 {
     /* Horizontal line */
-    int8_t space = 6;
-    int8_t y = mH / 2;
-    int8_t x = 0;
-    int8_t limit = (mW / 2) - (space - 1);
+    constexpr int8_t space = 6;
+    const int y = mH / 2;
+    int x = 0;
+    const int limit = (mW / 2) - (space - 1);
 
-    for (int8_t i = 0; i < limit; ++i)
+    for (int i = 0; i < limit; ++i)
     {
-        wall.emplace_back(snkPoint(x + i, y, mWallSym, RED_BLACK));
+        wall.emplace_back(x + i, y, mWallSym, RED_BLACK);
     }
 
     x = (mW / 2) + space;
 
-    for (int8_t i = 0; i < limit; ++i)
+    for (int i = 0; i < limit; ++i)
     {
-        wall.emplace_back(snkPoint(x + i, y, mWallSym, RED_BLACK));
+        wall.emplace_back(x + i, y, mWallSym, RED_BLACK);
     }
 }
 
-void snkLevel::vDash(std::list<snkPoint>& wall)
+void snkLevel::vDash(std::list<snkPoint>& wall) const
 {
     /* Vertical line */
-    int8_t space = 4;
-    int8_t y = 0;
-    int8_t x = mW / 2;
-    int8_t limit = (mH / 2) - (space - 1);
+    constexpr int8_t space = 4;
+    int y = 0;
+    const int x = mW / 2;
+    const int limit = (mH / 2) - (space - 1);
 
-    for (int8_t i = 0; i < limit; ++i)
+    for (int i = 0; i < limit; ++i)
     {
-        wall.emplace_back(snkPoint(x, y + i, mWallSym, RED_BLACK));
+        wall.emplace_back(x, y + i, mWallSym, RED_BLACK);
     }
 
     y = (mH / 2) + space;
 
-    for (int8_t i = 0; i < limit; ++i)
+    for (int i = 0; i < limit; ++i)
     {
-        wall.emplace_back(snkPoint(x, y + i, mWallSym, RED_BLACK));
+        wall.emplace_back(x, y + i, mWallSym, RED_BLACK);
     }
 }
 
-void snkLevel::hmLine(std::list<snkPoint>& wall)
+void snkLevel::hmLine(std::list<snkPoint>& wall) const
 {
-    int y = mH / 2;
-    int x = (mW / 2) - 2;
+    const int y = mH / 2;
+    const int x = (mW / 2) - 2;
 
     for (int i = 0; i < (mW / 2) - 10; ++i)
     {
-        wall.emplace_back(snkPoint(x + i, y, mWallSym, RED_BLACK));
+        wall.emplace_back(x + i, y, mWallSym, RED_BLACK);
     }
 }
 
-void snkLevel::vmLine(std::list<snkPoint>& wall)
+void snkLevel::vmLine(std::list<snkPoint>& wall) const
 {
-    int y = (mH / 2) - 1;
-    int x = mW / 2;
+    const int y = (mH / 2) - 1;
+    const int x = mW / 2;
 
     for (int i = 0; i < (mH / 2) - 4; ++i)
     {
-        wall.emplace_back(snkPoint(x, y + i, mWallSym, RED_BLACK));
+        wall.emplace_back(x, y + i, mWallSym, RED_BLACK);
     }
 }
 

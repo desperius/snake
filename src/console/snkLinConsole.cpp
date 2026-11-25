@@ -1,15 +1,10 @@
 /**
- * @file      snkLinConsole.cpp
- * @brief     Contains implementation of class for platform specific console window for Linux
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      15/02/2018
- * @copyright GNU Public License
+ * @brief Contains implementation of class for platform specific console window for Linux
  */
 
 #ifdef __linux__
 
-#include "snkLinConsole.h"
+#include "snkLinConsole.hpp"
 
 #include <netinet/in.h>
 #include <unistd.h>

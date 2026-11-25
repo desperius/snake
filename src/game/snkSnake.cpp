@@ -1,18 +1,13 @@
 /**
- * @file      snkState.cpp
- * @brief     Contains implementation of class for snake management.
- * @author    Alexander Orel (desperius@gmail.com)
- * @version   1.0
- * @date      15/02/2018
- * @copyright GNU Public License
+ * @brief Contains implementation of class for snake management
  */
 
-#include "snkSnake.h"
+#include "snkSnake.hpp"
 #include <algorithm>
 
 using namespace std::chrono;
 
-void snkSnake::Init(int w, int h, chtype sym)
+void snkSnake::Init(const int w, const int h, const chtype sym)
 {
     mW = w;
     mH = h;
@@ -23,14 +18,14 @@ void snkSnake::Init(int w, int h, chtype sym)
     Reset();
 }
 
-void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall, milliseconds currTime)
+void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall, const milliseconds currTime)
 {
     if (mGameOver)
     {
         return;
     }
 
-    milliseconds delta = currTime - mPrevTime;
+    const milliseconds delta = currTime - mPrevTime;
 
     if (delta.count() < mSpeed)
     {
@@ -39,8 +34,8 @@ void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall, milli
 
     mPrevTime = currTime;
 
-    int x = mBody.front().mX;
-    int y = mBody.front().mY;
+    const int x = mBody.front().mX;
+    const int y = mBody.front().mY;
     snkPoint head(x, y, mSym, BLU_BLACK);
 
     switch (mDir)
@@ -111,8 +106,8 @@ void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall, milli
         return (point.mX == head.mX) && (point.mY == head.mY);
     };
 
-    auto biteBody = std::find_if(mBody.begin(), mBody.end(), comparator);
-    auto biteWall = std::find_if(wall.begin(), wall.end(), comparator);
+    const auto biteBody = std::find_if(mBody.begin(), mBody.end(), comparator);
+    const auto biteWall = std::find_if(wall.begin(), wall.end(), comparator);
 
     /* Snake bites itself or bites a wall */
     if ((biteBody != mBody.end()) || (biteWall != wall.end()))
@@ -137,7 +132,7 @@ void snkSnake::Move(const snkPoint& food, const std::list<snkPoint>& wall, milli
     }
 }
 
-void snkSnake::SetDir(Dir dir)
+void snkSnake::SetDir(const Dir dir)
 {
     Dir prev_dir = mDir;
     mDir = dir;
@@ -145,7 +140,7 @@ void snkSnake::SetDir(Dir dir)
     /* If press same direction key, snake will move in reverse direction and bite itself in same exact moment */
     if (prev_dir != mDir)
     {
-        short is_reversed = static_cast<short>(prev_dir) + static_cast<short>(mDir);
+        const auto is_reversed = static_cast<int>(prev_dir) + static_cast<int>(mDir);
 
         /* If snake at the moment moves exactly opposite direction to previous one */
         if (is_reversed % 2 == 0)
@@ -188,15 +183,15 @@ void snkSnake::SetIsFed(bool isFed)
 
 void snkSnake::Reset()
 {
-    int cx = mW / 2 + 6;
-    int cy = mH / 2 + 6;
+    const int cx = mW / 2 + 6;
+    const int cy = mH / 2 + 6;
 
     mBody.clear();
-    mBody.push_back(snkPoint(cx, cy + 0, mSym, BLU_BLACK));
-    mBody.push_back(snkPoint(cx, cy + 1, mSym));
-    mBody.push_back(snkPoint(cx, cy + 2, mSym));
+    mBody.emplace_back(cx, cy + 0, mSym, BLU_BLACK);
+    mBody.emplace_back(cx, cy + 1, mSym);
+    mBody.emplace_back(cx, cy + 2, mSym);
 
-    mDir = {Dir::UP};
+    mDir = Dir::UP;
     mGameOver = false;
     mIsFed = false;
 }

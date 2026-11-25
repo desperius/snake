@@ -1,1 +1,0 @@
-xcopy .\dll\*.dll .\bin\ /d /y
